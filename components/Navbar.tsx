@@ -36,13 +36,13 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/tournaments" className={isActive('/tournaments') ? 'active' : ''}>
-                Tournaments &amp; Leagues
+              <Link href="/contact" className={isActive('/contact') ? 'active' : ''}>
+                Location &amp; Contact
               </Link>
             </li>
             <li>
-              <Link href="/contact" className={isActive('/contact') ? 'active' : ''}>
-                Location &amp; Contact
+              <Link href="/tournaments" className={isActive('/tournaments') ? 'active' : ''}>
+                Tournaments &amp; Leagues
               </Link>
             </li>
             <li>

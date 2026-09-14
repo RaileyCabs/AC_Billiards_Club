@@ -16,8 +16,8 @@ export default function Footer() {
       <nav>
         <ul>
           <li><Link href="/">Home</Link></li>
-          <li><Link href="/tournaments">Tournaments &amp; Leagues</Link></li>
           <li><Link href="/contact">Location &amp; Contact</Link></li>
+          <li><Link href="/tournaments">Tournaments &amp; Leagues</Link></li>
           <li><Link href="/admin" style={{ opacity: 0.6 }}>Owner Portal</Link></li>
         </ul>
       </nav>
