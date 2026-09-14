@@ -227,16 +227,29 @@ nav a.active::after {
 
 
 .nav-cta {
-  background: linear-gradient(135deg, var(--accent-emerald) 0%, var(--accent-emerald-dark) 100%) !important;
+  background-color: #0f172a !important;
   color: #ffffff !important;
   font-weight: 700 !important;
-  border: none !important;
-  box-shadow: 0 4px 14px var(--accent-emerald-glow);
+  border: 1px solid #0f172a !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+}
+
+[data-theme="dark"] .nav-cta {
+  background-color: #ffffff !important;
+  color: #09090b !important;
+  border: 1px solid #ffffff !important;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 .nav-cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
+  background-color: #1e293b !important;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.3) !important;
+}
+
+[data-theme="dark"] .nav-cta:hover {
+  background-color: #e4e4e7 !important;
+  box-shadow: 0 6px 18px rgba(255, 255, 255, 0.3) !important;
 }
 
 /* Colorless Icon Theme Toggle */
@@ -385,14 +398,28 @@ p {
 }
 
 .btn-primary, button[type="submit"] {
-  background: linear-gradient(135deg, var(--accent-emerald) 0%, var(--accent-emerald-dark) 100%);
+  background: #0f172a;
   color: #ffffff;
-  box-shadow: 0 4px 14px var(--accent-emerald-glow);
+  border: 1px solid #0f172a;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+[data-theme="dark"] .btn-primary, [data-theme="dark"] button[type="submit"] {
+  background: #ffffff;
+  color: #09090b;
+  border: 1px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
 }
 
 .btn-primary:hover, button[type="submit"]:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+  background: #1e293b;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.25);
+}
+
+[data-theme="dark"] .btn-primary:hover, [data-theme="dark"] button[type="submit"]:hover {
+  background: #e4e4e7;
+  box-shadow: 0 6px 18px rgba(255, 255, 255, 0.25);
 }
 
 .btn-outline {
