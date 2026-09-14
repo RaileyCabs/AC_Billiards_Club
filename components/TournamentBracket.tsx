@@ -25,14 +25,14 @@ export default function TournamentBracket() {
             onClick={() => setActiveTab('winners')}
             style={{ fontSize: '0.8rem', padding: '6px 14px' }}
           >
-            🏆 Winner&apos;s Bracket
+            Winner&apos;s Bracket
           </button>
           <button 
             className={`btn ${activeTab === 'losers' ? 'btn-primary' : 'btn-outline'}`}
             onClick={() => setActiveTab('losers')}
             style={{ fontSize: '0.8rem', padding: '6px 14px' }}
           >
-            🔥 Loser&apos;s Bracket
+            Loser&apos;s Bracket
           </button>
         </div>
       </div>
@@ -247,7 +247,7 @@ export default function TournamentBracket() {
             {/* ROUND 4: GRAND FINALS */}
             <div style={{ width: '230px', flexShrink: 0, display: 'flex', flexDirection: 'column', height: '480px', marginTop: '32px' }}>
               <div className="bracket-column-header" style={{ marginBottom: '175px', background: '#10b981', color: '#ffffff', border: 'none' }}>
-                👑 Championship Final
+                Championship Final
               </div>
 
               {/* Match 8 */}
@@ -371,8 +371,8 @@ export default function TournamentBracket() {
       {/* Bracket Legend & Notes */}
       <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid var(--border-card)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-          <span><strong style={{ color: '#10b981' }}>━🟢 Green Solid Line:</strong> Winner Path Progression</span>
-          <span><strong style={{ color: '#94a3b8' }}>┈⚪ Gray Dashed Line:</strong> Upcoming Match Path</span>
+          <span><strong style={{ color: '#10b981' }}>Solid Green Line:</strong> Winner Path Progression</span>
+          <span><strong style={{ color: '#94a3b8' }}>Dashed Gray Line:</strong> Upcoming Match Path</span>
         </div>
         <div>
           <span>Tables 1 &ndash; 4: 9ft Diamond Pro Tables</span>

@@ -83,8 +83,8 @@ const AppStateContext = createContext<AppStateContextType | undefined>(undefined
 
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [banner, setBanner] = useState<BannerState>({
-    active: true,
-    text: 'Open late this week for US Open Pool Championship players! Check tournament schedule for cash payouts.',
+    active: false,
+    text: '',
   });
 
   const [tournaments, setTournaments] = useState<Tournament[]>(INITIAL_TOURNAMENTS);
