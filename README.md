@@ -1,86 +1,82 @@
-﻿# Atlantic City Billiard Club — Web Platform & Tournament Hub
+# Atlantic City Billiard Club — Web Platform & Tournament Hub
 
 A modern, mobile-first web platform and live tournament management hub for **Atlantic City Billiard Club** (Egg Harbor Township, NJ).
 
-Featuring a private, password-protected /admin portal for the owner, live tournament match tracking, bracket progression, player registration with payment status confirmation, and digital archiving.
+Featuring a private, password-protected `/admin` portal for the pool hall owner, live tournament tracking, native interactive bracket trees, player registration management, digital archives, and location details.
 
 ---
 
-## Key Features
+## 🌟 Key Features
 
-### 1. Live Tournament Hub & Progression Board (/tournaments/[id])
-- **Live Table Calls:** Real-time visibility of active tables, current matchups, and live set scores (e.g., Table 1: Mike Miller [3] vs. Chris Vance [2]).
-- **On Deck Queue:** Informs waiting players when they are up next and what table they will shoot on.
-- **Match Results Ticker:** Live feed of completed sets showing who won and where players advance.
-- **Interactive Bracket Tree:** Visual double-elimination bracket tracking winners bracket, one-loss bracket, and finals via DigitalPool / Challonge.
+### 1. 🏆 Custom Native Visual Tournament Bracket Engine
+- **100% Native Visual Brackets:** Replaced third-party iFrame embeds with an interactive SVG/CSS tournament bracket tree engine supporting single and double elimination brackets.
+- **Live Round & Score Tracking:** Displays winner bracket, one-loss bracket, active set scores, table calls, and winner advancement.
+- **Archive Viewer Modal Overlay:** Users can view interactive visual bracket trees for archived past tournaments directly within an overlay modal on the `/tournaments` page.
 
-### 2. Player Signups & Anti-Dropout Workflow
-- **Digital Registration:** Players reserve their tournament spot online with Name, Phone, and Skill Level / FargoRate.
-- **Clear Anti-Dropout Policy:** Reserved spots default to Pending Payment with an explicit cutoff notice (e.g., must be paid 30 mins prior to break).
-- **Public Roster Transparency:** Displays confirmed (paid) spots vs. pending spots and remaining capacity.
-- **Digital Receipt:** Players receive a confirmation card with Add to Calendar and an automated email copy.
+### 2. ⚡ Live Administrative State Sync (`/admin`)
+- **Password-Protected Owner Portal:** Accessed via `/admin` (Passcode: `1976`) or hidden footer link.
+- **Owner Roster Management:** Features a **Tournament Selector Dropdown** allowing the owner to select any active or draft tournament before adding or editing player rosters.
+- **Instant Site Announcements:** Toggle live alert banners across the site in real-time.
+- **Zero Page Reload Sync:** All administrative edits sync instantly across public pages via React Context (`AppStateContext`) with `localStorage` persistence.
 
-### 3. Tournament Archiving & Records (Owner & Players)
-- **Public Archive:** Historical record of completed tournaments, top 3 winners, and final bracket standings.
-- **Owner Record Book:** Permanent digital log of total turnout, entry fees collected, and prize pool distribution.
-- **One-Click Export:** Download rosters in CSV spreadsheet format or print official physical check-in / score sheets (PDF).
+### 3. 🎯 Streamlined 3-Tab Mobile Navigation
+- **Focused Top Navigation:** Simplified header navigation into 3 core tabs:
+  1. **Home** — Venue showcase, table specs (Diamond, Rasson, heated 3-cushion, Snooker), and quick highlights.
+  2. **Location & Contact** — Hours of operation, click-to-call, parking, and interactive Google Map.
+  3. **Tournaments & Leagues** — Active visual brackets, upcoming event flyers, APA 8-Ball & 9-Ball schedule, and historical archive modals.
+- **Colorless SVG Theme Toggle:** Modern dark/light mode toggle matching the site styling.
 
-### 4. Private Owner Admin Portal (/admin)
-- **Zero Third-Party Apps:** Fully customized web dashboard accessed directly on the owner''s phone or desktop at /admin.
-- **Strict Privacy & Security:** Hidden from public navigation, blocked from search engines via obots.txt, and guarded by session/PIN authentication.
-- **One-Tap Payment Confirmation:** Quickly toggle player statuses between Paid (Cash, Venmo, Zelle, Card), Pending, or Forfeit/Remove Spot.
-- **Tournament & Flyer Manager:** Publish new tournaments and upload flyer photos directly from a smartphone camera.
-- **Notice Banner:** Toggle instant announcement banners on/off (e.g., for holiday hours or the US Open Pool Championship week).
+### 4. 🎨 High-Contrast Monochrome Black & White Aesthetic
+- **Sleek Visual Design:** Crisp black-and-white theme featuring smooth scroll animations, subtle borders, and elevated button micro-interactions.
+- **Form & Select Optimization:** Custom styled dropdown selects and touch-friendly controls optimized for mobile and desktop displays without text cutoff.
 
 ---
 
-## Business Specs & Highlights
+## 📍 Venue Highlights
 
 - **Venue:** Atlantic City Billiard Club
-- **Location:** 6701 E Black Horse Pike # A8, Egg Harbor Township, NJ 08234 (15 minutes from Atlantic City boardwalk/casinos)
-- **Specialty Equipment:** Full-size regulation Snooker tables, heated 3-Cushion (carom) billiard tables, 9ft pro-cut tables, and 7ft bar boxes.
+- **Location:** 6701 E Black Horse Pike # A8, Egg Harbor Township, NJ 08234 (15 minutes from Atlantic City boardwalk & casinos)
+- **Specialty Equipment:** Full-size regulation Snooker tables, heated 3-Cushion (carom) billiard tables, 9ft pro-cut Diamond/Rasson tables, and 7ft bar boxes.
 - **Major Event Alignment:** Unofficial player hub and late-night action spot during the annual US Open Pool Championship in Atlantic City.
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-| Layer | Technology | Purpose |
+| Layer | Technology | Description |
 | :--- | :--- | :--- |
-| **Frontend** | Next.js (App Router) + React | High-performance, SEO-optimized, mobile-first web framework |
-| **Styling & UI** | Tailwind CSS + shadcn/ui | Modern, responsive dark billiards lounge aesthetic |
-| **Database & Auth** | Supabase (PostgreSQL) | Secure data storage for tournaments, signups, and alerts |
-| **Bracket Engine** | DigitalPool / Challonge API/Embed | Industry-standard pool brackets with live double elimination |
-| **Notifications** | Resend | Transactional registration confirmation emails and owner alerts |
-| **Hosting & CDN** | Vercel | High-speed global edge network and continuous deployment |
+| **Framework** | Next.js 14 (App Router) + React 18 | High-performance, SEO-optimized, mobile-first web framework |
+| **Language** | TypeScript | Strictly typed component architecture and state management |
+| **Styling & Theme** | Vanilla CSS + CSS Variables (`globals.css`) | High-contrast monochrome theme with smooth page transitions |
+| **State Engine** | React Context (`AppStateContext.tsx`) | Real-time state synchronization with `localStorage` persistence |
+| **Bracket Engine** | Native SVG & CSS Bracket Renderer | Interactive visual bracket tree supporting single & double elimination |
+| **Hosting & Deployment** | Vercel | High-speed global edge network deployment |
 
 ---
 
-## Sitemap Architecture
+## 🗺️ Sitemap Architecture
 
-`
+```
 /
-├── Home (Hero, announcement banner, quick hours, specialty table spotlight, location)
+├── Home (Hero section, venue highlights, quick info, tables summary)
+├── Location & Contact (Hours of operation, interactive map, parking, contact card)
 ├── Tournaments & Leagues
-│   ├── Upcoming Tournaments (Cards, flyers, entry fees, spot tracker, signup modal)
-│   ├── Live Match Board & Brackets (Active table calls, on deck, live match ticker, bracket tree)
-│   ├── Tournament Archive (Past events, 1st/2nd/3rd winners, historical payouts)
-│   └── League Nights (APA 8/9-Ball, in-house snooker ladders, captain contacts)
-├── Tables & Rates (Regulation snooker, 3-cushion, 9ft pro tables, pricing, etiquette)
-├── Food, Bar & Amenities (Kitchen menu, draft beers, Wi-Fi, jukebox, TV sports)
-├── Private Events (Booking inquiry form for corporate rentals & birthdays)
-├── Location & Contact (Directions from AC boardwalk, interactive map, click-to-call)
+│   ├── Active Brackets (Native interactive SVG bracket engine)
+│   ├── Upcoming Events (Event details & registration info)
+│   ├── Weekly Schedule & APA Leagues (8-Ball, 9-Ball schedules)
+│   └── Tournament Archive (Past winners & interactive visual bracket modal viewer)
+├── Tables & Rates (Hourly table rates, Diamond/Rasson specs, Snooker & Carom pricing)
 │
-└── [PROTECTED] /admin (Private Owner Portal)
-    ├── Dashboard Overview (Alert status, next tournament stats)
-    ├── Tournament Manager (Create events, upload flyers, open/close registration)
-    ├── Live Roster & Payments (One-tap paid confirmation, remove no-shows, filter unpaid)
-    ├── Records & Export (Download CSV, print PDF score sheets)
-    └── Announcement Banner Manager (Toggle ON/OFF, edit message)
-`
+└── [PROTECTED] /admin (Private Owner Portal — PIN: 1976)
+    ├── Site Announcement Banner Manager
+    ├── Active Tournament Manager & Match Scoring
+    ├── Owner Roster Management (Tournament Selector Dropdown)
+    └── Player Registration List
+```
 
 ---
 
-## Detailed Documentation
+## 📑 Session Documentation & Handover
 
-For full database schemas, route configurations, security models, and phased implementation roadmaps, see [docs/IMPLEMENTATION_PLAN.md](./docs/IMPLEMENTATION_PLAN.md).
+- **Session Audit & Handover Guide:** [`SESSION_HANDOVER.md`](./SESSION_HANDOVER.md) — Comprehensive session audit, commit history, and instructions for continuing development on another device.
+- **Implementation Plan & Architecture:** [`docs/IMPLEMENTATION_PLAN.md`](./docs/IMPLEMENTATION_PLAN.md) — System requirements, technical roadmap, and architectural specs.
