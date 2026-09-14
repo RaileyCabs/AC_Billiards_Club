@@ -2,43 +2,59 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-
-interface Player {
-  id: number;
-  name: string;
-  phone: string;
-  rating: string;
-  status: 'paid' | 'pending' | 'forfeited';
-  method: string;
-  registeredAt: string;
-}
-
-const INITIAL_PLAYERS: Player[] = [
-  { id: 1, name: 'Ray "The Razor" Martin', phone: '(609) 555-0111', rating: 'Fargo 680', status: 'paid', method: 'Cash ($25.00)', registeredAt: 'Sept 14, 10:15 AM' },
-  { id: 2, name: 'Mike Sullivan', phone: '(609) 555-0122', rating: 'Fargo 650', status: 'paid', method: 'Venmo (@MikeS-Pool)', registeredAt: 'Sept 14, 11:30 AM' },
-  { id: 3, name: 'Johnny McDermott', phone: '(609) 555-0123', rating: 'Fargo 520', status: 'pending', method: 'Unpaid (At Counter)', registeredAt: 'Sept 14, 01:05 PM' },
-  { id: 4, name: 'Chris Pastore', phone: '(609) 555-0144', rating: 'Fargo 520', status: 'pending', method: 'Unpaid (Zelle)', registeredAt: 'Sept 14, 01:20 PM' },
-];
+import { useAppState } from '@/context/AppStateContext';
 
 export default function AdminPage() {
-  const [players, setPlayers] = useState<Player[]>(INITIAL_PLAYERS);
+  const { 
+    banner, 
+    updateBanner, 
+    players, 
+    markPlayerPaid, 
+    forfeitPlayerSpot, 
+    addTournament 
+  } = useAppState();
+
   const [filter, setFilter] = useState<'all' | 'paid' | 'pending' | 'forfeited'>('all');
-  const [bannerActive, setBannerActive] = useState(true);
-  const [bannerText, setBannerText] = useState('Open late this week for US Open Pool Championship players! Check tournament schedule for cash payouts.');
+  const [localBannerActive, setLocalBannerActive] = useState(banner.active);
+  const [localBannerText, setLocalBannerText] = useState(banner.text);
+
+  // New Tournament form state
+  const [newTitle, setNewTitle] = useState('');
+  const [newDateTime, setNewDateTime] = useState('');
+  const [newGameType, setNewGameType] = useState('9-ball');
+  const [newEntryFee, setNewEntryFee] = useState('20');
+  const [newHouseAdded, setNewHouseAdded] = useState('500');
 
   // Counts
-  const paidCount = players.filter(p => p.status === 'paid').length + 16; // 18 default base
+  const paidCount = players.filter(p => p.status === 'paid').length + 16;
   const pendingCount = players.filter(p => p.status === 'pending').length;
   const forfeitedCount = players.filter(p => p.status === 'forfeited').length;
   const totalPlayers = paidCount + pendingCount;
   const cashCollected = paidCount * 25;
 
-  const handleMarkPaid = (id: number, selectedMethod: string) => {
-    setPlayers(prev => prev.map(p => p.id === id ? { ...p, status: 'paid', method: selectedMethod } : p));
+  const handlePublishTournament = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTitle) return;
+
+    addTournament({
+      title: newTitle,
+      dateTime: newDateTime || 'Upcoming Event',
+      gameType: newGameType,
+      entryFee: parseFloat(newEntryFee) || 20,
+      greenFee: 5,
+      houseAdded: parseFloat(newHouseAdded) || 0,
+      maxSpots: 32,
+    });
+
+    alert(`Published "${newTitle}"! It is now live on the public Tournaments page.`);
+    setNewTitle('');
+    setNewDateTime('');
   };
 
-  const handleForfeit = (id: number) => {
-    setPlayers(prev => prev.map(p => p.id === id ? { ...p, status: 'forfeited' } : p));
+  const handleSaveBanner = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateBanner(localBannerActive, localBannerText);
+    alert('Announcement Banner Updated Live Across The Entire Website!');
   };
 
   const filteredPlayers = players.filter(p => {
@@ -97,8 +113,8 @@ export default function AdminPage() {
 
             <div className="card" style={{ borderLeft: '4px solid #f59e0b' }}>
               <h3>Announcement Banner</h3>
-              <p><span className={`badge ${bannerActive ? 'badge-paid' : 'badge-forfeit'}`}>{bannerActive ? 'ACTIVE ON SITE' : 'DISABLED'}</span></p>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '6px' }}>"{bannerText.substring(0, 38)}..."</p>
+              <p><span className={`badge ${banner.active ? 'badge-paid' : 'badge-forfeit'}`}>{banner.active ? 'ACTIVE ON SITE' : 'DISABLED'}</span></p>
+              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '6px' }}>"{banner.text.substring(0, 38)}..."</p>
             </div>
           </div>
         </section>
@@ -192,7 +208,7 @@ export default function AdminPage() {
                               style={{ background: '#10b981', color: '#ffffff', padding: '4px 10px', fontSize: '0.75rem' }} 
                               onClick={() => {
                                 const selectEl = document.getElementById(`payment-select-${player.id}`) as HTMLSelectElement;
-                                handleMarkPaid(player.id, selectEl ? selectEl.value : 'Cash ($25.00)');
+                                markPlayerPaid(player.id, selectEl ? selectEl.value : 'Cash ($25.00)');
                               }}
                             >
                               Mark Paid
@@ -200,7 +216,7 @@ export default function AdminPage() {
                             <button 
                               className="btn btn-outline" 
                               style={{ color: '#ef4444', borderColor: 'rgba(239,68,68,0.4)', padding: '4px 8px', fontSize: '0.75rem' }} 
-                              onClick={() => handleForfeit(player.id)}
+                              onClick={() => forfeitPlayerSpot(player.id)}
                             >
                               Forfeit Spot
                             </button>
@@ -231,23 +247,44 @@ export default function AdminPage() {
           <h2>Create &amp; Publish New Tournament</h2>
           
           <div className="card">
-            <form onSubmit={(e) => { e.preventDefault(); alert('Tournament published successfully to public site!'); }}>
+            <form onSubmit={handlePublishTournament}>
               <div className="grid-2">
                 <div>
                   <label htmlFor="event_title">Tournament Title *</label>
-                  <input type="text" id="event_title" name="event_title" required placeholder="e.g. $1,000 Added Fall 9-Ball Classic" />
+                  <input 
+                    type="text" 
+                    id="event_title" 
+                    name="event_title" 
+                    required 
+                    placeholder="e.g. $1,000 Added Fall 9-Ball Classic" 
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                  />
                 </div>
 
                 <div>
                   <label htmlFor="event_date_time">Date &amp; Start Time *</label>
-                  <input type="datetime-local" id="event_date_time" name="event_date_time" required />
+                  <input 
+                    type="text" 
+                    id="event_date_time" 
+                    name="event_date_time" 
+                    required
+                    placeholder="e.g. Saturday, October 10, 2026 | 1:00 PM"
+                    value={newDateTime}
+                    onChange={(e) => setNewDateTime(e.target.value)}
+                  />
                 </div>
               </div>
 
               <div className="grid-3" style={{ marginTop: '16px' }}>
                 <div>
                   <label htmlFor="game_type">Game Format</label>
-                  <select id="game_type" name="game_type">
+                  <select 
+                    id="game_type" 
+                    name="game_type"
+                    value={newGameType}
+                    onChange={(e) => setNewGameType(e.target.value)}
+                  >
                     <option value="9-ball">9-Ball</option>
                     <option value="8-ball">8-Ball</option>
                     <option value="10-ball">10-Ball</option>
@@ -258,12 +295,27 @@ export default function AdminPage() {
 
                 <div>
                   <label htmlFor="entry_fee">Entry Fee ($) *</label>
-                  <input type="number" id="entry_fee" name="entry_fee" required placeholder="25.00" />
+                  <input 
+                    type="number" 
+                    id="entry_fee" 
+                    name="entry_fee" 
+                    required 
+                    placeholder="20.00" 
+                    value={newEntryFee}
+                    onChange={(e) => setNewEntryFee(e.target.value)}
+                  />
                 </div>
 
                 <div>
                   <label htmlFor="house_added">House Added Money ($)</label>
-                  <input type="number" id="house_added" name="house_added" placeholder="500.00" />
+                  <input 
+                    type="number" 
+                    id="house_added" 
+                    name="house_added" 
+                    placeholder="500.00" 
+                    value={newHouseAdded}
+                    onChange={(e) => setNewHouseAdded(e.target.value)}
+                  />
                 </div>
               </div>
 
@@ -285,14 +337,14 @@ export default function AdminPage() {
         <section id="admin-banner-manager">
           <h2>Announcement Alert Banner Manager</h2>
           <div className="card">
-            <form onSubmit={(e) => { e.preventDefault(); alert('Announcement Banner Saved!'); }}>
+            <form onSubmit={handleSaveBanner}>
               <div style={{ marginBottom: '16px' }}>
                 <label htmlFor="banner_status">Banner Active Status</label><br />
                 <select 
                   id="banner_status"
                   style={{ maxWidth: '250px' }}
-                  value={bannerActive ? 'active' : 'disabled'}
-                  onChange={(e) => setBannerActive(e.target.value === 'active')}
+                  value={localBannerActive ? 'active' : 'disabled'}
+                  onChange={(e) => setLocalBannerActive(e.target.value === 'active')}
                 >
                   <option value="active">Active (Visible on Header)</option>
                   <option value="disabled">Disabled (Hidden)</option>
@@ -304,8 +356,8 @@ export default function AdminPage() {
                 <input 
                   type="text" 
                   id="banner_text" 
-                  value={bannerText}
-                  onChange={(e) => setBannerText(e.target.value)}
+                  value={localBannerText}
+                  onChange={(e) => setLocalBannerText(e.target.value)}
                 />
               </div>
 

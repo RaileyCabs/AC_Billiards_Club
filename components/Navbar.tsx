@@ -3,19 +3,23 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ThemeToggle from './ThemeToggle';
+import { useAppState } from '@/context/AppStateContext';
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { banner } = useAppState();
 
   const isActive = (path: string) => pathname === path;
 
   return (
     <>
-      <div id="announcement-banner">
-        <span>
-          <strong>[EVENT NOTICE]</strong> Open late this week for US Open Pool Championship players! Check tournament schedule for cash payouts.
-        </span>
-      </div>
+      {banner.active && (
+        <div id="announcement-banner">
+          <span>
+            <strong>[EVENT NOTICE]</strong> {banner.text}
+          </span>
+        </div>
+      )}
 
       <header>
         <div id="site-logo">
@@ -37,28 +41,8 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/tables-and-rates" className={isActive('/tables-and-rates') ? 'active' : ''}>
-                Tables &amp; Rates
-              </Link>
-            </li>
-            <li>
-              <Link href="/food-and-amenities" className={isActive('/food-and-amenities') ? 'active' : ''}>
-                Food, Bar &amp; Amenities
-              </Link>
-            </li>
-            <li>
-              <Link href="/private-events" className={isActive('/private-events') ? 'active' : ''}>
-                Private Events
-              </Link>
-            </li>
-            <li>
               <Link href="/contact" className={isActive('/contact') ? 'active' : ''}>
                 Location &amp; Contact
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin" className={isActive('/admin') ? 'active' : ''} style={{ color: '#ef4444', fontWeight: 600 }}>
-                [Owner / Admin]
               </Link>
             </li>
             <li>
@@ -75,4 +59,3 @@ export default function Navbar() {
     </>
   );
 }
-

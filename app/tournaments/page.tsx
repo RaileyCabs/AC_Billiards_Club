@@ -1,13 +1,44 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import TournamentBracket from '@/components/TournamentBracket';
+import { useAppState } from '@/context/AppStateContext';
 
 export default function TournamentsPage() {
+  const { tournaments, registerPlayer } = useAppState();
+  const [filterGame, setFilterGame] = useState('all');
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    rating: '',
+    paymentPreference: 'cash_at_door'
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Tournament Registration Submitted! Check your email for digital receipt.');
+    if (!formData.name || !formData.phone || !formData.email) return;
+    
+    registerPlayer({
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      rating: formData.rating,
+      paymentPreference: formData.paymentPreference
+    });
+
+    setFormSubmitted(true);
+    alert(`Registration reserved for ${formData.name}! You are added to the roster in PENDING PAYMENT status.`);
+    setFormData({ name: '', phone: '', email: '', rating: '', paymentPreference: 'cash_at_door' });
   };
+
+  const filteredTournaments = tournaments.filter(t => {
+    if (filterGame === 'all') return true;
+    return t.gameType === filterGame;
+  });
 
   return (
     <main>
@@ -25,7 +56,12 @@ export default function TournamentsPage() {
 
         <div style={{ marginBottom: '20px' }}>
           <label htmlFor="game-type-filter">Filter Game Type: </label>
-          <select id="game-type-filter" style={{ maxWidth: '300px' }}>
+          <select 
+            id="game-type-filter" 
+            style={{ maxWidth: '300px' }}
+            value={filterGame}
+            onChange={(e) => setFilterGame(e.target.value)}
+          >
             <option value="all">All Games (8-Ball, 9-Ball, 10-Ball, Snooker)</option>
             <option value="9-ball">9-Ball</option>
             <option value="8-ball">8-Ball</option>
@@ -34,76 +70,48 @@ export default function TournamentsPage() {
           </select>
         </div>
 
-        {/* Event 1 Card */}
-        <article className="card">
-          <div className="card-header">
-            <div>
-              <h3>$500 Added 9-Ball Open Championship</h3>
-              <p><strong>Saturday, September 26, 2026</strong> | Doors: 11:00 AM | Play Begins: 1:00 PM</p>
-            </div>
-            <span className="badge badge-open">Registration Open</span>
-          </div>
-
-          <div className="grid-2">
-            <div className="photo-placeholder">
-              <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-              </svg>
-              <span>[ Photo Placeholder: $500 Added Tournament Flyer Poster ]</span>
-              <small>Official Flyer Photo</small>
+        {filteredTournaments.map(t => (
+          <article className="card" key={t.id}>
+            <div className="card-header">
+              <div>
+                <h3>{t.title}</h3>
+                <p><strong>{t.dateTime}</strong></p>
+              </div>
+              <span className="badge badge-open">{t.status}</span>
             </div>
 
-            <div>
-              <p><strong>Entry Fee:</strong> $25 ($20 Entry + $5 Green Fee)</p>
-              <p><strong>House Added:</strong> $500 Guaranteed (24+ players)</p>
-              <p><strong>Format:</strong> Double Elimination. Race to 7 Winner&apos;s / Race to 5 Loser&apos;s.</p>
-              <p><strong>Rules:</strong> Texas Express 9-Ball. Rack your own (9 on spot).</p>
-              <p><strong>Real-Time Spot Tracker:</strong> <span className="badge badge-info">18 Confirmed</span> <span className="badge badge-pending">4 Pending</span> <span className="badge badge-open">10 Open Spots</span></p>
-
-              <div style={{ backgroundColor: '#fefce8', border: '1px solid #fef08a', padding: '12px', borderRadius: 'var(--radius-md)', margin: '16px 0' }}>
-                <p style={{ fontSize: '0.85rem', color: '#854d0e', margin: 0 }}>
-                  <strong>Cutoff Notice:</strong> Reserved spots are held until <strong>30 mins before start (12:00 PM)</strong>, after which unpaid spots forfeit to waitlisted players.
-                </p>
+            <div className="grid-2">
+              <div className="photo-placeholder">
+                <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                </svg>
+                <span>[ Photo Placeholder: {t.title} Flyer Poster ]</span>
+                <small>Official Flyer Photo</small>
               </div>
 
-              <a href="#signup-modal" className="btn btn-primary">
-                Reserve Your Spot Now &rarr;
-              </a>
-            </div>
-          </div>
-        </article>
+              <div>
+                <p><strong>Entry Fee:</strong> ${t.entryFee + t.greenFee} (${t.entryFee} Entry + ${t.greenFee} Green Fee)</p>
+                {t.houseAdded > 0 && <p><strong>House Added:</strong> ${t.houseAdded} Guaranteed</p>}
+                <p><strong>Format:</strong> Double Elimination. Race length based on Fargo rating.</p>
+                <p><strong>Real-Time Spot Tracker:</strong> 
+                  {' '}<span className="badge badge-info">{t.confirmedCount} Confirmed</span>{' '}
+                  <span className="badge badge-pending">{t.pendingCount} Pending</span>{' '}
+                  <span className="badge badge-open">{Math.max(0, t.maxSpots - t.confirmedCount - t.pendingCount)} Open Spots</span>
+                </p>
 
-        {/* Event 2 Card */}
-        <article className="card">
-          <div className="card-header">
-            <div>
-              <h3>Friday Night 8-Ball Handicap Chip Tournament</h3>
-              <p><strong>Every Friday Night</strong> | Check-in: 6:30 PM | Play Begins: 7:00 PM</p>
-            </div>
-            <span className="badge badge-open">Weekly Event</span>
-          </div>
+                <div style={{ backgroundColor: 'var(--bg-card-hover)', border: '1px solid var(--border-card)', padding: '12px', borderRadius: 'var(--radius-md)', margin: '16px 0' }}>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0 }}>
+                    <strong>Cutoff Notice:</strong> Reserved spots are held until <strong>30 mins before start</strong>, after which unpaid spots forfeit to waitlisted players.
+                  </p>
+                </div>
 
-          <div className="grid-2">
-            <div className="photo-placeholder">
-              <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-              </svg>
-              <span>[ Photo Placeholder: Friday Night Chip Tournament Poster ]</span>
-            </div>
-
-            <div>
-              <p><strong>Entry Fee:</strong> $15 ($12 Prize Pool + $3 Green Fee)</p>
-              <p><strong>Format:</strong> Chip format based on handicap rating. Last player standing wins total pot.</p>
-              <p><strong>Spot Tracker:</strong> <span className="badge badge-info">12 Confirmed</span> <span className="badge badge-pending">2 Pending</span> <span className="badge badge-open">10 Open Spots</span></p>
-
-              <div style={{ marginTop: '16px' }}>
                 <a href="#signup-modal" className="btn btn-primary">
                   Reserve Your Spot Now &rarr;
                 </a>
               </div>
             </div>
-          </div>
-        </article>
+          </article>
+        ))}
       </section>
 
       {/* PLAYER REGISTRATION FORM CARD */}
@@ -113,42 +121,84 @@ export default function TournamentsPage() {
           <span className="badge badge-pending">Pending Payment Spot</span>
         </div>
 
+        {formSubmitted && (
+          <div style={{ backgroundColor: '#dcfce7', color: '#15803d', padding: '12px', borderRadius: 'var(--radius-md)', marginBottom: '16px' }}>
+            🎉 <strong>Registration Successful!</strong> Your spot is reserved on the live roster as Pending Payment.
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
-          <p><strong>Selected Event:</strong> $500 Added 9-Ball Open (Sept 26, 2026)</p>
+          <p><strong>Selected Event:</strong> {tournaments[0]?.title || '$500 Added 9-Ball Open'}</p>
           
           <div style={{ marginBottom: '14px' }}>
             <label htmlFor="player_name">Full Name *</label>
-            <input type="text" id="player_name" name="player_name" required placeholder="e.g. Johnny McDermott" />
+            <input 
+              type="text" 
+              id="player_name" 
+              name="player_name" 
+              required 
+              placeholder="e.g. Johnny McDermott" 
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            />
           </div>
 
           <div style={{ marginBottom: '14px' }}>
             <label htmlFor="player_phone">Cell Phone Number * (For SMS Confirmation &amp; Cutoff Alerts)</label>
-            <input type="tel" id="player_phone" name="player_phone" required placeholder="e.g. (609) 555-0123" />
+            <input 
+              type="tel" 
+              id="player_phone" 
+              name="player_phone" 
+              required 
+              placeholder="e.g. (609) 555-0123" 
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            />
           </div>
 
           <div style={{ marginBottom: '14px' }}>
             <label htmlFor="player_email">Email Address * (For Digital Receipt &amp; Calendar Add)</label>
-            <input type="email" id="player_email" name="player_email" required placeholder="e.g. johnny@example.com" />
+            <input 
+              type="email" 
+              id="player_email" 
+              name="player_email" 
+              required 
+              placeholder="e.g. johnny@example.com" 
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
           </div>
 
           <div style={{ marginBottom: '14px' }}>
             <label htmlFor="skill_level">Skill Rating / League Handicap</label>
-            <input type="text" id="skill_level" name="skill_level" placeholder="e.g. Fargo 520 / APA 6" />
+            <input 
+              type="text" 
+              id="skill_level" 
+              name="skill_level" 
+              placeholder="e.g. Fargo 520 / APA 6" 
+              value={formData.rating}
+              onChange={(e) => setFormData({ ...formData, rating: e.target.value })}
+            />
           </div>
 
           <div style={{ marginBottom: '16px' }}>
             <label htmlFor="payment_preference">Intended Payment Method</label>
-            <select id="payment_preference" name="payment_preference">
-              <option value="cash_at_door">Pay Cash at Counter (Must pay by 12:00 PM day of event)</option>
-              <option value="venmo">Venmo Advance Payment</option>
-              <option value="zelle">Zelle Advance Payment</option>
-              <option value="card_at_door">Credit/Debit Card at Counter</option>
+            <select 
+              id="payment_preference" 
+              name="payment_preference"
+              value={formData.paymentPreference}
+              onChange={(e) => setFormData({ ...formData, paymentPreference: e.target.value })}
+            >
+              <option value="Cash at Counter">Pay Cash at Counter (Must pay by 12:00 PM day of event)</option>
+              <option value="Venmo Advance">Venmo Advance Payment</option>
+              <option value="Zelle Advance">Zelle Advance Payment</option>
+              <option value="Card at Counter">Credit/Debit Card at Counter</option>
             </select>
           </div>
 
           <div style={{ backgroundColor: 'var(--bg-card-hover)', border: '1px solid var(--border-card)', padding: '14px', borderRadius: 'var(--radius-md)', marginBottom: '16px' }}>
             <p style={{ fontSize: '0.825rem', color: 'var(--text-muted)', margin: 0 }}>
-              <strong>Anti-Dropout Policy:</strong> Clicking &quot;Complete Registration&quot; reserves your spot as <strong>[PENDING PAYMENT]</strong> on the public roster. Payment must be completed prior to 12:00 PM on tournament day.
+              <strong>Anti-Dropout Policy:</strong> Clicking &quot;Complete Registration&quot; reserves your spot as <strong>[PENDING PAYMENT]</strong> on the public roster. Payment must be completed prior to cutoff time on tournament day.
             </p>
           </div>
 
@@ -165,7 +215,6 @@ export default function TournamentsPage() {
 
         <TournamentBracket />
       </section>
-
 
       {/* SECTION 3: TOURNAMENT ARCHIVE */}
       <section id="tournament-archive">

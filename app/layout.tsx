@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { AppStateProvider } from '@/context/AppStateContext';
 
 export const metadata: Metadata = {
   title: 'Atlantic City Billiard Club | Premier Pool Hall & Tournament Hub in Egg Harbor Township, NJ',
@@ -30,11 +31,12 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Navbar />
-        {children}
-        <Footer />
+        <AppStateProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </AppStateProvider>
       </body>
     </html>
   );
 }
-
