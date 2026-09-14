@@ -4,7 +4,7 @@ export default function TablesAndRatesPage() {
       <section id="rates-header">
         <h2>Tables, Equipment &amp; Transparent Rates</h2>
         <p>
-          Whether you're practicing solo, bringing a date, hosting a friendly game with friends, or training on regulation specialty equipment, 
+          Whether you&apos;re practicing solo, bringing a date, hosting a friendly game with friends, or training on regulation specialty equipment, 
           Atlantic City Billiard Club offers the cleanest felt and best maintained tables in South Jersey.
         </p>
       </section>
@@ -35,7 +35,7 @@ export default function TablesAndRatesPage() {
             </div>
             <h3>12ft Regulation Tournament Snooker Table</h3>
             <p><strong>Quantity:</strong> 1 Table (Dedicated Snooker Room) | <strong>Cloth:</strong> Strachan 6811 Wool</p>
-            <p>Full-size English Snooker table with Northern Rubber cushions, extension cues, spider rests, and Aramith 2-1/16" balls.</p>
+            <p>Full-size English Snooker table with Northern Rubber cushions, extension cues, spider rests, and Aramith 2-1/16&quot; balls.</p>
           </div>
 
           <div className="card">
@@ -111,9 +111,9 @@ export default function TablesAndRatesPage() {
         <div className="card" style={{ marginTop: '24px' }}>
           <h3>Daily Practice Specials</h3>
           <ul>
-            <li><strong>Afternoon Solo Practice Special:</strong> Mon – Fri (12:00 PM – 4:00 PM) &mdash; <strong>$15 Unlimited Solo Pass</strong>.</li>
+            <li><strong>Afternoon Solo Practice Special:</strong> Mon &ndash; Fri (12:00 PM &ndash; 4:00 PM) &mdash; <strong>$15 Unlimited Solo Pass</strong>.</li>
             <li><strong>Senior (60+) &amp; Veteran Discount:</strong> 15% off all table rates.</li>
-            <li><strong>College Student Night:</strong> Wednesdays 7:00 PM – Close &mdash; $6/hr per person with student ID.</li>
+            <li><strong>College Student Night:</strong> Wednesdays 7:00 PM &ndash; Close &mdash; $6/hr per person with student ID.</li>
           </ul>
         </div>
       </section>
@@ -124,9 +124,9 @@ export default function TablesAndRatesPage() {
         <div className="card">
           <ul>
             <li><strong>No Food or Drinks on Table Rails:</strong> Drinks must remain on pub tables and cue racks.</li>
-            <li><strong>No Massé or Unapproved Jump Shots:</strong> Prohibited on Snooker/Carom tables. On 9ft tables, jump shots require proper phenolic jump cues and slate protection.</li>
+            <li><strong>No Mass&eacute; or Unapproved Jump Shots:</strong> Prohibited on Snooker/Carom tables. On 9ft tables, jump shots require proper phenolic jump cues and slate protection.</li>
             <li><strong>Rack &amp; Cue Care:</strong> Set racks down gently. Chalk cues away from the table bed.</li>
-            <li><strong>Player Respect:</strong> Avoid standing in a player's shot line on adjacent tables during tournament play.</li>
+            <li><strong>Player Respect:</strong> Avoid standing in a player&apos;s shot line on adjacent tables during tournament play.</li>
           </ul>
         </div>
       </section>

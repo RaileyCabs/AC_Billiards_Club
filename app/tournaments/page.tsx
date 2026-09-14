@@ -13,7 +13,7 @@ export default function TournamentsPage() {
       <section id="tournaments-header">
         <h2>Tournaments &amp; Leagues Hub</h2>
         <p>
-          Atlantic City Billiard Club hosts South Jersey's premier weekly open tournaments, handicap chip games, 
+          Atlantic City Billiard Club hosts South Jersey&apos;s premier weekly open tournaments, handicap chip games, 
           and sanctioned APA 8-Ball &amp; 9-Ball leagues. Reserve your spot online, track live brackets, or explore past results.
         </p>
       </section>
@@ -55,7 +55,7 @@ export default function TournamentsPage() {
             <div>
               <p><strong>Entry Fee:</strong> $25 ($20 Entry + $5 Green Fee)</p>
               <p><strong>House Added:</strong> $500 Guaranteed (24+ players)</p>
-              <p><strong>Format:</strong> Double Elimination. Race to 7 Winner's / Race to 5 Loser's.</p>
+              <p><strong>Format:</strong> Double Elimination. Race to 7 Winner&apos;s / Race to 5 Loser&apos;s.</p>
               <p><strong>Rules:</strong> Texas Express 9-Ball. Rack your own (9 on spot).</p>
               <p><strong>Real-Time Spot Tracker:</strong> <span className="badge badge-info">18 Confirmed</span> <span className="badge badge-pending">4 Pending</span> <span className="badge badge-open">10 Open Spots</span></p>
 
@@ -147,7 +147,7 @@ export default function TournamentsPage() {
 
           <div style={{ backgroundColor: '#fafafa', border: '1px solid var(--border-color)', padding: '14px', borderRadius: 'var(--radius-md)', marginBottom: '16px' }}>
             <p style={{ fontSize: '0.825rem', color: 'var(--text-muted)', margin: 0 }}>
-              <strong>Anti-Dropout Policy:</strong> Clicking "Complete Registration" reserves your spot as <strong>[PENDING PAYMENT]</strong> on the public roster. Payment must be completed prior to 12:00 PM on tournament day.
+              <strong>Anti-Dropout Policy:</strong> Clicking &quot;Complete Registration&quot; reserves your spot as <strong>[PENDING PAYMENT]</strong> on the public roster. Payment must be completed prior to 12:00 PM on tournament day.
             </p>
           </div>
 
@@ -166,7 +166,7 @@ export default function TournamentsPage() {
           <div className="card-header">
             <div>
               <h3>Active Event: Saturday 9-Ball Open Championship</h3>
-              <p><strong>Race Length:</strong> Race to 7 (Winner's) / Race to 5 (Loser's) | <strong>Status:</strong> Semi-Finals Underway</p>
+              <p><strong>Race Length:</strong> Race to 7 (Winner&apos;s) / Race to 5 (Loser&apos;s) | <strong>Status:</strong> Semi-Finals Underway</p>
             </div>
             <span className="badge badge-info pulse-badge">LIVE STREAM ACTIVE</span>
           </div>
@@ -188,7 +188,7 @@ export default function TournamentsPage() {
                     <span className="score">7</span>
                   </div>
                   <div className="match-player">
-                    <span>8. Kevin O'Connor (Fargo 510)</span>
+                    <span>8. Kevin O&apos;Connor (Fargo 510)</span>
                     <span className="score">3</span>
                   </div>
                 </div>
@@ -241,7 +241,7 @@ export default function TournamentsPage() {
 
               {/* COLUMN 2: SEMI-FINALS */}
               <div className="bracket-column">
-                <div className="bracket-column-header">Winner's Semi-Finals</div>
+                <div className="bracket-column-header">Winner&apos;s Semi-Finals</div>
 
                 <div className="match-box">
                   <div className="match-box-header">
@@ -276,7 +276,7 @@ export default function TournamentsPage() {
 
               {/* COLUMN 3: WINNER'S FINALS */}
               <div className="bracket-column">
-                <div className="bracket-column-header">Winner's Finals</div>
+                <div className="bracket-column-header">Winner&apos;s Finals</div>
 
                 <div className="match-box" style={{ marginTop: '60px' }}>
                   <div className="match-box-header">
@@ -304,11 +304,11 @@ export default function TournamentsPage() {
                     <span style={{ color: '#bbf7d0' }}>$500 ADDED</span>
                   </div>
                   <div className="match-player">
-                    <span>Winner's Bracket Champion</span>
+                    <span>Winner&apos;s Bracket Champion</span>
                     <span className="score">0</span>
                   </div>
                   <div className="match-player">
-                    <span>Loser's Bracket Champion</span>
+                    <span>Loser&apos;s Bracket Champion</span>
                     <span className="score">0</span>
                   </div>
                 </div>
@@ -360,7 +360,7 @@ export default function TournamentsPage() {
                 <td>$1,000 Added Summer 9-Ball Classic</td>
                 <td>32 Players</td>
                 <td>$1,800</td>
-                <td><strong>Ray "The Razor" Martin</strong> ($900)</td>
+                <td><strong>Ray &quot;The Razor&quot; Martin</strong> ($900)</td>
                 <td>Jason Chen ($500)</td>
                 <td>Tommy Vance ($400)</td>
                 <td><a href="#" className="btn btn-outline" style={{ padding: '3px 8px', fontSize: '0.75rem' }}>View Bracket</a></td>
@@ -372,7 +372,7 @@ export default function TournamentsPage() {
                 <td>$480</td>
                 <td><strong>Dave Ramirez</strong> ($280)</td>
                 <td>Marcus Vance ($140)</td>
-                <td>Kevin O'Connor ($60)</td>
+                <td>Kevin O&apos;Connor ($60)</td>
                 <td><a href="#" className="btn btn-outline" style={{ padding: '3px 8px', fontSize: '0.75rem' }}>View Bracket</a></td>
               </tr>
             </tbody>

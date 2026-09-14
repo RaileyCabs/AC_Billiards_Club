@@ -5,7 +5,7 @@ export default function ContactPage() {
         <h2>Location, Directions &amp; Contact</h2>
         <p>
           Atlantic City Billiard Club is located on Black Horse Pike (US-40 / US-322) in Egg Harbor Township, New Jersey. 
-          We are situated just 10–12 minutes from Atlantic City's famous boardwalk, casinos, and the Atlantic City Expressway.
+          We are situated just 10&ndash;12 minutes from Atlantic City&apos;s famous boardwalk, casinos, and the Atlantic City Expressway.
         </p>
       </section>
 
@@ -24,9 +24,9 @@ export default function ContactPage() {
           <div className="card">
             <h3>Hours of Operation</h3>
             <ul>
-              <li><strong>Mon – Thu:</strong> 12:00 PM – 12:00 AM</li>
-              <li><strong>Fri – Sat:</strong> 12:00 PM – 2:00 AM</li>
-              <li><strong>Sunday:</strong> 12:00 PM – 11:00 PM</li>
+              <li><strong>Mon &ndash; Thu:</strong> 12:00 PM &ndash; 12:00 AM</li>
+              <li><strong>Fri &ndash; Sat:</strong> 12:00 PM &ndash; 2:00 AM</li>
+              <li><strong>Sunday:</strong> 12:00 PM &ndash; 11:00 PM</li>
             </ul>
           </div>
         </div>

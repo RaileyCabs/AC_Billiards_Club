@@ -5,9 +5,9 @@ export default function HomePage() {
     <main>
       {/* Hero Section */}
       <section id="hero">
-        <h2>South Jersey's Premier Billiards Lounge &amp; Tournament Venue</h2>
+        <h2>South Jersey&apos;s Premier Billiards Lounge &amp; Tournament Venue</h2>
         <p>
-          Located in Egg Harbor Township, NJ — just 10 minutes from the Atlantic City Boardwalk and Casinos. 
+          Located in Egg Harbor Township, NJ &mdash; just 10 minutes from the Atlantic City Boardwalk and Casinos. 
           Featuring pro-grade 9ft Diamond and Brunswick Gold Crown tables, 12ft Regulation Snooker, 
           3-Cushion Heated Carom, weekly open cash tournaments, full kitchen, craft beers, and APA leagues.
         </p>
@@ -39,9 +39,9 @@ export default function HomePage() {
         <div className="grid-3">
           <div className="card">
             <h3>Operating Hours</h3>
-            <p><strong>Mon – Thu:</strong> 12:00 PM – 12:00 AM</p>
-            <p><strong>Fri – Sat:</strong> 12:00 PM – 2:00 AM</p>
-            <p><strong>Sunday:</strong> 12:00 PM – 11:00 PM</p>
+            <p><strong>Mon &ndash; Thu:</strong> 12:00 PM &ndash; 12:00 AM</p>
+            <p><strong>Fri &ndash; Sat:</strong> 12:00 PM &ndash; 2:00 AM</p>
+            <p><strong>Sunday:</strong> 12:00 PM &ndash; 11:00 PM</p>
           </div>
 
           <div className="card">
@@ -83,7 +83,7 @@ export default function HomePage() {
 
             <div>
               <p><strong>Entry Fee:</strong> $25 ($20 Entry + $5 Green Fee)</p>
-              <p><strong>Format:</strong> Double Elimination. Race to 7 Winner's / Race to 5 Loser's.</p>
+              <p><strong>Format:</strong> Double Elimination. Race to 7 Winner&apos;s / Race to 5 Loser&apos;s.</p>
               <p><strong>Spot Tracker:</strong> <span className="badge badge-info">18 Confirmed</span> <span className="badge badge-pending">4 Pending</span> <span className="badge badge-open">10 Open Spots</span></p>
               <p style={{ marginTop: '12px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
                 <em>Cutoff Policy: Reserved spots must be paid 30 mins prior to tournament start (12:00 PM), after which unpaid spots forfeit to waitlist.</em>
