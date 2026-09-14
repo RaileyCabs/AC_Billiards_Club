@@ -1,8 +1,8 @@
 /* ==========================================================================
    Atlantic City Billiard Club - Premium Dark Billiards Lounge Design System
    Fonts: Outfit (Headings) & Inter (Body)
-   Accents: Emerald Felt (#10b981), Trophy Gold (#f59e0b), Midnight Slate (#09090b)
-   Features: Glassmorphism, Micro-Animations, Hover Glows, Factual References
+   Accents: Billiards Emerald Felt (#10b981), Sleek Silver (#e4e4e7), Midnight Slate (#09090b)
+   Features: Clean Typography, Glassmorphism, Micro-Animations, Zero Gold
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap');
@@ -24,13 +24,13 @@
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-focus: rgba(16, 185, 129, 0.5);
 
+  /* Clean Emerald & Silver Accents (No Gold) */
   --accent-emerald: #10b981;
   --accent-emerald-dark: #059669;
   --accent-emerald-glow: rgba(16, 185, 129, 0.25);
 
-  --accent-gold: #f59e0b;
-  --accent-gold-dark: #d97706;
-  --accent-gold-glow: rgba(245, 158, 11, 0.25);
+  --accent-silver: #e4e4e7;
+  --accent-silver-dark: #a1a1aa;
 
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -55,8 +55,8 @@ body {
   word-wrap: break-word;
   overflow-wrap: break-word;
   background-image: 
-    radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 85% 65%, rgba(245, 158, 11, 0.04) 0%, transparent 40%);
+    radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 85% 65%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
   background-attachment: fixed;
 }
 
@@ -79,8 +79,9 @@ body {
 }
 
 #announcement-banner strong {
-  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
-  color: #09090b;
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
   padding: 2px 8px;
   border-radius: 4px;
   font-size: 0.725rem;
@@ -115,9 +116,7 @@ header {
   font-size: 1.35rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #ffffff 30%, var(--accent-gold) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #ffffff;
   line-height: 1.2;
 }
 
@@ -219,7 +218,7 @@ p {
 }
 
 /* ==========================================
-   4. GLASSMORPHIC CARDS (With Hover Glows)
+   4. GLASSMORPHIC CARDS
    ========================================== */
 .card, article {
   background-color: var(--bg-card);
@@ -276,9 +275,7 @@ p {
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 16px;
-  background: linear-gradient(135deg, #ffffff 40%, var(--accent-gold) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #ffffff;
 }
 
 /* ==========================================
@@ -346,9 +343,9 @@ p {
 }
 
 .badge-pending {
-  background-color: rgba(245, 158, 11, 0.15);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.4);
+  background-color: rgba(244, 244, 245, 0.1);
+  color: #e4e4e7;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .badge-forfeit {
@@ -363,7 +360,6 @@ p {
   border: 1px solid rgba(56, 189, 248, 0.4);
 }
 
-/* Pulse animation for live stream & notices */
 .pulse-badge {
   animation: badgePulse 2s infinite;
 }
@@ -375,7 +371,7 @@ p {
 }
 
 /* ==========================================
-   6. CLEAN PHOTO PLACEHOLDER FRAMES (NO AI PHOTOS)
+   6. CLEAN PHOTO PLACEHOLDER FRAMES
    ========================================== */
 .photo-placeholder {
   width: 100%;
@@ -520,7 +516,7 @@ tr:hover {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--accent-gold);
+  color: #ffffff;
   margin-bottom: 14px;
   text-align: center;
   background: rgba(39, 39, 42, 0.8);
@@ -606,9 +602,6 @@ tr:hover {
   white-space: nowrap !important;
 }
 
-/* ==========================================
-   9. FOOTER & FACTUAL REFERENCES
-   ========================================== */
 footer {
   border-top: 1px solid var(--border-subtle);
   background-color: #09090b;
