@@ -7,3 +7,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+## Session Context & Handover
+For context on recent architecture updates, session audit logs, and cross-device AI session continuation notes, see [`SESSION_HANDOVER.md`](file:///c:/Users/james/Desktop/code/Atlantic%20City%20Billiards%20Club/SESSION_HANDOVER.md).
+
