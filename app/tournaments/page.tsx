@@ -35,6 +35,8 @@ export default function TournamentsPage() {
     setFormData({ name: '', phone: '', email: '', rating: '', paymentPreference: 'cash_at_door' });
   };
 
+  const [archiveModal, setArchiveModal] = useState<{ title: string; date: string; purse: string; winner: string; second: string; third: string } | null>(null);
+
   const filteredTournaments = tournaments.filter(t => {
     if (filterGame === 'all') return true;
     return t.gameType === filterGame;
@@ -54,11 +56,11 @@ export default function TournamentsPage() {
       <section id="upcoming-tournaments">
         <h2>Upcoming Tournaments</h2>
 
-        <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="game-type-filter">Filter Game Type: </label>
+        <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          <label htmlFor="game-type-filter" style={{ fontWeight: 600 }}>Filter Game Type: </label>
           <select 
             id="game-type-filter" 
-            style={{ maxWidth: '300px' }}
+            style={{ width: '100%', maxWidth: '380px', margin: 0 }}
             value={filterGame}
             onChange={(e) => setFilterGame(e.target.value)}
           >
@@ -216,7 +218,35 @@ export default function TournamentsPage() {
         <TournamentBracket />
       </section>
 
-      {/* SECTION 3: TOURNAMENT ARCHIVE */}
+      {/* SECTION 3: LEAGUE NIGHTS & APA DIVISIONS (MOVED FIRST BEFORE PAST RESULTS) */}
+      <section id="league-nights">
+        <h2>APA Leagues &amp; In-House Divisions</h2>
+        <p style={{ marginBottom: '16px', color: 'var(--text-secondary)' }}>Sanctioned team play, weekly handicaps, and seasonal trophies at Atlantic City Billiards.</p>
+        <div className="grid-3">
+          <div className="card">
+            <h3>Monday Night APA 8-Ball</h3>
+            <p><strong>Time:</strong> 7:00 PM Start</p>
+            <p><strong>Equipment:</strong> 7ft Valley Bar Boxes</p>
+            <p><strong>Contact:</strong> Dan M. - (609) 555-0144</p>
+          </div>
+
+          <div className="card">
+            <h3>Wednesday Night APA 9-Ball</h3>
+            <p><strong>Time:</strong> 7:00 PM Start</p>
+            <p><strong>Equipment:</strong> 7ft Valley Bar Boxes</p>
+            <p><strong>Contact:</strong> Sarah T. - (609) 555-0188</p>
+          </div>
+
+          <div className="card">
+            <h3>Thursday Pro 9-Ball League</h3>
+            <p><strong>Time:</strong> 7:30 PM Start</p>
+            <p><strong>Equipment:</strong> 9ft Diamond Pro Tables</p>
+            <p><strong>Contact:</strong> Front Desk - (609) 555-0199</p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: TOURNAMENT ARCHIVE & PAST RESULTS */}
       <section id="tournament-archive">
         <h2>Tournament Archive &amp; Past Results</h2>
         <p>Historical tournament records and official prize money payouts from recent events.</p>
@@ -244,7 +274,23 @@ export default function TournamentsPage() {
                 <td><strong>Mike Sullivan</strong> ($360)</td>
                 <td>Dave Ramirez ($210)</td>
                 <td>Chris Pastore ($150)</td>
-                <td><a href="#" className="btn btn-outline" style={{ padding: '3px 8px', fontSize: '0.75rem' }}>View Bracket</a></td>
+                <td>
+                  <button 
+                    type="button" 
+                    className="btn btn-outline" 
+                    style={{ padding: '4px 10px', fontSize: '0.75rem', cursor: 'pointer' }}
+                    onClick={() => setArchiveModal({
+                      title: 'Saturday 8-Ball Handicap Open',
+                      date: 'Sept 12, 2026',
+                      purse: '$720',
+                      winner: 'Mike Sullivan ($360)',
+                      second: 'Dave Ramirez ($210)',
+                      third: 'Chris Pastore ($150)'
+                    })}
+                  >
+                    View Bracket
+                  </button>
+                </td>
               </tr>
               <tr>
                 <td>Aug 29, 2026</td>
@@ -254,7 +300,23 @@ export default function TournamentsPage() {
                 <td><strong>Ray &quot;The Razor&quot; Martin</strong> ($900)</td>
                 <td>Jason Chen ($500)</td>
                 <td>Tommy Vance ($400)</td>
-                <td><a href="#" className="btn btn-outline" style={{ padding: '3px 8px', fontSize: '0.75rem' }}>View Bracket</a></td>
+                <td>
+                  <button 
+                    type="button" 
+                    className="btn btn-outline" 
+                    style={{ padding: '4px 10px', fontSize: '0.75rem', cursor: 'pointer' }}
+                    onClick={() => setArchiveModal({
+                      title: '$1,000 Added Summer 9-Ball Classic',
+                      date: 'Aug 29, 2026',
+                      purse: '$1,800',
+                      winner: 'Ray "The Razor" Martin ($900)',
+                      second: 'Jason Chen ($500)',
+                      third: 'Tommy Vance ($400)'
+                    })}
+                  >
+                    View Bracket
+                  </button>
+                </td>
               </tr>
               <tr>
                 <td>Aug 15, 2026</td>
@@ -264,39 +326,91 @@ export default function TournamentsPage() {
                 <td><strong>Dave Ramirez</strong> ($280)</td>
                 <td>Marcus Vance ($140)</td>
                 <td>Kevin O&apos;Connor ($60)</td>
-                <td><a href="#" className="btn btn-outline" style={{ padding: '3px 8px', fontSize: '0.75rem' }}>View Bracket</a></td>
+                <td>
+                  <button 
+                    type="button" 
+                    className="btn btn-outline" 
+                    style={{ padding: '4px 10px', fontSize: '0.75rem', cursor: 'pointer' }}
+                    onClick={() => setArchiveModal({
+                      title: '10-Ball Open Shootout',
+                      date: 'Aug 15, 2026',
+                      purse: '$480',
+                      winner: 'Dave Ramirez ($280)',
+                      second: 'Marcus Vance ($140)',
+                      third: 'Kevin O\'Connor ($60)'
+                    })}
+                  >
+                    View Bracket
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      {/* SECTION 4: LEAGUE NIGHTS */}
-      <section id="league-nights">
-        <h2>APA Leagues &amp; In-House Divisions</h2>
-        <div className="grid-3">
-          <div className="card">
-            <h3>Monday Night APA 8-Ball</h3>
-            <p><strong>Time:</strong> 7:00 PM Start</p>
-            <p><strong>Equipment:</strong> 7ft Valley Bar Boxes</p>
-            <p><strong>Contact:</strong> Dan M. - (609) 555-0144</p>
-          </div>
+      {/* SAMPLE ARCHIVE BRACKET MODAL */}
+      {archiveModal && (
+        <div 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.65)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            padding: '20px'
+          }}
+          onClick={() => setArchiveModal(null)}
+        >
+          <div 
+            className="card" 
+            style={{ maxWidth: '640px', width: '100%', padding: '28px', borderRadius: 'var(--radius-lg)' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="card-header" style={{ marginBottom: '16px' }}>
+              <div>
+                <h3 style={{ margin: 0 }}>🏆 {archiveModal.title}</h3>
+                <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                  Completed on {archiveModal.date} &bull; Total Purse: <strong>{archiveModal.purse}</strong>
+                </p>
+              </div>
+              <button 
+                type="button"
+                className="btn btn-outline" 
+                style={{ padding: '4px 10px', fontSize: '0.8rem' }}
+                onClick={() => setArchiveModal(null)}
+              >
+                ✕ Close
+              </button>
+            </div>
 
-          <div className="card">
-            <h3>Wednesday Night APA 9-Ball</h3>
-            <p><strong>Time:</strong> 7:00 PM Start</p>
-            <p><strong>Equipment:</strong> 7ft Valley Bar Boxes</p>
-            <p><strong>Contact:</strong> Sarah T. - (609) 555-0188</p>
-          </div>
+            <div style={{ backgroundColor: 'var(--bg-main)', border: '1px solid var(--border-card)', borderRadius: 'var(--radius-md)', padding: '16px', marginBottom: '20px' }}>
+              <h4 style={{ fontSize: '0.95rem', marginBottom: '12px', color: 'var(--accent-emerald-dark)' }}>Official Podium &amp; Payout Summary</h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.9rem', lineHeight: '1.8' }}>
+                <li>🥇 <strong>1st Place Champion:</strong> {archiveModal.winner}</li>
+                <li>🥈 <strong>2nd Place Runner-Up:</strong> {archiveModal.second}</li>
+                <li>🥉 <strong>3rd Place Finalist:</strong> {archiveModal.third}</li>
+              </ul>
+            </div>
 
-          <div className="card">
-            <h3>Thursday Pro 9-Ball League</h3>
-            <p><strong>Time:</strong> 7:30 PM Start</p>
-            <p><strong>Equipment:</strong> 9ft Diamond Pro Tables</p>
-            <p><strong>Contact:</strong> Front Desk - (609) 555-0199</p>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
+              Sample 32-player double-elimination bracket tree archived in official tournament database. Final match concluded with 7-5 race score.
+            </p>
+
+            <button 
+              type="button" 
+              className="btn btn-primary" 
+              style={{ width: '100%' }}
+              onClick={() => setArchiveModal(null)}
+            >
+              Close Archive Bracket View
+            </button>
           </div>
         </div>
-      </section>
+      )}
     </main>
   );
 }
