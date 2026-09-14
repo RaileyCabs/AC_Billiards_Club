@@ -349,30 +349,42 @@ export default function TournamentsPage() {
         </div>
       </section>
 
-      {/* SAMPLE ARCHIVE BRACKET MODAL */}
+      {/* SAMPLE ARCHIVE BRACKET MODAL WITH VISUAL TREE */}
       {archiveModal && (
         <div 
           style={{
             position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.65)',
-            backdropFilter: 'blur(4px)',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            backdropFilter: 'blur(6px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 9999,
-            padding: '20px'
+            zIndex: 99999,
+            padding: '20px',
+            overflowY: 'auto'
           }}
           onClick={() => setArchiveModal(null)}
         >
           <div 
             className="card" 
-            style={{ maxWidth: '640px', width: '100%', padding: '28px', borderRadius: 'var(--radius-lg)' }}
+            style={{ 
+              maxWidth: '880px', 
+              width: '100%', 
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              padding: '28px', 
+              borderRadius: 'var(--radius-lg)',
+              boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="card-header" style={{ marginBottom: '16px' }}>
               <div>
-                <h3 style={{ margin: 0 }}>🏆 {archiveModal.title}</h3>
+                <h3 style={{ margin: 0, fontSize: '1.25rem' }}>🏆 {archiveModal.title} — Official Bracket</h3>
                 <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
                   Completed on {archiveModal.date} &bull; Total Purse: <strong>{archiveModal.purse}</strong>
                 </p>
@@ -380,33 +392,94 @@ export default function TournamentsPage() {
               <button 
                 type="button"
                 className="btn btn-outline" 
-                style={{ padding: '4px 10px', fontSize: '0.8rem' }}
+                style={{ padding: '6px 12px', fontSize: '0.85rem', fontWeight: 700 }}
                 onClick={() => setArchiveModal(null)}
               >
                 ✕ Close
               </button>
             </div>
 
+            {/* PODIUM SUMMARY */}
             <div style={{ backgroundColor: 'var(--bg-main)', border: '1px solid var(--border-card)', borderRadius: 'var(--radius-md)', padding: '16px', marginBottom: '20px' }}>
-              <h4 style={{ fontSize: '0.95rem', marginBottom: '12px', color: 'var(--accent-emerald-dark)' }}>Official Podium &amp; Payout Summary</h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.9rem', lineHeight: '1.8' }}>
-                <li>🥇 <strong>1st Place Champion:</strong> {archiveModal.winner}</li>
-                <li>🥈 <strong>2nd Place Runner-Up:</strong> {archiveModal.second}</li>
-                <li>🥉 <strong>3rd Place Finalist:</strong> {archiveModal.third}</li>
-              </ul>
+              <h4 style={{ fontSize: '0.9rem', marginBottom: '8px', color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Official Tournament Winners &amp; Payouts</h4>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', fontSize: '0.875rem' }}>
+                <div style={{ padding: '8px 12px', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-card)' }}>
+                  🥇 <strong>1st Place:</strong> {archiveModal.winner}
+                </div>
+                <div style={{ padding: '8px 12px', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-card)' }}>
+                  🥈 <strong>2nd Place:</strong> {archiveModal.second}
+                </div>
+                <div style={{ padding: '8px 12px', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-card)' }}>
+                  🥉 <strong>3rd Place:</strong> {archiveModal.third}
+                </div>
+              </div>
             </div>
 
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
-              Sample 32-player double-elimination bracket tree archived in official tournament database. Final match concluded with 7-5 race score.
-            </p>
+            {/* VISUAL BRACKET TREE IN MODAL */}
+            <div style={{ marginBottom: '20px' }}>
+              <h4 style={{ fontSize: '0.9rem', marginBottom: '12px', color: 'var(--text-primary)' }}>Archived Double-Elimination Visual Bracket Tree</h4>
+              
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'stretch', width: '100%', overflowX: 'auto', padding: '12px 0' }}>
+                
+                {/* SEMI FINALS COLUMN */}
+                <div style={{ flex: '1 1 0%', minWidth: '180px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div className="bracket-column-header" style={{ fontSize: '0.75rem', padding: '4px 8px' }}>Semi-Finals</div>
+                  
+                  <div className="match-box" style={{ margin: 0 }}>
+                    <div className="match-box-header" style={{ fontSize: '0.65rem', padding: '3px 8px' }}>Match 1 &bull; Table 1</div>
+                    <div className="match-player winner" style={{ fontSize: '0.8rem', padding: '6px 8px' }}>
+                      <span>1. {archiveModal.winner.split(' ')[0]} {archiveModal.winner.split(' ')[1]}</span>
+                      <span className="score">7</span>
+                    </div>
+                    <div className="match-player" style={{ fontSize: '0.8rem', padding: '6px 8px', opacity: 0.7 }}>
+                      <span>4. {archiveModal.third.split(' ')[0]} {archiveModal.third.split(' ')[1]}</span>
+                      <span className="score">4</span>
+                    </div>
+                  </div>
+
+                  <div className="match-box" style={{ margin: 0 }}>
+                    <div className="match-box-header" style={{ fontSize: '0.65rem', padding: '3px 8px' }}>Match 2 &bull; Table 2</div>
+                    <div className="match-player winner" style={{ fontSize: '0.8rem', padding: '6px 8px' }}>
+                      <span>2. {archiveModal.second.split(' ')[0]} {archiveModal.second.split(' ')[1]}</span>
+                      <span className="score">7</span>
+                    </div>
+                    <div className="match-player" style={{ fontSize: '0.8rem', padding: '6px 8px', opacity: 0.7 }}>
+                      <span>3. Marcus Vance</span>
+                      <span className="score">5</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* FINALS COLUMN */}
+                <div style={{ flex: '1 1 0%', minWidth: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <div className="bracket-column-header" style={{ fontSize: '0.75rem', padding: '4px 8px', marginBottom: '8px', background: '#0f172a', color: '#ffffff' }}>Championship Final</div>
+                  
+                  <div className="match-box" style={{ margin: 0, border: '2px solid var(--text-primary)' }}>
+                    <div className="match-box-header" style={{ fontSize: '0.65rem', padding: '4px 8px', background: '#0f172a', color: '#ffffff' }}>
+                      <span>GRAND FINALS</span>
+                      <span>FINAL 7-5</span>
+                    </div>
+                    <div className="match-player winner" style={{ fontSize: '0.85rem', padding: '8px', fontWeight: 800 }}>
+                      <span>🏆 {archiveModal.winner}</span>
+                      <span className="score">7</span>
+                    </div>
+                    <div className="match-player" style={{ fontSize: '0.85rem', padding: '8px' }}>
+                      <span>🥈 {archiveModal.second}</span>
+                      <span className="score">5</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
 
             <button 
               type="button" 
               className="btn btn-primary" 
-              style={{ width: '100%' }}
+              style={{ width: '100%', padding: '12px' }}
               onClick={() => setArchiveModal(null)}
             >
-              Close Archive Bracket View
+              Close Bracket View
             </button>
           </div>
         </div>
