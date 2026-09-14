@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import TournamentBracket from '@/components/TournamentBracket';
 
 export default function TournamentsPage() {
   const handleSubmit = (e: React.FormEvent) => {
@@ -106,7 +107,7 @@ export default function TournamentsPage() {
       </section>
 
       {/* PLAYER REGISTRATION FORM CARD */}
-      <section id="signup-modal" className="card" style={{ border: '2px solid #18181b' }}>
+      <section id="signup-modal" className="card" style={{ border: '2px solid var(--border-card)' }}>
         <div className="card-header">
           <h3>Player Tournament Registration Form</h3>
           <span className="badge badge-pending">Pending Payment Spot</span>
@@ -145,7 +146,7 @@ export default function TournamentsPage() {
             </select>
           </div>
 
-          <div style={{ backgroundColor: '#fafafa', border: '1px solid var(--border-color)', padding: '14px', borderRadius: 'var(--radius-md)', marginBottom: '16px' }}>
+          <div style={{ backgroundColor: 'var(--bg-card-hover)', border: '1px solid var(--border-card)', padding: '14px', borderRadius: 'var(--radius-md)', marginBottom: '16px' }}>
             <p style={{ fontSize: '0.825rem', color: 'var(--text-muted)', margin: 0 }}>
               <strong>Anti-Dropout Policy:</strong> Clicking &quot;Complete Registration&quot; reserves your spot as <strong>[PENDING PAYMENT]</strong> on the public roster. Payment must be completed prior to 12:00 PM on tournament day.
             </p>
@@ -157,173 +158,14 @@ export default function TournamentsPage() {
         </form>
       </section>
 
-      {/* SECTION 2: LIVE VISUAL TOURNAMENT BRACKET PROTOTYPE */}
+      {/* SECTION 2: NATIVE LIVE VISUAL TOURNAMENT BRACKET */}
       <section id="live-bracket-tracker">
         <h2>Live Bracket Tracker &amp; Match Progression</h2>
-        <p>Interactive double-elimination bracket tracking active matches, scores, and table calls (Powered by DigitalPool / Challonge embed integration).</p>
+        <p>Native double-elimination bracket engine with real-time match progression lines, scores, and table assignments.</p>
 
-        <div className="card">
-          <div className="card-header">
-            <div>
-              <h3>Active Event: Saturday 9-Ball Open Championship</h3>
-              <p><strong>Race Length:</strong> Race to 7 (Winner&apos;s) / Race to 5 (Loser&apos;s) | <strong>Status:</strong> Semi-Finals Underway</p>
-            </div>
-            <span className="badge badge-info pulse-badge">LIVE STREAM ACTIVE</span>
-          </div>
-
-          <div className="bracket-wrapper">
-            <div className="bracket-container">
-              
-              {/* COLUMN 1: QUARTER-FINALS */}
-              <div className="bracket-column">
-                <div className="bracket-column-header">Quarter-Finals (Race to 7)</div>
-
-                <div className="match-box">
-                  <div className="match-box-header">
-                    <span>Match 1 &bull; Table 1</span>
-                    <span className="badge badge-forfeit" style={{ fontSize: '0.6rem', padding: '1px 4px' }}>FINAL</span>
-                  </div>
-                  <div className="match-player winner">
-                    <span>1. Ray Martin (Fargo 680)</span>
-                    <span className="score">7</span>
-                  </div>
-                  <div className="match-player">
-                    <span>8. Kevin O&apos;Connor (Fargo 510)</span>
-                    <span className="score">3</span>
-                  </div>
-                </div>
-
-                <div className="match-box">
-                  <div className="match-box-header">
-                    <span>Match 2 &bull; Table 2</span>
-                    <span className="badge badge-forfeit" style={{ fontSize: '0.6rem', padding: '1px 4px' }}>FINAL</span>
-                  </div>
-                  <div className="match-player winner">
-                    <span>4. Dave Ramirez (Fargo 610)</span>
-                    <span className="score">7</span>
-                  </div>
-                  <div className="match-player">
-                    <span>5. Marcus Vance (Fargo 580)</span>
-                    <span className="score">5</span>
-                  </div>
-                </div>
-
-                <div className="match-box">
-                  <div className="match-box-header">
-                    <span>Match 3 &bull; Table 3</span>
-                    <span className="badge badge-forfeit" style={{ fontSize: '0.6rem', padding: '1px 4px' }}>FINAL</span>
-                  </div>
-                  <div className="match-player winner">
-                    <span>2. Mike Sullivan (Fargo 650)</span>
-                    <span className="score">7</span>
-                  </div>
-                  <div className="match-player">
-                    <span>7. Chris Pastore (Fargo 520)</span>
-                    <span className="score">2</span>
-                  </div>
-                </div>
-
-                <div className="match-box">
-                  <div className="match-box-header">
-                    <span>Match 4 &bull; Table 4</span>
-                    <span className="badge badge-forfeit" style={{ fontSize: '0.6rem', padding: '1px 4px' }}>FINAL</span>
-                  </div>
-                  <div className="match-player winner">
-                    <span>3. Jason Chen (Fargo 630)</span>
-                    <span className="score">7</span>
-                  </div>
-                  <div className="match-player">
-                    <span>6. Tommy Vance (Fargo 540)</span>
-                    <span className="score">4</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* COLUMN 2: SEMI-FINALS */}
-              <div className="bracket-column">
-                <div className="bracket-column-header">Winner&apos;s Semi-Finals</div>
-
-                <div className="match-box">
-                  <div className="match-box-header">
-                    <span>Match 5 &bull; Table 1</span>
-                    <span className="badge badge-pending" style={{ fontSize: '0.6rem', padding: '1px 4px' }}>IN PROGRESS</span>
-                  </div>
-                  <div className="match-player winner">
-                    <span>Ray Martin</span>
-                    <span className="score">5</span>
-                  </div>
-                  <div className="match-player">
-                    <span>Dave Ramirez</span>
-                    <span className="score">4</span>
-                  </div>
-                </div>
-
-                <div className="match-box">
-                  <div className="match-box-header">
-                    <span>Match 6 &bull; Table 2</span>
-                    <span className="badge badge-pending" style={{ fontSize: '0.6rem', padding: '1px 4px' }}>IN PROGRESS</span>
-                  </div>
-                  <div className="match-player">
-                    <span>Mike Sullivan</span>
-                    <span className="score">3</span>
-                  </div>
-                  <div className="match-player winner">
-                    <span>Jason Chen</span>
-                    <span className="score">6</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* COLUMN 3: WINNER'S FINALS */}
-              <div className="bracket-column">
-                <div className="bracket-column-header">Winner&apos;s Finals</div>
-
-                <div className="match-box" style={{ marginTop: '60px' }}>
-                  <div className="match-box-header">
-                    <span>Match 7 &bull; Table 1</span>
-                    <span className="badge badge-open" style={{ fontSize: '0.6rem', padding: '1px 4px' }}>ON DECK</span>
-                  </div>
-                  <div className="match-player">
-                    <span>TBD (Winner Match 5)</span>
-                    <span className="score">0</span>
-                  </div>
-                  <div className="match-player">
-                    <span>TBD (Winner Match 6)</span>
-                    <span className="score">0</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* COLUMN 4: GRAND FINALS */}
-              <div className="bracket-column">
-                <div className="bracket-column-header">Championship Final</div>
-
-                <div className="match-box" style={{ marginTop: '100px', border: '2px solid #18181b' }}>
-                  <div className="match-box-header" style={{ background: '#18181b', color: 'white' }}>
-                    <span>GRAND FINALS (Race to 7)</span>
-                    <span style={{ color: '#bbf7d0' }}>$500 ADDED</span>
-                  </div>
-                  <div className="match-player">
-                    <span>Winner&apos;s Bracket Champion</span>
-                    <span className="score">0</span>
-                  </div>
-                  <div className="match-player">
-                    <span>Loser&apos;s Bracket Champion</span>
-                    <span className="score">0</span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <div style={{ textAlign: 'center', marginTop: '16px' }}>
-            <a href="https://digitalpool.com" target="_blank" rel="noopener noreferrer" className="btn btn-outline">
-              Open Live Bracket in Fullscreen (DigitalPool) &rarr;
-            </a>
-          </div>
-        </div>
+        <TournamentBracket />
       </section>
+
 
       {/* SECTION 3: TOURNAMENT ARCHIVE */}
       <section id="tournament-archive">
