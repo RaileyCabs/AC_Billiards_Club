@@ -5,23 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tournaments & Leagues | Atlantic City Billiard Club</title>
   <meta name="description" content="Weekly pool tournaments, $500 added open events, live brackets, tournament archive, and APA 8-Ball & 9-Ball leagues at Atlantic City Billiard Club in EHT, NJ.">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Header & Navigation -->
+  <!-- Header & Top Navigation Bar -->
   <header>
     <div id="site-logo">
       <h1>Atlantic City Billiard Club</h1>
-      <p>Egg Harbor Township, New Jersey</p>
+      <p>Egg Harbor Township, NJ</p>
     </div>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="tournaments.html">Tournaments &amp; Leagues</a></li>
+        <li><a href="tournaments.html" class="active">Tournaments &amp; Leagues</a></li>
         <li><a href="tables-and-rates.html">Tables &amp; Rates</a></li>
         <li><a href="food-and-amenities.html">Food, Bar &amp; Amenities</a></li>
-        <li><a href="private-events.html">Private Events &amp; Parties</a></li>
+        <li><a href="private-events.html">Private Events</a></li>
         <li><a href="contact.html">Location &amp; Contact</a></li>
+        <li><a href="#signup-modal" class="nav-cta">Register Now</a></li>
       </ul>
     </nav>
   </header>
@@ -31,8 +33,7 @@
       <h2>Tournaments &amp; Leagues Hub</h2>
       <p>
         Atlantic City Billiard Club hosts South Jersey's premier weekly open tournaments, handicap chip games, 
-        and sanctioned APA 8-Ball &amp; 9-Ball leagues. Reserve your tournament spot online, track live bracket progression, 
-        or explore historical tournament payouts.
+        and sanctioned APA 8-Ball &amp; 9-Ball leagues. Reserve your spot online, track live brackets, or explore past results.
       </p>
     </section>
 
@@ -40,10 +41,9 @@
     <section id="upcoming-tournaments">
       <h2>Upcoming Tournaments</h2>
 
-      <!-- Tournament Filter Controls -->
-      <div id="tournament-filters">
-        <label>Filter Game Type: </label>
-        <select id="game-type-filter">
+      <div style="margin-bottom: 24px;">
+        <label for="game-type-filter">Filter Game Type: </label>
+        <select id="game-type-filter" style="max-width: 300px;">
           <option value="all">All Games (8-Ball, 9-Ball, 10-Ball, Snooker)</option>
           <option value="9-ball">9-Ball</option>
           <option value="8-ball">8-Ball</option>
@@ -52,109 +52,107 @@
         </select>
       </div>
 
-      <br>
-
       <!-- Event 1 Card -->
-      <article class="tournament-card" id="event-9ball-open">
-        <header>
-          <h3>$500 Added 9-Ball Open Championship</h3>
-          <p><strong>Status:</strong> Registration Open (Spots Available)</p>
-        </header>
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <h3>$500 Added 9-Ball Open Championship</h3>
+            <p><strong>Saturday, September 26, 2026</strong> | Doors: 11:00 AM | Play Begins: 1:00 PM</p>
+          </div>
+          <span class="badge badge-open">Registration Open</span>
+        </div>
 
-        <div>
-          <!-- Flyer Image Placeholder -->
-          <div class="flyer-container">
-            <img src="images/flyer-9ball-open.jpg" alt="Flyer photo for $500 Added 9-Ball Open Championship at AC Billiards Club">
-            <p><em>[Flyer Image Placeholder: $500 Added 9-Ball Open Official Poster]</em></p>
+        <div class="grid-2">
+          <!-- Flyer Photo Placeholder -->
+          <div class="photo-placeholder">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+            </svg>
+            <span>[ Photo Placeholder: $500 Added Tournament Flyer Poster ]</span>
+            <small>Official Flyer Photo</small>
           </div>
 
-          <div class="event-details">
-            <ul>
-              <li><strong>Date &amp; Time:</strong> Saturday, September 26, 2026</li>
-              <li><strong>Doors Open:</strong> 11:00 AM | <strong>Player Meeting / Draw:</strong> 12:30 PM | <strong>Matches Begin:</strong> 1:00 PM</li>
-              <li><strong>Entry Fee:</strong> $25 per player ($20 Prize Pool + $5 Green Fee)</li>
-              <li><strong>Added Money:</strong> $500 House Added (Guaranteed with 24+ players)</li>
-              <li><strong>Field Limit:</strong> Max 32 Players</li>
-              <li><strong>Real-Time Spot Tracker:</strong> 18 Confirmed | 4 Pending Payment | 10 Open Spots Remaining</li>
-              <li><strong>Format:</strong> Double Elimination. Race to 7 Winner's Side / Race to 5 Loser's Side.</li>
-              <li><strong>Rules:</strong> Texas Express 9-Ball Rules. Alternating breaks. Rack your own (9 on spot, 3 point rule in effect).</li>
-              <li><strong>Table Setup:</strong> Played on 9ft Diamond Pro Am tables with Simonis 860 cloth.</li>
-            </ul>
+          <div>
+            <p><strong>Entry Fee:</strong> $25 ($20 Entry + $5 Green Fee)</p>
+            <p><strong>House Added:</strong> $500 Guaranteed (24+ players)</p>
+            <p><strong>Format:</strong> Double Elimination. Race to 7 Winner's / Race to 5 Loser's.</p>
+            <p><strong>Rules:</strong> Texas Express 9-Ball. Rack your own (9 on spot).</p>
+            <p><strong>Real-Time Spot Tracker:</strong> <span class="badge badge-info">18 Confirmed</span> <span class="badge badge-pending">4 Pending</span> <span class="badge badge-open">10 Open Spots</span></p>
 
-            <div class="cutoff-notice">
-              <p>
-                <strong>Payment Policy &amp; Reservation Cutoff:</strong> Online registration reserves your spot as 
-                <span style="color: #b8860b; font-weight: bold;">[PENDING PAYMENT]</span>. 
-                Reserved spots must be paid in full at the counter or via Zelle/Venmo no later than 
-                <strong>30 minutes before tournament start (12:00 PM day of event)</strong>. 
-                Unpaid spots at 12:00 PM will be forfeited and opened immediately to walk-ins and waitlisted players.
+            <div style="background-color: #fefce8; border: 1px solid #fef08a; padding: 12px; border-radius: var(--radius-md); margin: 16px 0;">
+              <p style="font-size: 0.85rem; color: #854d0e; margin: 0;">
+                <strong>Cutoff Notice:</strong> Reserved spots are held until <strong>30 mins before start (12:00 PM)</strong>, after which unpaid spots forfeit to waitlisted players.
               </p>
             </div>
 
-            <button onclick="document.getElementById('registration-modal').style.display='block'">Reserve Your Spot Now</button>
+            <a href="#signup-modal" class="btn btn-primary" onclick="document.getElementById('signup-modal').scrollIntoView({behavior:'smooth'})">Reserve Your Spot Now &rarr;</a>
           </div>
         </div>
       </article>
 
-      <br><hr><br>
-
       <!-- Event 2 Card -->
-      <article class="tournament-card" id="event-8ball-handicap">
-        <header>
-          <h3>Friday Night 8-Ball Handicap Chip Tournament</h3>
-          <p><strong>Status:</strong> Registration Open</p>
-        </header>
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <h3>Friday Night 8-Ball Handicap Chip Tournament</h3>
+            <p><strong>Every Friday Night</strong> | Check-in: 6:30 PM | Play Begins: 7:00 PM</p>
+          </div>
+          <span class="badge badge-open">Weekly Event</span>
+        </div>
 
-        <div>
-          <div class="flyer-container">
-            <img src="images/flyer-8ball-friday.jpg" alt="Flyer photo for Friday Night 8-Ball Handicap Chip Tournament">
-            <p><em>[Flyer Image Placeholder: Friday Night 8-Ball Chips Flyer]</em></p>
+        <div class="grid-2">
+          <div class="photo-placeholder">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+            </svg>
+            <span>[ Photo Placeholder: Friday Night Chip Tournament Poster ]</span>
           </div>
 
-          <div class="event-details">
-            <ul>
-              <li><strong>Date &amp; Time:</strong> Every Friday Night | <strong>Check-in:</strong> 6:30 PM | <strong>Play Begins:</strong> 7:00 PM</li>
-              <li><strong>Entry Fee:</strong> $15 ($12 Prize Pool + $3 Green Fee)</li>
-              <li><strong>Field Limit:</strong> Max 24 Players</li>
-              <li><strong>Real-Time Spot Tracker:</strong> 12 Confirmed | 2 Pending Payment | 10 Open Spots Remaining</li>
-              <li><strong>Format:</strong> Chip Tournament format (Players receive chips based on skill rating / Fargo / APA handicap). Loss = lose a chip. Last player standing wins total pot!</li>
-              <li><strong>Equipment:</strong> 7ft Valley Bar Boxes &amp; 9ft Brunswick Gold Crown tables.</li>
-            </ul>
+          <div>
+            <p><strong>Entry Fee:</strong> $15 ($12 Prize Pool + $3 Green Fee)</p>
+            <p><strong>Format:</strong> Chip format based on handicap rating. Last player standing wins total pot.</p>
+            <p><strong>Spot Tracker:</strong> <span class="badge badge-info">12 Confirmed</span> <span class="badge badge-pending">2 Pending</span> <span class="badge badge-open">10 Open Spots</span></p>
 
-            <button onclick="document.getElementById('registration-modal').style.display='block'">Reserve Your Spot Now</button>
+            <div style="margin-top: 20px;">
+              <a href="#signup-modal" class="btn btn-primary" onclick="document.getElementById('signup-modal').scrollIntoView({behavior:'smooth'})">Reserve Your Spot Now &rarr;</a>
+            </div>
           </div>
         </div>
       </article>
     </section>
 
-    <!-- PLAYER REGISTRATION MODAL FORM CONTENT -->
-    <div id="registration-modal" style="border: 2px solid #333; padding: 20px; margin: 30px 0; background: #f9f9f9;">
-      <h3>Player Tournament Registration Form</h3>
+    <!-- PLAYER REGISTRATION FORM CARD (shadcn Dialog style) -->
+    <section id="signup-modal" class="card" style="border: 2px solid #18181b;">
+      <div class="card-header">
+        <h3>Player Tournament Registration Form</h3>
+        <span class="badge badge-pending">Pending Payment Spot</span>
+      </div>
+
       <form id="signup-form">
-        <p><strong>Event Selected:</strong> $500 Added 9-Ball Open (Sept 26, 2026)</p>
+        <p><strong>Selected Event:</strong> $500 Added 9-Ball Open (Sept 26, 2026)</p>
         
-        <div>
-          <label for="player_name">Full Name *</label><br>
+        <div style="margin-bottom: 16px;">
+          <label for="player_name">Full Name *</label>
           <input type="text" id="player_name" name="player_name" required placeholder="e.g. Johnny McDermott">
         </div>
-        <br>
-        <div>
-          <label for="player_phone">Cell Phone Number * (For SMS Confirmation &amp; Cutoff Alerts)</label><br>
+
+        <div style="margin-bottom: 16px;">
+          <label for="player_phone">Cell Phone Number * (For SMS Confirmation &amp; Cutoff Alerts)</label>
           <input type="tel" id="player_phone" name="player_phone" required placeholder="e.g. (609) 555-0123">
         </div>
-        <br>
-        <div>
-          <label for="player_email">Email Address * (For Digital Receipt &amp; Calendar Add)</label><br>
+
+        <div style="margin-bottom: 16px;">
+          <label for="player_email">Email Address * (For Digital Receipt &amp; Calendar Add)</label>
           <input type="email" id="player_email" name="player_email" required placeholder="e.g. johnny@example.com">
         </div>
-        <br>
-        <div>
-          <label for="skill_level">Skill Rating / League Handicap (e.g. Fargo 525, APA 6, Non-Rated)</label><br>
+
+        <div style="margin-bottom: 16px;">
+          <label for="skill_level">Skill Rating / League Handicap</label>
           <input type="text" id="skill_level" name="skill_level" placeholder="e.g. Fargo 520 / APA 6">
         </div>
-        <br>
-        <div>
-          <label for="payment_preference">Intended Payment Method</label><br>
+
+        <div style="margin-bottom: 20px;">
+          <label for="payment_preference">Intended Payment Method</label>
           <select id="payment_preference" name="payment_preference">
             <option value="cash_at_door">Pay Cash at Counter (Must pay by 12:00 PM day of event)</option>
             <option value="venmo">Venmo Advance Payment</option>
@@ -162,40 +160,34 @@
             <option value="card_at_door">Credit/Debit Card at Counter</option>
           </select>
         </div>
-        <br>
-        <div>
-          <p><strong>Important Disclaimer &amp; Terms:</strong></p>
-          <p>
-            By clicking "Complete Registration", your status will be listed as <strong>[PENDING PAYMENT]</strong> on the public roster. 
-            Payment must be completed prior to 12:00 PM on tournament day. If you cannot attend, please contact us immediately to release your spot to the waitlist.
+
+        <div style="background-color: #fafafa; border: 1px solid var(--border-color); padding: 16px; border-radius: var(--radius-md); margin-bottom: 20px;">
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+            <strong>Anti-Dropout Policy:</strong> Clicking "Complete Registration" reserves your spot as <strong>[PENDING PAYMENT]</strong> on the public roster. Payment must be completed prior to 12:00 PM on tournament day.
           </p>
         </div>
-        <br>
-        <button type="submit">Complete Registration &amp; Get Digital Receipt</button>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Complete Registration &amp; Get Digital Receipt</button>
       </form>
-    </div>
+    </section>
 
     <!-- SECTION 2: LIVE BRACKET TRACKER -->
     <section id="live-bracket-tracker">
       <h2>Live Bracket Tracker</h2>
-      <p>
-        Follow ongoing tournament matches in real time! Brackets are powered by DigitalPool / Challonge and updated match-by-match by tournament directors.
-      </p>
-      
-      <div class="bracket-embed-container" style="border: 1px dashed #666; padding: 30px; text-align: center; background: #eee;">
-        <h3>[DigitalPool / Challonge Interactive Bracket Embed Placeholder]</h3>
-        <p>Current Active Bracket: <em>Sept 12 Saturday 8-Ball Handicap Open</em></p>
+      <div class="card" style="text-align: center; padding: 40px;">
+        <h3>[ DigitalPool / Challonge Interactive Bracket Embed Placeholder ]</h3>
+        <p style="color: var(--text-muted);">Current Active Event: <em>Saturday 8-Ball Handicap Open</em></p>
         <p><strong>Winner's Finals:</strong> Mike S. vs. Dave R. | <strong>Loser's Bracket:</strong> Chris P. waiting in Loser's Semi-Finals</p>
-        <a href="https://digitalpool.com" target="_blank" rel="noopener">Open Bracket in Fullscreen Window &rarr;</a>
+        <a href="https://digitalpool.com" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top: 16px;">Open Bracket in Fullscreen &rarr;</a>
       </div>
     </section>
 
-    <!-- SECTION 3: TOURNAMENT ARCHIVE & HISTORICAL RESULTS -->
+    <!-- SECTION 3: TOURNAMENT ARCHIVE -->
     <section id="tournament-archive">
-      <h2>Tournament Archive &amp; Past Payouts</h2>
-      <p>Hall of Fame, historical tournament brackets, and official prize money payouts from recent events at Atlantic City Billiard Club.</p>
+      <h2>Tournament Archive &amp; Past Results</h2>
+      <p>Historical tournament records and official prize money payouts from recent events.</p>
 
-      <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; text-align: left;">
+      <table>
         <thead>
           <tr>
             <th>Date</th>
@@ -205,7 +197,7 @@
             <th>1st Place Winner</th>
             <th>2nd Place</th>
             <th>3rd Place</th>
-            <th>Final Bracket Link</th>
+            <th>Final Bracket</th>
           </tr>
         </thead>
         <tbody>
@@ -217,7 +209,7 @@
             <td><strong>Mike Sullivan</strong> ($360)</td>
             <td>Dave Ramirez ($210)</td>
             <td>Chris Pastore ($150)</td>
-            <td><a href="#">View Completed Bracket</a></td>
+            <td><a href="#" class="btn btn-outline" style="padding: 4px 10px; font-size: 0.75rem;">View Bracket</a></td>
           </tr>
           <tr>
             <td>Aug 29, 2026</td>
@@ -227,7 +219,7 @@
             <td><strong>Ray "The Razor" Martin</strong> ($900)</td>
             <td>Jason Chen ($500)</td>
             <td>Tommy Vance ($400)</td>
-            <td><a href="#">View Completed Bracket</a></td>
+            <td><a href="#" class="btn btn-outline" style="padding: 4px 10px; font-size: 0.75rem;">View Bracket</a></td>
           </tr>
           <tr>
             <td>Aug 15, 2026</td>
@@ -237,7 +229,7 @@
             <td><strong>Dave Ramirez</strong> ($280)</td>
             <td>Marcus Vance ($140)</td>
             <td>Kevin O'Connor ($60)</td>
-            <td><a href="#">View Completed Bracket</a></td>
+            <td><a href="#" class="btn btn-outline" style="padding: 4px 10px; font-size: 0.75rem;">View Bracket</a></td>
           </tr>
         </tbody>
       </table>
@@ -246,43 +238,35 @@
     <!-- SECTION 4: LEAGUE NIGHTS -->
     <section id="league-nights">
       <h2>APA Leagues &amp; In-House Divisions</h2>
-      <p>
-        Atlantic City Billiard Club is an official host location for South Jersey APA 8-Ball &amp; 9-Ball Leagues, as well as seasonal in-house handicap leagues.
-      </p>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Monday Night APA 8-Ball</h3>
+          <p><strong>Time:</strong> 7:00 PM Start</p>
+          <p><strong>Equipment:</strong> 7ft Valley Bar Boxes</p>
+          <p><strong>Contact:</strong> Dan M. - (609) 555-0144</p>
+        </div>
 
-      <ul>
-        <li>
-          <h3>Monday Night: APA 8-Ball Open Division</h3>
-          <p><strong>Time:</strong> 7:00 PM Start | 5 Matches per Team | Played on 7ft Valley Bar Boxes</p>
-          <p><strong>Division Representative / Captain Contact:</strong> League Director Dan M. - (609) 555-0144</p>
-        </li>
-        <li>
-          <h3>Wednesday Night: APA 9-Ball Open Division</h3>
-          <p><strong>Time:</strong> 7:00 PM Start | 5 Matches per Team | Played on 7ft Valley Bar Boxes</p>
-          <p><strong>Division Representative / Captain Contact:</strong> League Director Sarah T. - (609) 555-0188</p>
-        </li>
-        <li>
-          <h3>Thursday Night: In-House 9ft Pro Table 9-Ball League</h3>
-          <p><strong>Time:</strong> 7:30 PM Start | Individual Handicap Format | Played on 9ft Diamond Tables</p>
-          <p><strong>Contact:</strong> AC Billiards Front Desk - (609) 555-0199</p>
-        </li>
-      </ul>
+        <div class="card">
+          <h3>Wednesday Night APA 9-Ball</h3>
+          <p><strong>Time:</strong> 7:00 PM Start</p>
+          <p><strong>Equipment:</strong> 7ft Valley Bar Boxes</p>
+          <p><strong>Contact:</strong> Sarah T. - (609) 555-0188</p>
+        </div>
 
-      <div>
-        <h3>Interested in Joining a Team or Registering a New Squad?</h3>
-        <p>
-          We are always looking for new players of all skill levels (from total beginner APA 2s to master APA 7s/9s). 
-          Leave your name at the front desk or call us at (609) 555-0199 to be placed on a team roster!
-        </p>
+        <div class="card">
+          <h3>Thursday Pro 9-Ball League</h3>
+          <p><strong>Time:</strong> 7:30 PM Start</p>
+          <p><strong>Equipment:</strong> 9ft Diamond Pro Tables</p>
+          <p><strong>Contact:</strong> Front Desk - (609) 555-0199</p>
+        </div>
       </div>
     </section>
   </main>
 
   <!-- Footer -->
   <footer>
-    <hr>
     <p>&copy; 2026 Atlantic City Billiard Club. All rights reserved.</p>
-    <p>6701 Black Horse Pike, Egg Harbor Township, NJ 08234 | Phone: (609) 555-0199</p>
+    <p>6701 Black Horse Pike # A8, Egg Harbor Township, NJ 08234 | Phone: (609) 555-0199</p>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
