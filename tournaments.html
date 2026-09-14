@@ -9,6 +9,11 @@
 </head>
 <body>
 
+  <!-- Announcement Alert Banner -->
+  <div id="announcement-banner">
+    <span><strong>[EVENT NOTICE]</strong> Open late this week for US Open Pool Championship players! Check tournament schedule for cash payouts.</span>
+  </div>
+
   <!-- Header & Top Navigation Bar -->
   <header>
     <div id="site-logo">
@@ -23,6 +28,7 @@
         <li><a href="food-and-amenities.html">Food, Bar &amp; Amenities</a></li>
         <li><a href="private-events.html">Private Events</a></li>
         <li><a href="contact.html">Location &amp; Contact</a></li>
+        <li><a href="admin.html" style="color: #ef4444; font-weight: 600;">[Owner / Admin]</a></li>
         <li><a href="#signup-modal" class="nav-cta">Register Now</a></li>
       </ul>
     </nav>
@@ -41,7 +47,7 @@
     <section id="upcoming-tournaments">
       <h2>Upcoming Tournaments</h2>
 
-      <div style="margin-bottom: 24px;">
+      <div style="margin-bottom: 20px;">
         <label for="game-type-filter">Filter Game Type: </label>
         <select id="game-type-filter" style="max-width: 300px;">
           <option value="all">All Games (8-Ball, 9-Ball, 10-Ball, Snooker)</option>
@@ -63,7 +69,6 @@
         </div>
 
         <div class="grid-2">
-          <!-- Flyer Photo Placeholder -->
           <div class="photo-placeholder">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
@@ -113,7 +118,7 @@
             <p><strong>Format:</strong> Chip format based on handicap rating. Last player standing wins total pot.</p>
             <p><strong>Spot Tracker:</strong> <span class="badge badge-info">12 Confirmed</span> <span class="badge badge-pending">2 Pending</span> <span class="badge badge-open">10 Open Spots</span></p>
 
-            <div style="margin-top: 20px;">
+            <div style="margin-top: 16px;">
               <a href="#signup-modal" class="btn btn-primary" onclick="document.getElementById('signup-modal').scrollIntoView({behavior:'smooth'})">Reserve Your Spot Now &rarr;</a>
             </div>
           </div>
@@ -121,7 +126,7 @@
       </article>
     </section>
 
-    <!-- PLAYER REGISTRATION FORM CARD (shadcn Dialog style) -->
+    <!-- PLAYER REGISTRATION FORM CARD -->
     <section id="signup-modal" class="card" style="border: 2px solid #18181b;">
       <div class="card-header">
         <h3>Player Tournament Registration Form</h3>
@@ -131,27 +136,27 @@
       <form id="signup-form">
         <p><strong>Selected Event:</strong> $500 Added 9-Ball Open (Sept 26, 2026)</p>
         
-        <div style="margin-bottom: 16px;">
+        <div style="margin-bottom: 14px;">
           <label for="player_name">Full Name *</label>
           <input type="text" id="player_name" name="player_name" required placeholder="e.g. Johnny McDermott">
         </div>
 
-        <div style="margin-bottom: 16px;">
+        <div style="margin-bottom: 14px;">
           <label for="player_phone">Cell Phone Number * (For SMS Confirmation &amp; Cutoff Alerts)</label>
           <input type="tel" id="player_phone" name="player_phone" required placeholder="e.g. (609) 555-0123">
         </div>
 
-        <div style="margin-bottom: 16px;">
+        <div style="margin-bottom: 14px;">
           <label for="player_email">Email Address * (For Digital Receipt &amp; Calendar Add)</label>
           <input type="email" id="player_email" name="player_email" required placeholder="e.g. johnny@example.com">
         </div>
 
-        <div style="margin-bottom: 16px;">
+        <div style="margin-bottom: 14px;">
           <label for="skill_level">Skill Rating / League Handicap</label>
           <input type="text" id="skill_level" name="skill_level" placeholder="e.g. Fargo 520 / APA 6">
         </div>
 
-        <div style="margin-bottom: 20px;">
+        <div style="margin-bottom: 16px;">
           <label for="payment_preference">Intended Payment Method</label>
           <select id="payment_preference" name="payment_preference">
             <option value="cash_at_door">Pay Cash at Counter (Must pay by 12:00 PM day of event)</option>
@@ -161,8 +166,8 @@
           </select>
         </div>
 
-        <div style="background-color: #fafafa; border: 1px solid var(--border-color); padding: 16px; border-radius: var(--radius-md); margin-bottom: 20px;">
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+        <div style="background-color: #fafafa; border: 1px solid var(--border-color); padding: 14px; border-radius: var(--radius-md); margin-bottom: 16px;">
+          <p style="font-size: 0.825rem; color: var(--text-muted); margin: 0;">
             <strong>Anti-Dropout Policy:</strong> Clicking "Complete Registration" reserves your spot as <strong>[PENDING PAYMENT]</strong> on the public roster. Payment must be completed prior to 12:00 PM on tournament day.
           </p>
         </div>
@@ -171,14 +176,170 @@
       </form>
     </section>
 
-    <!-- SECTION 2: LIVE BRACKET TRACKER -->
+    <!-- SECTION 2: LIVE VISUAL TOURNAMENT BRACKET PROTOTYPE -->
     <section id="live-bracket-tracker">
-      <h2>Live Bracket Tracker</h2>
-      <div class="card" style="text-align: center; padding: 40px;">
-        <h3>[ DigitalPool / Challonge Interactive Bracket Embed Placeholder ]</h3>
-        <p style="color: var(--text-muted);">Current Active Event: <em>Saturday 8-Ball Handicap Open</em></p>
-        <p><strong>Winner's Finals:</strong> Mike S. vs. Dave R. | <strong>Loser's Bracket:</strong> Chris P. waiting in Loser's Semi-Finals</p>
-        <a href="https://digitalpool.com" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top: 16px;">Open Bracket in Fullscreen &rarr;</a>
+      <h2>Live Bracket Tracker &amp; Match Progression</h2>
+      <p>Interactive double-elimination bracket tracking active matches, scores, and table calls (Powered by DigitalPool / Challonge embed integration).</p>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3>Active Event: Saturday 9-Ball Open Championship</h3>
+            <p><strong>Race Length:</strong> Race to 7 (Winner's) / Race to 5 (Loser's) | <strong>Status:</strong> Semi-Finals Underway</p>
+          </div>
+          <span class="badge badge-info">LIVE STREAM ACTIVE</span>
+        </div>
+
+        <!-- VISUAL BRACKET TREE PROTOTYPE -->
+        <div class="bracket-wrapper">
+          <div class="bracket-container">
+            
+            <!-- COLUMN 1: QUARTER-FINALS -->
+            <div class="bracket-column">
+              <div class="bracket-column-header">Quarter-Finals (Race to 7)</div>
+
+              <div class="match-box">
+                <div class="match-box-header">
+                  <span>Match 1 &bull; Table 1</span>
+                  <span class="badge badge-forfeit" style="font-size:0.6rem; padding:1px 4px;">FINAL</span>
+                </div>
+                <div class="match-player winner">
+                  <span>1. Ray Martin (Fargo 680)</span>
+                  <span class="score">7</span>
+                </div>
+                <div class="match-player">
+                  <span>8. Kevin O'Connor (Fargo 510)</span>
+                  <span class="score">3</span>
+                </div>
+              </div>
+
+              <div class="match-box">
+                <div class="match-box-header">
+                  <span>Match 2 &bull; Table 2</span>
+                  <span class="badge badge-forfeit" style="font-size:0.6rem; padding:1px 4px;">FINAL</span>
+                </div>
+                <div class="match-player winner">
+                  <span>4. Dave Ramirez (Fargo 610)</span>
+                  <span class="score">7</span>
+                </div>
+                <div class="match-player">
+                  <span>5. Marcus Vance (Fargo 580)</span>
+                  <span class="score">5</span>
+                </div>
+              </div>
+
+              <div class="match-box">
+                <div class="match-box-header">
+                  <span>Match 3 &bull; Table 3</span>
+                  <span class="badge badge-forfeit" style="font-size:0.6rem; padding:1px 4px;">FINAL</span>
+                </div>
+                <div class="match-player winner">
+                  <span>2. Mike Sullivan (Fargo 650)</span>
+                  <span class="score">7</span>
+                </div>
+                <div class="match-player">
+                  <span>7. Chris Pastore (Fargo 520)</span>
+                  <span class="score">2</span>
+                </div>
+              </div>
+
+              <div class="match-box">
+                <div class="match-box-header">
+                  <span>Match 4 &bull; Table 4</span>
+                  <span class="badge badge-forfeit" style="font-size:0.6rem; padding:1px 4px;">FINAL</span>
+                </div>
+                <div class="match-player winner">
+                  <span>3. Jason Chen (Fargo 630)</span>
+                  <span class="score">7</span>
+                </div>
+                <div class="match-player">
+                  <span>6. Tommy Vance (Fargo 540)</span>
+                  <span class="score">4</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- COLUMN 2: SEMI-FINALS -->
+            <div class="bracket-column">
+              <div class="bracket-column-header">Winner's Semi-Finals</div>
+
+              <div class="match-box">
+                <div class="match-box-header">
+                  <span>Match 5 &bull; Table 1</span>
+                  <span class="badge badge-pending" style="font-size:0.6rem; padding:1px 4px;">IN PROGRESS</span>
+                </div>
+                <div class="match-player winner">
+                  <span>Ray Martin</span>
+                  <span class="score">5</span>
+                </div>
+                <div class="match-player">
+                  <span>Dave Ramirez</span>
+                  <span class="score">4</span>
+                </div>
+              </div>
+
+              <div class="match-box">
+                <div class="match-box-header">
+                  <span>Match 6 &bull; Table 2</span>
+                  <span class="badge badge-pending" style="font-size:0.6rem; padding:1px 4px;">IN PROGRESS</span>
+                </div>
+                <div class="match-player">
+                  <span>Mike Sullivan</span>
+                  <span class="score">3</span>
+                </div>
+                <div class="match-player winner">
+                  <span>Jason Chen</span>
+                  <span class="score">6</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- COLUMN 3: WINNER'S FINALS -->
+            <div class="bracket-column">
+              <div class="bracket-column-header">Winner's Finals</div>
+
+              <div class="match-box" style="margin-top: 60px;">
+                <div class="match-box-header">
+                  <span>Match 7 &bull; Table 1</span>
+                  <span class="badge badge-open" style="font-size:0.6rem; padding:1px 4px;">ON DECK</span>
+                </div>
+                <div class="match-player">
+                  <span>TBD (Winner Match 5)</span>
+                  <span class="score">0</span>
+                </div>
+                <div class="match-player">
+                  <span>TBD (Winner Match 6)</span>
+                  <span class="score">0</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- COLUMN 4: GRAND FINALS -->
+            <div class="bracket-column">
+              <div class="bracket-column-header">Championship Final</div>
+
+              <div class="match-box" style="margin-top: 100px; border: 2px solid #18181b;">
+                <div class="match-box-header" style="background: #18181b; color: white;">
+                  <span>GRAND FINALS (Race to 7)</span>
+                  <span style="color: #bbf7d0;">$500 ADDED</span>
+                </div>
+                <div class="match-player">
+                  <span>Winner's Bracket Champion</span>
+                  <span class="score">0</span>
+                </div>
+                <div class="match-player">
+                  <span>Loser's Bracket Champion</span>
+                  <span class="score">0</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 16px;">
+          <a href="https://digitalpool.com" target="_blank" rel="noopener" class="btn btn-outline">Open Live Bracket in Fullscreen (DigitalPool) &rarr;</a>
+        </div>
       </div>
     </section>
 
@@ -187,52 +348,54 @@
       <h2>Tournament Archive &amp; Past Results</h2>
       <p>Historical tournament records and official prize money payouts from recent events.</p>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Tournament Title</th>
-            <th>Field Size</th>
-            <th>Total Purse</th>
-            <th>1st Place Winner</th>
-            <th>2nd Place</th>
-            <th>3rd Place</th>
-            <th>Final Bracket</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Sept 12, 2026</td>
-            <td>Saturday 8-Ball Handicap Open</td>
-            <td>24 Players</td>
-            <td>$720</td>
-            <td><strong>Mike Sullivan</strong> ($360)</td>
-            <td>Dave Ramirez ($210)</td>
-            <td>Chris Pastore ($150)</td>
-            <td><a href="#" class="btn btn-outline" style="padding: 4px 10px; font-size: 0.75rem;">View Bracket</a></td>
-          </tr>
-          <tr>
-            <td>Aug 29, 2026</td>
-            <td>$1,000 Added Summer 9-Ball Classic</td>
-            <td>32 Players</td>
-            <td>$1,800</td>
-            <td><strong>Ray "The Razor" Martin</strong> ($900)</td>
-            <td>Jason Chen ($500)</td>
-            <td>Tommy Vance ($400)</td>
-            <td><a href="#" class="btn btn-outline" style="padding: 4px 10px; font-size: 0.75rem;">View Bracket</a></td>
-          </tr>
-          <tr>
-            <td>Aug 15, 2026</td>
-            <td>10-Ball Open Shootout</td>
-            <td>16 Players</td>
-            <td>$480</td>
-            <td><strong>Dave Ramirez</strong> ($280)</td>
-            <td>Marcus Vance ($140)</td>
-            <td>Kevin O'Connor ($60)</td>
-            <td><a href="#" class="btn btn-outline" style="padding: 4px 10px; font-size: 0.75rem;">View Bracket</a></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Tournament Title</th>
+              <th>Field Size</th>
+              <th>Total Purse</th>
+              <th>1st Place Winner</th>
+              <th>2nd Place</th>
+              <th>3rd Place</th>
+              <th>Final Bracket</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sept 12, 2026</td>
+              <td>Saturday 8-Ball Handicap Open</td>
+              <td>24 Players</td>
+              <td>$720</td>
+              <td><strong>Mike Sullivan</strong> ($360)</td>
+              <td>Dave Ramirez ($210)</td>
+              <td>Chris Pastore ($150)</td>
+              <td><a href="#" class="btn btn-outline" style="padding: 3px 8px; font-size: 0.75rem;">View Bracket</a></td>
+            </tr>
+            <tr>
+              <td>Aug 29, 2026</td>
+              <td>$1,000 Added Summer 9-Ball Classic</td>
+              <td>32 Players</td>
+              <td>$1,800</td>
+              <td><strong>Ray "The Razor" Martin</strong> ($900)</td>
+              <td>Jason Chen ($500)</td>
+              <td>Tommy Vance ($400)</td>
+              <td><a href="#" class="btn btn-outline" style="padding: 3px 8px; font-size: 0.75rem;">View Bracket</a></td>
+            </tr>
+            <tr>
+              <td>Aug 15, 2026</td>
+              <td>10-Ball Open Shootout</td>
+              <td>16 Players</td>
+              <td>$480</td>
+              <td><strong>Dave Ramirez</strong> ($280)</td>
+              <td>Marcus Vance ($140)</td>
+              <td>Kevin O'Connor ($60)</td>
+              <td><a href="#" class="btn btn-outline" style="padding: 3px 8px; font-size: 0.75rem;">View Bracket</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <!-- SECTION 4: LEAGUE NIGHTS -->
@@ -275,6 +438,7 @@
         <li><a href="food-and-amenities.html">Menu</a></li>
         <li><a href="private-events.html">Private Events</a></li>
         <li><a href="contact.html">Contact</a></li>
+        <li><a href="admin.html">Admin Portal</a></li>
       </ul>
     </nav>
   </footer>

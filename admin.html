@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[PROTECTED] Private Owner Admin Portal | Atlantic City Billiard Club</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Admin Specific Styling */
+    .admin-header-bar {
+      background-color: #09090b;
+      color: #ffffff;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .admin-tag {
+      background-color: #dc2626;
+      color: white;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Protected Admin Header -->
+  <div class="admin-header-bar">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="admin-tag">PRIVATE OWNER PORTAL</span>
+      <h2 style="font-size: 1.1rem; color: white; margin: 0;">Atlantic City Billiard Club Dashboard</h2>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <span style="font-size: 0.8rem; color: #a1a1aa;">Logged in as: <strong>Owner (Phone Session)</strong></span>
+      <a href="index.html" class="btn btn-outline" style="font-size: 0.75rem; padding: 4px 10px;">View Public Site</a>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- SECTION 1: DASHBOARD STATS OVERVIEW -->
+    <section id="admin-overview">
+      <h2>Owner Overview &amp; Quick Actions</h2>
+
+      <div class="grid-3">
+        <div class="card" style="border-left: 4px solid #166534;">
+          <h3>Next Event Roster</h3>
+          <p style="font-size: 1.5rem; font-weight: 800; margin: 4px 0;">22 / 32 Players</p>
+          <p><span class="badge badge-paid">18 Paid</span> <span class="badge badge-pending">4 Pending</span></p>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Event: $500 Added 9-Ball Open (Sept 26)</p>
+        </div>
+
+        <div class="card" style="border-left: 4px solid #0284c7;">
+          <h3>Total Entry Cash Collected</h3>
+          <p style="font-size: 1.5rem; font-weight: 800; margin: 4px 0;">$450.00</p>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">$360 Prize Pool + $90 Green Fees</p>
+        </div>
+
+        <div class="card" style="border-left: 4px solid #d97706;">
+          <h3>Announcement Banner</h3>
+          <p><span class="badge badge-paid">ACTIVE ON SITE</span></p>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">"Open late this week for US Open..."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: LIVE ROSTER & PAYMENT MANAGER -->
+    <section id="admin-roster-manager">
+      <h2>Live Roster &amp; Payment Manager</h2>
+      <p>Manage player registrations, mark cash/Venmo payments, and forfeit unpaid spots before cutoff time.</p>
+
+      <div class="card">
+        <!-- Roster Filter Controls & Export Buttons -->
+        <div class="card-header">
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn btn-primary" style="font-size: 0.8rem;">All Players (22)</button>
+            <button class="btn btn-outline" style="font-size: 0.8rem;">Paid (18)</button>
+            <button class="btn btn-outline" style="font-size: 0.8rem; border-color: #fef08a; background: #fefce8;">Pending Payment (4)</button>
+            <button class="btn btn-outline" style="font-size: 0.8rem;">Forfeited (0)</button>
+          </div>
+
+          <!-- Export Actions -->
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-outline" onclick="alert('Downloading Roster CSV...')">📊 Download CSV</button>
+            <button class="btn btn-outline" onclick="alert('Opening Printable PDF Check-in Sheet...')">🖨️ Print Score Sheet (PDF)</button>
+          </div>
+        </div>
+
+        <!-- Roster Table -->
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Player Name</th>
+                <th>Phone</th>
+                <th>Rating</th>
+                <th>Payment Status</th>
+                <th>Payment Method</th>
+                <th>Registered At</th>
+                <th>One-Tap Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <!-- Row 1: Paid Player -->
+              <tr>
+                <td>1</td>
+                <td><strong>Ray "The Razor" Martin</strong></td>
+                <td>(609) 555-0111</td>
+                <td>Fargo 680</td>
+                <td><span class="badge badge-paid">🟢 PAID</span></td>
+                <td>Cash ($25.00)</td>
+                <td>Sept 14, 10:15 AM</td>
+                <td>
+                  <button class="btn btn-outline" style="font-size: 0.75rem; padding: 3px 8px;" onclick="alert('Payment details updated!')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Row 2: Paid Player -->
+              <tr>
+                <td>2</td>
+                <td><strong>Mike Sullivan</strong></td>
+                <td>(609) 555-0122</td>
+                <td>Fargo 650</td>
+                <td><span class="badge badge-paid">🟢 PAID</span></td>
+                <td>Venmo (@MikeS-Pool)</td>
+                <td>Sept 14, 11:30 AM</td>
+                <td>
+                  <button class="btn btn-outline" style="font-size: 0.75rem; padding: 3px 8px;">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Row 3: Pending Player -->
+              <tr style="background-color: #fffde7;">
+                <td>3</td>
+                <td><strong>Johnny McDermott</strong></td>
+                <td>(609) 555-0123</td>
+                <td>Fargo 520</td>
+                <td><span class="badge badge-pending">🟡 PENDING PAYMENT</span></td>
+                <td><em>Unpaid (At Counter)</em></td>
+                <td>Sept 14, 01:05 PM</td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <select style="font-size: 0.75rem; padding: 2px 4px; margin: 0; width: auto;" id="pay-method-3">
+                      <option value="cash">Cash ($25)</option>
+                      <option value="venmo">Venmo</option>
+                      <option value="zelle">Zelle</option>
+                      <option value="card">Card</option>
+                    </select>
+                    <button class="btn btn-primary" style="font-size: 0.75rem; padding: 3px 8px; background: #166534;" onclick="alert('Johnny McDermott marked PAID!')">Mark Paid</button>
+                    <button class="btn btn-outline" style="font-size: 0.75rem; padding: 3px 8px; color: #991b1b; border-color: #fecaca;" onclick="alert('Spot forfeited and reopened to public!')">Forfeit Spot</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 4: Pending Player -->
+              <tr style="background-color: #fffde7;">
+                <td>4</td>
+                <td><strong>Chris Pastore</strong></td>
+                <td>(609) 555-0144</td>
+                <td>Fargo 520</td>
+                <td><span class="badge badge-pending">🟡 PENDING PAYMENT</span></td>
+                <td><em>Unpaid (Zelle)</em></td>
+                <td>Sept 14, 01:20 PM</td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <select style="font-size: 0.75rem; padding: 2px 4px; margin: 0; width: auto;">
+                      <option value="zelle">Zelle ($25)</option>
+                      <option value="cash">Cash</option>
+                      <option value="venmo">Venmo</option>
+                    </select>
+                    <button class="btn btn-primary" style="font-size: 0.75rem; padding: 3px 8px; background: #166534;" onclick="alert('Chris Pastore marked PAID!')">Mark Paid</button>
+                    <button class="btn btn-outline" style="font-size: 0.75rem; padding: 3px 8px; color: #991b1b; border-color: #fecaca;" onclick="alert('Spot forfeited!')">Forfeit Spot</button>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: CREATE NEW TOURNAMENT & UPLOAD FLYER -->
+    <section id="admin-create-event">
+      <h2>Create &amp; Publish New Tournament</h2>
+      
+      <div class="card">
+        <form id="create-event-form">
+          <div class="grid-2">
+            <div>
+              <label for="event_title">Tournament Title *</label>
+              <input type="text" id="event_title" name="event_title" required placeholder="e.g. $1,000 Added Fall 9-Ball Classic">
+            </div>
+
+            <div>
+              <label for="event_date_time">Date &amp; Start Time *</label>
+              <input type="datetime-local" id="event_date_time" name="event_date_time" required>
+            </div>
+          </div>
+
+          <div class="grid-3" style="margin-top: 16px;">
+            <div>
+              <label for="game_type">Game Format</label>
+              <select id="game_type" name="game_type">
+                <option value="9-ball">9-Ball</option>
+                <option value="8-ball">8-Ball</option>
+                <option value="10-ball">10-Ball</option>
+                <option value="one-pocket">One-Pocket</option>
+                <option value="snooker">Snooker</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="entry_fee">Entry Fee ($) *</label>
+              <input type="number" id="entry_fee" name="entry_fee" required placeholder="25.00">
+            </div>
+
+            <div>
+              <label for="house_added">House Added Money ($)</label>
+              <input type="number" id="house_added" name="house_added" placeholder="500.00">
+            </div>
+          </div>
+
+          <div style="margin-top: 16px;">
+            <label for="flyer_photo">Upload Tournament Flyer Photo (Camera / Gallery)</label>
+            <input type="file" id="flyer_photo" name="flyer_photo" accept="image/*">
+          </div>
+
+          <div style="margin-top: 20px;">
+            <button type="button" class="btn btn-primary" onclick="alert('Tournament successfully published to public site!')">Publish Tournament &amp; Open Registration</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- SECTION 4: ANNOUNCEMENT BANNER MANAGER -->
+    <section id="admin-banner-manager">
+      <h2>Announcement Alert Banner Manager</h2>
+      <div class="card">
+        <form>
+          <div style="margin-bottom: 16px;">
+            <label>Banner Active Status</label><br>
+            <select style="max-width: 250px;">
+              <option value="active">Active (Visible on Header)</option>
+              <option value="disabled">Disabled (Hidden)</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <label for="banner_text">Banner Notice Text Message</label>
+            <input type="text" id="banner_text" value="Open late this week for US Open Pool Championship players! Check tournament schedule for cash payouts.">
+          </div>
+
+          <button type="button" class="btn btn-primary" onclick="alert('Announcement banner updated!')">Save Announcement Banner</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Atlantic City Billiard Club Owner Portal. Private &amp; Confidential.</p>
+  </footer>
+
+</body>
+</html>

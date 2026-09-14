@@ -1,7 +1,7 @@
 /* ==========================================================================
-   Atlantic City Billiard Club - UI & Layout Prototype (shadcn/ui Inspired)
+   Atlantic City Billiard Club - Complete UI & Layout System
    Font: Inter (Google Fonts)
-   Focus: Clean layout, top navigation bar, photo placeholders, cards & badges
+   Responsive, Zero-Clipping, Double-Elimination Bracket & Admin Portal
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -13,7 +13,6 @@
   --text-muted: #71717a;
   --border-color: #e4e4e7;
   --card-bg: #ffffff;
-  --topbar-bg: #ffffff;
   --accent-light: #f4f4f5;
   --radius-sm: 6px;
   --radius-md: 8px;
@@ -34,21 +33,24 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* ==========================================
-   1. ALERT BANNER (shadcn Alert style)
+   1. ALERT BANNER
    ========================================== */
 #announcement-banner {
   background-color: #18181b;
   color: #ffffff;
-  padding: 10px 24px;
-  font-size: 0.875rem;
+  padding: 10px 16px;
+  font-size: 0.85rem;
   text-align: center;
   font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
@@ -63,49 +65,56 @@ body {
 }
 
 /* ==========================================
-   2. TOP NAVIGATION BAR (shadcn Header style)
+   2. STICKY TOP NAVIGATION BAR
    ========================================== */
 header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-color);
-  padding: 0 32px;
-  height: 70px;
+  padding: 12px 24px;
+  min-height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 #site-logo h1 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 800;
   letter-spacing: -0.025em;
   color: var(--text-primary);
+  line-height: 1.2;
 }
 
 #site-logo p {
   font-size: 0.75rem;
   color: var(--text-muted);
   font-weight: 500;
+  margin: 0;
 }
 
 nav ul {
   display: flex;
   list-style: none;
-  gap: 8px;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 nav a {
   text-decoration: none;
   color: var(--text-muted);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  padding: 8px 14px;
+  padding: 6px 12px;
   border-radius: var(--radius-sm);
   transition: all 0.15s ease-in-out;
+  white-space: nowrap;
 }
 
 nav a:hover, nav a.active {
@@ -124,79 +133,112 @@ nav a:hover, nav a.active {
 }
 
 /* ==========================================
-   3. LAYOUT CONTAINER & SECTIONS
+   3. LAYOUT CONTAINER & RESPONSIVE GRIDS
    ========================================== */
 main {
   max-width: 1140px;
   margin: 0 auto;
-  padding: 40px 24px 80px 24px;
+  padding: 32px 16px 64px 16px;
+  min-width: 0;
 }
 
 section {
-  margin-bottom: 48px;
+  margin-bottom: 40px;
+  min-width: 0;
 }
 
 h2 {
-  font-size: 1.75rem;
+  font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: -0.025em;
   margin-bottom: 12px;
   color: var(--text-primary);
 }
 
+h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
 p {
   color: var(--text-primary);
   margin-bottom: 12px;
-  font-size: 0.95rem;
+  font-size: 0.925rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
 }
 
 /* ==========================================
-   4. HERO SECTION
+   4. CARDS & CONTAINERS (Zero Clipping)
    ========================================== */
+.card, article {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
 #hero {
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 48px;
+  padding: 32px 24px;
   box-shadow: var(--shadow-sm);
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 
 #hero h2 {
-  font-size: 2.25rem;
+  font-size: 1.85rem;
   font-weight: 800;
   line-height: 1.25;
-  margin-bottom: 16px;
-}
-
-#hero p {
-  font-size: 1.1rem;
-  color: var(--text-muted);
-  max-width: 780px;
-  margin-bottom: 24px;
-}
-
-.button-group {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
 }
 
 /* ==========================================
-   5. BUTTONS (shadcn Button style)
+   5. BUTTONS & BADGES
    ========================================== */
+.button-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .btn, button, a.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-md);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  padding: 10px 18px;
+  padding: 9px 16px;
   text-decoration: none;
   cursor: pointer;
   border: 1px solid transparent;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .btn-primary, button[type="submit"] {
@@ -218,87 +260,19 @@ p {
   background-color: var(--accent-light);
 }
 
-/* ==========================================
-   6. PHOTO PLACEHOLDERS (shadcn AspectRatio style)
-   ========================================== */
-.photo-placeholder {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background-color: #f4f4f5;
-  border: 2px dashed #d4d4d8;
-  border-radius: var(--radius-md);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  text-align: center;
-  color: #71717a;
-  margin-bottom: 16px;
-}
-
-.photo-placeholder svg {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 8px;
-  stroke: #a1a1aa;
-}
-
-.photo-placeholder span {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #3f3f46;
-}
-
-.photo-placeholder small {
-  font-size: 0.75rem;
-  color: #a1a1aa;
-  margin-top: 4px;
-}
-
-.grid-2 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-}
-
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-}
-
-/* ==========================================
-   7. CARDS & BADGES (shadcn Card & Badge style)
-   ========================================== */
-.card, article {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 24px;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
-}
-
 .badge {
   display: inline-flex;
   align-items: center;
   border-radius: 9999px;
-  padding: 2px 10px;
-  font-size: 0.75rem;
+  padding: 3px 10px;
+  font-size: 0.725rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.025em;
+  white-space: nowrap;
 }
 
-.badge-open {
+.badge-open, .badge-paid {
   background-color: #dcfce7;
   color: #166534;
   border: 1px solid #bbf7d0;
@@ -323,48 +297,50 @@ p {
 }
 
 /* ==========================================
-   8. TABLES (shadcn Table style)
+   6. PHOTO PLACEHOLDERS (Aspect Ratio Responsive)
    ========================================== */
-table {
+.photo-placeholder {
   width: 100%;
-  border-collapse: collapse;
-  font-size: 0.875rem;
-  background-color: var(--card-bg);
+  aspect-ratio: 16 / 9;
+  background-color: #f4f4f5;
+  border: 2px dashed #d4d4d8;
   border-radius: var(--radius-md);
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+  color: #71717a;
+  margin-bottom: 16px;
 }
 
-th {
-  background-color: var(--accent-light);
-  color: var(--text-primary);
+.photo-placeholder svg {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 6px;
+  stroke: #a1a1aa;
+}
+
+.photo-placeholder span {
+  font-size: 0.825rem;
   font-weight: 600;
-  text-align: left;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border-color);
+  color: #3f3f46;
 }
 
-td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border-color);
-  color: var(--text-primary);
-}
-
-tr:last-child td {
-  border-bottom: none;
-}
-
-tr:hover {
-  background-color: #fafafa;
+.photo-placeholder small {
+  font-size: 0.725rem;
+  color: #a1a1aa;
+  margin-top: 2px;
 }
 
 /* ==========================================
-   9. FORMS & INPUTS (shadcn Input style)
+   7. FORM INPUTS & RESPONSIVE FIXES
    ========================================== */
 input, select, textarea {
   width: 100%;
-  padding: 10px 14px;
+  max-width: 100%;
+  padding: 10px 12px;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   font-family: var(--font-family);
@@ -372,7 +348,7 @@ input, select, textarea {
   background-color: #ffffff;
   color: var(--text-primary);
   margin-top: 6px;
-  transition: border-color 0.15s ease;
+  box-sizing: border-box;
 }
 
 input:focus, select:focus, textarea:focus {
@@ -382,20 +358,152 @@ input:focus, select:focus, textarea:focus {
 }
 
 label {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-primary);
 }
 
+/* Horizontal scrollable wrapper for tables & brackets */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 16px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  min-width: 600px; /* Ensures table headers don't squish on mobile */
+}
+
+th {
+  background-color: var(--accent-light);
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+tr:hover {
+  background-color: #fafafa;
+}
+
 /* ==========================================
-   10. FOOTER
+   8. VISUAL POOL TOURNAMENT BRACKET PROTOTYPE
+   ========================================== */
+.bracket-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 0;
+}
+
+.bracket-container {
+  display: flex;
+  gap: 24px;
+  min-width: 860px; /* Horizontal scrollable canvas for full bracket tree */
+  padding: 12px;
+}
+
+.bracket-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.bracket-column-header {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  text-align: center;
+  background: var(--accent-light);
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.match-box {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.match-box-header {
+  background-color: #f4f4f5;
+  padding: 4px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #52525b;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.match-player {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  font-size: 0.825rem;
+  font-weight: 500;
+  border-bottom: 1px solid #f4f4f5;
+}
+
+.match-player:last-child {
+  border-bottom: none;
+}
+
+.match-player.winner {
+  font-weight: 700;
+  background-color: #f0fdf4;
+  color: #15803d;
+}
+
+.match-player .score {
+  font-family: monospace;
+  font-weight: 700;
+  background-color: #e4e4e7;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.match-player.winner .score {
+  background-color: #bbf7d0;
+  color: #166534;
+}
+
+/* ==========================================
+   9. FOOTER
    ========================================== */
 footer {
   border-top: 1px solid var(--border-color);
   background-color: #ffffff;
-  padding: 32px;
+  padding: 24px;
   text-align: center;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
 }
 
@@ -404,25 +512,32 @@ footer nav ul {
   margin-top: 12px;
 }
 
-/* Responsive adjustments */
+/* ==========================================
+   10. MOBILE & TABLET MEDIA QUERIES
+   ========================================== */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
-    height: auto;
-    padding: 16px;
-    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 16px;
   }
 
   nav ul {
-    flex-wrap: wrap;
-    justify-content: center;
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 4px;
   }
 
   #hero {
-    padding: 24px;
+    padding: 20px;
   }
 
   #hero h2 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+  }
+
+  .grid-2, .grid-3 {
+    grid-template-columns: 1fr;
   }
 }
