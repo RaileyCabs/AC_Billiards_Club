@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -56,9 +57,12 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/admin" style={{ color: '#ef4444', fontWeight: 600 }}>
+              <Link href="/admin" className={isActive('/admin') ? 'active' : ''} style={{ color: '#ef4444', fontWeight: 600 }}>
                 [Owner / Admin]
               </Link>
+            </li>
+            <li>
+              <ThemeToggle />
             </li>
             <li>
               <Link href="/tournaments#signup-modal" className="nav-cta">
@@ -71,3 +75,4 @@ export default function Navbar() {
     </>
   );
 }
+

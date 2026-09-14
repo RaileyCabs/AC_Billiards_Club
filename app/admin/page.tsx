@@ -3,53 +3,102 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
+interface Player {
+  id: number;
+  name: string;
+  phone: string;
+  rating: string;
+  status: 'paid' | 'pending' | 'forfeited';
+  method: string;
+  registeredAt: string;
+}
+
+const INITIAL_PLAYERS: Player[] = [
+  { id: 1, name: 'Ray "The Razor" Martin', phone: '(609) 555-0111', rating: 'Fargo 680', status: 'paid', method: 'Cash ($25.00)', registeredAt: 'Sept 14, 10:15 AM' },
+  { id: 2, name: 'Mike Sullivan', phone: '(609) 555-0122', rating: 'Fargo 650', status: 'paid', method: 'Venmo (@MikeS-Pool)', registeredAt: 'Sept 14, 11:30 AM' },
+  { id: 3, name: 'Johnny McDermott', phone: '(609) 555-0123', rating: 'Fargo 520', status: 'pending', method: 'Unpaid (At Counter)', registeredAt: 'Sept 14, 01:05 PM' },
+  { id: 4, name: 'Chris Pastore', phone: '(609) 555-0144', rating: 'Fargo 520', status: 'pending', method: 'Unpaid (Zelle)', registeredAt: 'Sept 14, 01:20 PM' },
+];
+
 export default function AdminPage() {
+  const [players, setPlayers] = useState<Player[]>(INITIAL_PLAYERS);
   const [filter, setFilter] = useState<'all' | 'paid' | 'pending' | 'forfeited'>('all');
   const [bannerActive, setBannerActive] = useState(true);
   const [bannerText, setBannerText] = useState('Open late this week for US Open Pool Championship players! Check tournament schedule for cash payouts.');
 
+  // Counts
+  const paidCount = players.filter(p => p.status === 'paid').length + 16; // 18 default base
+  const pendingCount = players.filter(p => p.status === 'pending').length;
+  const forfeitedCount = players.filter(p => p.status === 'forfeited').length;
+  const totalPlayers = paidCount + pendingCount;
+  const cashCollected = paidCount * 25;
+
+  const handleMarkPaid = (id: number, selectedMethod: string) => {
+    setPlayers(prev => prev.map(p => p.id === id ? { ...p, status: 'paid', method: selectedMethod } : p));
+  };
+
+  const handleForfeit = (id: number) => {
+    setPlayers(prev => prev.map(p => p.id === id ? { ...p, status: 'forfeited' } : p));
+  };
+
+  const filteredPlayers = players.filter(p => {
+    if (filter === 'all') return true;
+    return p.status === filter;
+  });
+
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f4f4f5' }}>
+    <div>
       {/* Top Protected Header */}
-      <div style={{ backgroundColor: '#09090b', color: '#ffffff', padding: '12px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <div className="admin-top-bar">
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span style={{ backgroundColor: '#dc2626', color: 'white', fontSize: '0.7rem', padding: '2px 8px', borderRadius: '4px', fontWeight: 700, letterSpacing: '0.05em' }}>
+          <span style={{ backgroundColor: '#dc2626', color: '#ffffff', fontSize: '0.7rem', padding: '3px 8px', borderRadius: '4px', fontWeight: 700, letterSpacing: '0.05em' }}>
             PRIVATE OWNER PORTAL
           </span>
-          <h2 style={{ fontSize: '1.1rem', color: 'white', margin: 0 }}>Atlantic City Billiard Club Dashboard</h2>
+          <h2 style={{ fontSize: '1.1rem', color: '#ffffff', margin: 0 }}>Atlantic City Billiard Club Dashboard</h2>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <span style={{ fontSize: '0.8rem', color: '#a1a1aa' }}>Logged in as: <strong>Owner (Phone Session)</strong></span>
-          <Link href="/" className="btn btn-outline" style={{ fontSize: '0.75rem', padding: '4px 10px' }}>
+          <Link href="/" className="btn btn-outline" style={{ fontSize: '0.75rem', padding: '4px 10px', color: '#ffffff', borderColor: '#4b5563' }}>
             View Public Site
           </Link>
         </div>
       </div>
 
-      <main style={{ maxWidth: '1140px', margin: '0 auto', padding: '32px 16px 64px 16px' }}>
-
+      <main>
         {/* OVERVIEW STATS */}
         <section id="admin-overview">
           <h2>Owner Overview &amp; Quick Actions</h2>
 
           <div className="grid-3">
-            <div className="card" style={{ borderLeft: '4px solid #166534' }}>
+            <div className="card" style={{ borderLeft: '4px solid #10b981' }}>
               <h3>Next Event Roster</h3>
-              <p style={{ fontSize: '1.5rem', fontWeight: 800, margin: '4px 0' }}>22 / 32 Players</p>
-              <p><span className="badge badge-paid">18 Paid</span> <span className="badge badge-pending">4 Pending</span></p>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Event: $500 Added 9-Ball Open (Sept 26)</p>
+              <p style={{ fontSize: '1.6rem', fontWeight: 800, margin: '4px 0', color: 'var(--text-primary)' }}>
+                {totalPlayers} / 32 Players
+              </p>
+              <p style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <span className="badge badge-paid">{paidCount} Paid</span> 
+                <span className="badge badge-pending">{pendingCount} Pending</span>
+                {forfeitedCount > 0 && <span className="badge badge-forfeit">{forfeitedCount} Forfeited</span>}
+              </p>
+              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '8px' }}>
+                Event: $500 Added 9-Ball Open (Sept 26)
+              </p>
             </div>
 
             <div className="card" style={{ borderLeft: '4px solid #0284c7' }}>
               <h3>Total Entry Cash Collected</h3>
-              <p style={{ fontSize: '1.5rem', fontWeight: 800, margin: '4px 0' }}>$450.00</p>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>$360 Prize Pool + $90 Green Fees</p>
+              <p style={{ fontSize: '1.6rem', fontWeight: 800, margin: '4px 0', color: 'var(--text-primary)' }}>
+                ${cashCollected}.00
+              </p>
+              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                ${paidCount * 20}.00 Prize Pool + ${paidCount * 5}.00 Green Fees
+              </p>
             </div>
 
-            <div className="card" style={{ borderLeft: '4px solid #d97706' }}>
+            <div className="card" style={{ borderLeft: '4px solid #f59e0b' }}>
               <h3>Announcement Banner</h3>
-              <p><span className="badge badge-paid">{bannerActive ? 'ACTIVE ON SITE' : 'DISABLED'}</span></p>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>"{bannerText.substring(0, 35)}..."</p>
+              <p><span className={`badge ${bannerActive ? 'badge-paid' : 'badge-forfeit'}`}>{bannerActive ? 'ACTIVE ON SITE' : 'DISABLED'}</span></p>
+              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '6px' }}>"{bannerText.substring(0, 38)}..."</p>
             </div>
           </div>
         </section>
@@ -66,30 +115,29 @@ export default function AdminPage() {
                   className={`btn ${filter === 'all' ? 'btn-primary' : 'btn-outline'}`}
                   onClick={() => setFilter('all')}
                 >
-                  All Players (22)
+                  All Players ({totalPlayers})
                 </button>
                 <button 
                   className={`btn ${filter === 'paid' ? 'btn-primary' : 'btn-outline'}`}
                   onClick={() => setFilter('paid')}
                 >
-                  Paid (18)
+                  Paid ({paidCount})
                 </button>
                 <button 
                   className={`btn ${filter === 'pending' ? 'btn-primary' : 'btn-outline'}`}
-                  style={filter !== 'pending' ? { borderColor: '#fef08a', background: '#fefce8' } : {}}
                   onClick={() => setFilter('pending')}
                 >
-                  Pending Payment (4)
+                  Pending Payment ({pendingCount})
                 </button>
                 <button 
                   className={`btn ${filter === 'forfeited' ? 'btn-primary' : 'btn-outline'}`}
                   onClick={() => setFilter('forfeited')}
                 >
-                  Forfeited (0)
+                  Forfeited ({forfeitedCount})
                 </button>
               </div>
 
-              <div style={{ display: 'flex', gap: '8px' }}>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 <button className="btn btn-outline" onClick={() => alert('Downloading Roster CSV...')}>
                   📊 Download CSV
                 </button>
@@ -114,88 +162,64 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-
-                  <tr>
-                    <td>1</td>
-                    <td><strong>Ray "The Razor" Martin</strong></td>
-                    <td>(609) 555-0111</td>
-                    <td>Fargo 680</td>
-                    <td><span className="badge badge-paid">🟢 PAID</span></td>
-                    <td>Cash ($25.00)</td>
-                    <td>Sept 14, 10:15 AM</td>
-                    <td>
-                      <button className="btn btn-outline" style={{ fontSize: '0.75rem', padding: '3px 8px' }} onClick={() => alert('Editing player record')}>
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>2</td>
-                    <td><strong>Mike Sullivan</strong></td>
-                    <td>(609) 555-0122</td>
-                    <td>Fargo 650</td>
-                    <td><span className="badge badge-paid">🟢 PAID</span></td>
-                    <td>Venmo (@MikeS-Pool)</td>
-                    <td>Sept 14, 11:30 AM</td>
-                    <td>
-                      <button className="btn btn-outline" style={{ fontSize: '0.75rem', padding: '3px 8px' }} onClick={() => alert('Editing player record')}>
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-
-                  <tr style={{ backgroundColor: '#fffde7' }}>
-                    <td>3</td>
-                    <td><strong>Johnny McDermott</strong></td>
-                    <td>(609) 555-0123</td>
-                    <td>Fargo 520</td>
-                    <td><span className="badge badge-pending">🟡 PENDING PAYMENT</span></td>
-                    <td><em>Unpaid (At Counter)</em></td>
-                    <td>Sept 14, 01:05 PM</td>
-                    <td>
-                      <div className="admin-action-cell">
-                        <select defaultValue="cash">
-                          <option value="cash">Cash ($25)</option>
-                          <option value="venmo">Venmo</option>
-                          <option value="zelle">Zelle</option>
-                          <option value="card">Card</option>
-                        </select>
-                        <button className="btn btn-primary" style={{ background: '#166534' }} onClick={() => alert('Johnny McDermott marked PAID!')}>
-                          Mark Paid
-                        </button>
-                        <button className="btn btn-outline" style={{ color: '#991b1b', borderColor: '#fecaca' }} onClick={() => alert('Spot forfeited!')}>
-                          Forfeit Spot
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr style={{ backgroundColor: '#fffde7' }}>
-                    <td>4</td>
-                    <td><strong>Chris Pastore</strong></td>
-                    <td>(609) 555-0144</td>
-                    <td>Fargo 520</td>
-                    <td><span className="badge badge-pending">🟡 PENDING PAYMENT</span></td>
-                    <td><em>Unpaid (Zelle)</em></td>
-                    <td>Sept 14, 01:20 PM</td>
-                    <td>
-                      <div className="admin-action-cell">
-                        <select defaultValue="zelle">
-                          <option value="zelle">Zelle ($25)</option>
-                          <option value="cash">Cash</option>
-                          <option value="venmo">Venmo</option>
-                        </select>
-                        <button className="btn btn-primary" style={{ background: '#166534' }} onClick={() => alert('Chris Pastore marked PAID!')}>
-                          Mark Paid
-                        </button>
-                        <button className="btn btn-outline" style={{ color: '#991b1b', borderColor: '#fecaca' }} onClick={() => alert('Spot forfeited!')}>
-                          Forfeit Spot
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-
+                  {filteredPlayers.map((player) => (
+                    <tr 
+                      key={player.id}
+                      className={player.status === 'pending' ? 'row-pending' : ''}
+                    >
+                      <td>{player.id}</td>
+                      <td><strong>{player.name}</strong></td>
+                      <td>{player.phone}</td>
+                      <td>{player.rating}</td>
+                      <td>
+                        {player.status === 'paid' && <span className="badge badge-paid">🟢 PAID</span>}
+                        {player.status === 'pending' && <span className="badge badge-pending">🟡 PENDING</span>}
+                        {player.status === 'forfeited' && <span className="badge badge-forfeit">🔴 FORFEITED</span>}
+                      </td>
+                      <td>{player.status === 'pending' ? <em>{player.method}</em> : player.method}</td>
+                      <td>{player.registeredAt}</td>
+                      <td>
+                        {player.status === 'pending' ? (
+                          <div className="admin-action-cell">
+                            <select id={`payment-select-${player.id}`} defaultValue="Cash ($25.00)">
+                              <option value="Cash ($25.00)">Cash ($25)</option>
+                              <option value="Venmo Advance">Venmo</option>
+                              <option value="Zelle Advance">Zelle</option>
+                              <option value="Card at Counter">Card</option>
+                            </select>
+                            <button 
+                              className="btn btn-primary" 
+                              style={{ background: '#10b981', color: '#ffffff', padding: '4px 10px', fontSize: '0.75rem' }} 
+                              onClick={() => {
+                                const selectEl = document.getElementById(`payment-select-${player.id}`) as HTMLSelectElement;
+                                handleMarkPaid(player.id, selectEl ? selectEl.value : 'Cash ($25.00)');
+                              }}
+                            >
+                              Mark Paid
+                            </button>
+                            <button 
+                              className="btn btn-outline" 
+                              style={{ color: '#ef4444', borderColor: 'rgba(239,68,68,0.4)', padding: '4px 8px', fontSize: '0.75rem' }} 
+                              onClick={() => handleForfeit(player.id)}
+                            >
+                              Forfeit Spot
+                            </button>
+                          </div>
+                        ) : (
+                          <button className="btn btn-outline" style={{ fontSize: '0.75rem', padding: '3px 8px' }} onClick={() => alert(`Editing record for ${player.name}`)}>
+                            Edit Record
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                  {filteredPlayers.length === 0 && (
+                    <tr>
+                      <td colSpan={8} style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)' }}>
+                        No players found matching filter "{filter}".
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -261,10 +285,11 @@ export default function AdminPage() {
         <section id="admin-banner-manager">
           <h2>Announcement Alert Banner Manager</h2>
           <div className="card">
-            <form onSubmit={(e) => { e.preventDefault(); alert('Announcement Banner Updated!'); }}>
+            <form onSubmit={(e) => { e.preventDefault(); alert('Announcement Banner Saved!'); }}>
               <div style={{ marginBottom: '16px' }}>
-                <label>Banner Active Status</label><br />
+                <label htmlFor="banner_status">Banner Active Status</label><br />
                 <select 
+                  id="banner_status"
                   style={{ maxWidth: '250px' }}
                   value={bannerActive ? 'active' : 'disabled'}
                   onChange={(e) => setBannerActive(e.target.value === 'active')}
