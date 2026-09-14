@@ -25,9 +25,9 @@
   --border-subtle: #e2e8f0;
   --border-card: #e2e8f0;
 
-  --accent-emerald: #10b981;
-  --accent-emerald-dark: #059669;
-  --accent-emerald-glow: rgba(16, 185, 129, 0.2);
+  --accent-emerald: #0f172a;
+  --accent-emerald-dark: #09090b;
+  --accent-emerald-glow: rgba(15, 23, 42, 0.15);
 
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -51,6 +51,10 @@
 
   --border-subtle: rgba(255, 255, 255, 0.1);
   --border-card: rgba(255, 255, 255, 0.12);
+
+  --accent-emerald: #f8fafc;
+  --accent-emerald-dark: #ffffff;
+  --accent-emerald-glow: rgba(255, 255, 255, 0.2);
 
   --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
   --shadow-card-hover: 0 12px 35px -10px rgba(0, 0, 0, 0.7);
@@ -787,15 +791,6 @@ footer {
   text-align: center;
   font-size: 0.85rem;
   color: var(--text-muted);
-}
-
-.factual-note {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  max-width: 700px;
-  margin: 16px auto 0 auto;
-  border-top: 1px solid var(--border-subtle);
-  padding-top: 12px;
 }
 
 footer nav ul {

@@ -136,7 +136,7 @@ export default function TournamentBracket() {
               <svg width="100%" height="100%" viewBox="0 0 24 440" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-primary)" />
                   </marker>
                   <marker id="arrow-muted" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                     <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
@@ -144,13 +144,13 @@ export default function TournamentBracket() {
                 </defs>
 
                 {/* Match 1 -> Semi 5 */}
-                <path d="M 0 40 H 12 V 100 H 22" stroke="#10b981" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
+                <path d="M 0 40 H 12 V 100 H 22" stroke="var(--text-primary)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
                 {/* Match 2 -> Semi 5 */}
                 <path d="M 0 160 H 12 V 100 H 22" stroke="#94a3b8" strokeWidth="2" strokeDasharray="3 2" fill="none" markerEnd="url(#arrow-muted)" />
                 {/* Match 3 -> Semi 6 */}
                 <path d="M 0 280 H 12 V 340 H 22" stroke="#94a3b8" strokeWidth="2" strokeDasharray="3 2" fill="none" markerEnd="url(#arrow-muted)" />
                 {/* Match 4 -> Semi 6 */}
-                <path d="M 0 400 H 12 V 340 H 22" stroke="#10b981" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
+                <path d="M 0 400 H 12 V 340 H 22" stroke="var(--text-primary)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
               </svg>
             </div>
 
@@ -161,7 +161,7 @@ export default function TournamentBracket() {
               {/* Match 5 */}
               <div 
                 className="match-box" 
-                style={{ margin: 0, border: '2px solid #10b981', boxShadow: '0 0 12px rgba(16,185,129,0.2)' }}
+                style={{ margin: 0, border: '2px solid var(--text-primary)' }}
                 onMouseEnter={() => setHighlightedPlayer('Ray Martin')}
                 onMouseLeave={() => setHighlightedPlayer(null)}
               >
@@ -182,7 +182,7 @@ export default function TournamentBracket() {
               {/* Match 6 */}
               <div 
                 className="match-box" 
-                style={{ marginTop: '120px', border: '2px solid #10b981', boxShadow: '0 0 12px rgba(16,185,129,0.2)' }}
+                style={{ marginTop: '120px', border: '2px solid var(--text-primary)' }}
                 onMouseEnter={() => setHighlightedPlayer('Jason Chen')}
                 onMouseLeave={() => setHighlightedPlayer(null)}
               >
@@ -205,9 +205,9 @@ export default function TournamentBracket() {
             <div style={{ flex: '0 0 24px', height: '440px', marginTop: '32px' }}>
               <svg width="100%" height="100%" viewBox="0 0 24 440" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 {/* Match 5 -> Winner Finals Match 7 */}
-                <path d="M 0 100 H 12 V 220 H 22" stroke="#10b981" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
+                <path d="M 0 100 H 12 V 220 H 22" stroke="var(--text-primary)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
                 {/* Match 6 -> Winner Finals Match 7 */}
-                <path d="M 0 340 H 12 V 220 H 22" stroke="#10b981" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
+                <path d="M 0 340 H 12 V 220 H 22" stroke="var(--text-primary)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
               </svg>
             </div>
 
@@ -216,16 +216,16 @@ export default function TournamentBracket() {
               <div className="bracket-column-header" style={{ marginBottom: '160px' }}>Winner&apos;s Finals</div>
 
               {/* Match 7 */}
-              <div className="match-box" style={{ margin: 0, border: '2px dashed #10b981' }}>
+              <div className="match-box" style={{ margin: 0, border: '2px dashed var(--text-primary)' }}>
                 <div className="match-box-header">
                   <span>Match 7 &bull; T1</span>
                   <span className="badge badge-open" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>ON DECK</span>
                 </div>
-                <div className="match-player" style={{ color: '#10b981', fontWeight: 600 }}>
+                <div className="match-player" style={{ color: 'var(--text-primary)', fontWeight: 600 }}>
                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>R. Martin (M5)</span>
                   <span className="score">0</span>
                 </div>
-                <div className="match-player" style={{ color: '#10b981', fontWeight: 600 }}>
+                <div className="match-player" style={{ color: 'var(--text-primary)', fontWeight: 600 }}>
                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>J. Chen (M6)</span>
                   <span className="score">0</span>
                 </div>
@@ -242,13 +242,13 @@ export default function TournamentBracket() {
 
             {/* ROUND 4: GRAND FINALS */}
             <div style={{ flex: '1.1 1 0%', minWidth: 0, display: 'flex', flexDirection: 'column', height: '440px', marginTop: '32px' }}>
-              <div className="bracket-column-header" style={{ marginBottom: '160px', background: '#10b981', color: '#ffffff', border: 'none' }}>
+              <div className="bracket-column-header" style={{ marginBottom: '160px', background: '#0f172a', color: '#ffffff', border: 'none' }}>
                 Championship Final
               </div>
 
               {/* Match 8 */}
-              <div className="match-box" style={{ margin: 0, border: '2px solid #10b981', boxShadow: '0 6px 20px rgba(16,185,129,0.2)' }}>
-                <div className="match-box-header" style={{ background: '#10b981', color: '#ffffff' }}>
+              <div className="match-box" style={{ margin: 0, border: '2px solid #0f172a', boxShadow: '0 6px 20px rgba(15,23,42,0.15)' }}>
+                <div className="match-box-header" style={{ background: '#0f172a', color: '#ffffff' }}>
                   <span>GRAND FINALS</span>
                   <span style={{ fontWeight: 800 }}>$500 ADDED</span>
                 </div>
@@ -308,7 +308,7 @@ export default function TournamentBracket() {
             {/* SVG CONNECTOR LOSERS 1 */}
             <div style={{ flex: '0 0 24px', height: '240px', marginTop: '32px' }}>
               <svg width="100%" height="100%" viewBox="0 0 24 240" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 0 45 H 12 V 120 H 22" stroke="#10b981" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
+                <path d="M 0 45 H 12 V 120 H 22" stroke="var(--text-primary)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
                 <path d="M 0 195 H 12 V 120 H 22" stroke="#94a3b8" strokeWidth="2" strokeDasharray="3 2" fill="none" markerEnd="url(#arrow-muted)" />
               </svg>
             </div>
@@ -367,8 +367,8 @@ export default function TournamentBracket() {
       {/* Bracket Legend & Notes */}
       <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid var(--border-card)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-          <span><strong style={{ color: '#10b981' }}>Solid Green Line:</strong> Winner Path Progression</span>
-          <span><strong style={{ color: '#94a3b8' }}>Dashed Gray Line:</strong> Upcoming Match Path</span>
+          <span><strong style={{ color: 'var(--text-primary)' }}>Solid Line:</strong> Winner Path Progression</span>
+          <span><strong style={{ color: '#94a3b8' }}>Dashed Line:</strong> Upcoming Match Path</span>
         </div>
         <div>
           <span>Tables 1 &ndash; 4: 9ft Diamond Pro Tables</span>

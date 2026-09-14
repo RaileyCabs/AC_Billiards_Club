@@ -77,6 +77,8 @@ const INITIAL_PLAYERS: PlayerRecord[] = [
   { id: 2, name: 'Mike Sullivan', phone: '(609) 555-0122', rating: 'Fargo 650', status: 'paid', method: 'Venmo (@MikeS-Pool)', registeredAt: 'Sept 14, 11:30 AM', tournamentId: 't-1' },
   { id: 3, name: 'Johnny McDermott', phone: '(609) 555-0123', rating: 'Fargo 520', status: 'pending', method: 'Unpaid (At Counter)', registeredAt: 'Sept 14, 01:05 PM', tournamentId: 't-1' },
   { id: 4, name: 'Chris Pastore', phone: '(609) 555-0144', rating: 'Fargo 520', status: 'pending', method: 'Unpaid (Zelle)', registeredAt: 'Sept 14, 01:20 PM', tournamentId: 't-1' },
+  { id: 5, name: 'Dave Ramirez', phone: '(609) 555-0155', rating: 'Fargo 610', status: 'paid', method: 'Cash ($15.00)', registeredAt: 'Sept 14, 02:00 PM', tournamentId: 't-2' },
+  { id: 6, name: 'Jason Chen', phone: '(609) 555-0166', rating: 'Fargo 630', status: 'pending', method: 'Unpaid (Venmo)', registeredAt: 'Sept 14, 02:15 PM', tournamentId: 't-2' },
 ];
 
 const AppStateContext = createContext<AppStateContextType | undefined>(undefined);

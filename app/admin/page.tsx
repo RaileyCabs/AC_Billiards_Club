@@ -8,12 +8,14 @@ export default function AdminPage() {
   const { 
     banner, 
     updateBanner, 
+    tournaments,
     players, 
     markPlayerPaid, 
     forfeitPlayerSpot, 
     addTournament 
   } = useAppState();
 
+  const [selectedTournamentId, setSelectedTournamentId] = useState<string>('t-1');
   const [filter, setFilter] = useState<'all' | 'paid' | 'pending' | 'forfeited'>('all');
   const [localBannerActive, setLocalBannerActive] = useState(banner.active);
   const [localBannerText, setLocalBannerText] = useState(banner.text);
@@ -25,10 +27,13 @@ export default function AdminPage() {
   const [newEntryFee, setNewEntryFee] = useState('20');
   const [newHouseAdded, setNewHouseAdded] = useState('500');
 
-  // Counts
-  const paidCount = players.filter(p => p.status === 'paid').length + 16;
-  const pendingCount = players.filter(p => p.status === 'pending').length;
-  const forfeitedCount = players.filter(p => p.status === 'forfeited').length;
+  // Filter players by selected tournament
+  const tournamentPlayers = players.filter(p => selectedTournamentId === 'all' || p.tournamentId === selectedTournamentId);
+
+  // Counts for selected tournament
+  const paidCount = tournamentPlayers.filter(p => p.status === 'paid').length + (selectedTournamentId === 't-1' ? 16 : 0);
+  const pendingCount = tournamentPlayers.filter(p => p.status === 'pending').length;
+  const forfeitedCount = tournamentPlayers.filter(p => p.status === 'forfeited').length;
   const totalPlayers = paidCount + pendingCount;
   const cashCollected = paidCount * 25;
 
@@ -57,7 +62,7 @@ export default function AdminPage() {
     alert('Announcement Banner Updated Live Across The Entire Website!');
   };
 
-  const filteredPlayers = players.filter(p => {
+  const filteredPlayers = tournamentPlayers.filter(p => {
     if (filter === 'all') return true;
     return p.status === filter;
   });
@@ -86,7 +91,7 @@ export default function AdminPage() {
           <h2>Owner Overview &amp; Quick Actions</h2>
 
           <div className="grid-3">
-            <div className="card" style={{ borderLeft: '4px solid #10b981' }}>
+            <div className="card" style={{ borderLeft: '4px solid #0f172a' }}>
               <h3>Next Event Roster</h3>
               <p style={{ fontSize: '1.6rem', fontWeight: 800, margin: '4px 0', color: 'var(--text-primary)' }}>
                 {totalPlayers} / 32 Players
@@ -122,7 +127,27 @@ export default function AdminPage() {
         {/* LIVE ROSTER MANAGER */}
         <section id="admin-roster-manager">
           <h2>Live Roster &amp; Payment Manager</h2>
-          <p>Manage player registrations, mark cash/Venmo payments, and forfeit unpaid spots before cutoff time.</p>
+          <p>Select a specific tournament event to view and manage its live player roster, record cash/Venmo payments, and handle check-ins.</p>
+
+          {/* TOURNAMENT SELECTOR DROPDOWN FOR OWNER */}
+          <div style={{ backgroundColor: 'var(--bg-card-hover)', border: '1px solid var(--border-card)', padding: '16px 20px', borderRadius: 'var(--radius-md)', marginBottom: '20px' }}>
+            <label htmlFor="admin-tournament-select" style={{ fontWeight: 700, fontSize: '0.9rem', display: 'block', marginBottom: '8px', color: 'var(--text-primary)' }}>
+              🏆 Select Tournament Event to Manage Roster:
+            </label>
+            <select
+              id="admin-tournament-select"
+              value={selectedTournamentId}
+              onChange={(e) => setSelectedTournamentId(e.target.value)}
+              style={{ width: '100%', maxWidth: '520px', fontSize: '0.9rem', padding: '10px 14px', margin: 0 }}
+            >
+              <option value="all">⚡ All Tournaments (Combined Active Rosters)</option>
+              {tournaments.map(t => (
+                <option key={t.id} value={t.id}>
+                  {t.title} ({t.dateTime})
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div className="card">
             <div className="card-header">
@@ -205,7 +230,7 @@ export default function AdminPage() {
                             </select>
                             <button 
                               className="btn btn-primary" 
-                              style={{ background: '#10b981', color: '#ffffff', padding: '4px 10px', fontSize: '0.75rem' }} 
+                              style={{ background: '#0f172a', color: '#ffffff', padding: '4px 10px', fontSize: '0.75rem' }} 
                               onClick={() => {
                                 const selectEl = document.getElementById(`payment-select-${player.id}`) as HTMLSelectElement;
                                 markPlayerPaid(player.id, selectEl ? selectEl.value : 'Cash ($25.00)');
