@@ -515,7 +515,30 @@ footer nav ul {
 /* ==========================================
    10. MOBILE & TABLET MEDIA QUERIES
    ========================================== */
+.admin-action-cell {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+  min-width: 220px;
+}
+
+.admin-action-cell select {
+  width: auto !important;
+  max-width: 100px !important;
+  padding: 4px 6px !important;
+  font-size: 0.75rem !important;
+  margin: 0 !important;
+}
+
+.admin-action-cell .btn {
+  padding: 4px 8px !important;
+  font-size: 0.75rem !important;
+  white-space: nowrap !important;
+}
+
 @media (max-width: 768px) {
+
   header {
     flex-direction: column;
     align-items: flex-start;
