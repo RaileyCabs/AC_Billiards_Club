@@ -168,7 +168,7 @@ export default function TournamentsPage() {
               <h3>Active Event: Saturday 9-Ball Open Championship</h3>
               <p><strong>Race Length:</strong> Race to 7 (Winner's) / Race to 5 (Loser's) | <strong>Status:</strong> Semi-Finals Underway</p>
             </div>
-            <span className="badge badge-info">LIVE STREAM ACTIVE</span>
+            <span className="badge badge-info pulse-badge">LIVE STREAM ACTIVE</span>
           </div>
 
           <div className="bracket-wrapper">
