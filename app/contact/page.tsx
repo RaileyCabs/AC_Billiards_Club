@@ -1,78 +1,129 @@
+import type { Metadata } from 'next';
+import Reveal from '@/components/Reveal';
+import HoursList from '@/components/HoursList';
+import { CLUB } from '@/lib/club';
+
+export const metadata: Metadata = {
+  title: 'Location & Hours',
+  description: `${CLUB.name} is at ${CLUB.address.full}. Call ${CLUB.phone.display} for hours, tables, and tournament nights.`,
+};
+
 export default function ContactPage() {
   return (
     <main>
-      <section id="contact-header">
-        <h2>Location, Directions &amp; Contact</h2>
-        <p>
-          Atlantic City Billiard Club is located on Black Horse Pike (US-40 / US-322) in Egg Harbor Township, New Jersey. 
-          We are situated just 10&ndash;12 minutes from Atlantic City&apos;s famous boardwalk, casinos, and the Atlantic City Expressway.
-        </p>
-      </section>
+      <section>
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Location &amp; hours</p>
+              <h2>Come play</h2>
+              <p className="lede">
+                The club sits on Black Horse Pike (US-40 / US-322) in{' '}
+                {CLUB.address.city}, a short drive inland from the Atlantic City
+                boardwalk and the casinos.
+              </p>
+            </div>
+          </Reveal>
 
-      {/* SECTION 1: CORE CONTACT & HOURS */}
-      <section id="contact-details">
-        <div className="grid-2">
-          <div className="card">
-            <h3>Address &amp; Contact</h3>
-            <p><strong>Atlantic City Billiard Club</strong></p>
-            <p>6701 Black Horse Pike # A8</p>
-            <p>Egg Harbor Township, NJ 08234</p>
-            <p style={{ marginTop: '12px' }}><strong>Phone:</strong> <a href="tel:6095550199">(609) 555-0199</a></p>
-            <p><strong>Email:</strong> info@acbilliardclub.com</p>
-          </div>
+          <div className="grid grid-2">
+            <Reveal>
+              <div className="card">
+                <h3>Address</h3>
+                <p>
+                  <strong>{CLUB.name}</strong>
+                  <br />
+                  {CLUB.address.street}
+                  <br />
+                  {CLUB.address.city}, {CLUB.address.state} {CLUB.address.zip}
+                </p>
 
-          <div className="card">
-            <h3>Hours of Operation</h3>
-            <ul>
-              <li><strong>Mon &ndash; Thu:</strong> 12:00 PM &ndash; 12:00 AM</li>
-              <li><strong>Fri &ndash; Sat:</strong> 12:00 PM &ndash; 2:00 AM</li>
-              <li><strong>Sunday:</strong> 12:00 PM &ndash; 11:00 PM</li>
-            </ul>
+                <h3 style={{ marginTop: '28px' }}>Contact</h3>
+                <p>
+                  <a href={CLUB.phone.href}>{CLUB.phone.display}</a>
+                  <br />
+                  <a href={`mailto:${CLUB.email}`}>{CLUB.email}</a>
+                </p>
+
+                <div className="button-group">
+                  <a href={CLUB.phone.href} className="btn btn-primary">
+                    Call
+                  </a>
+                  <a
+                    href={`https://maps.google.com/?q=${CLUB.mapQuery}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-outline"
+                  >
+                    Directions
+                  </a>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={110}>
+              <div className="card">
+                <h3>Hours</h3>
+                <HoursList />
+                <p style={{ fontSize: '0.86rem', marginTop: '18px', marginBottom: 0 }}>
+                  {CLUB.hoursNote}
+                </p>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* SECTION 2: DRIVING DIRECTIONS */}
-      <section id="driving-directions">
-        <h2>Turn-by-Turn Driving Directions</h2>
+      <section>
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Map</p>
+              <h2>Getting here</h2>
+            </div>
+          </Reveal>
 
-        <div className="grid-2">
-          <div className="card">
-            <h3>From Atlantic City Boardwalk &amp; Casinos</h3>
-            <ol style={{ paddingLeft: '20px', fontSize: '0.9rem' }}>
-              <li>Take AC Expressway West from downtown Atlantic City.</li>
-              <li>Take Exit 2 toward US-40 West / Black Horse Pike.</li>
-              <li>Merge onto Black Horse Pike West toward Egg Harbor Township.</li>
-              <li>Proceed 4 miles. Atlantic City Billiard Club will be on your right in the plaza complex.</li>
-            </ol>
-          </div>
+          <Reveal delay={90}>
+            <div
+              style={{
+                border: '1px solid var(--line)',
+                borderRadius: 'var(--radius-lg)',
+                overflow: 'hidden',
+                lineHeight: 0,
+              }}
+            >
+              <iframe
+                title={`Map to ${CLUB.name}`}
+                src={`https://www.google.com/maps?q=${CLUB.mapQuery}&output=embed`}
+                width="100%"
+                height="420"
+                style={{ border: 0, filter: 'grayscale(1) contrast(1.05)' }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+          </Reveal>
 
-          <div className="card">
-            <h3>From Garden State Parkway</h3>
-            <ol style={{ paddingLeft: '20px', fontSize: '0.9rem' }}>
-              <li>Take Garden State Parkway to Exit 37 toward US-40 / US-322.</li>
-              <li>Merge onto Black Horse Pike East toward Atlantic City.</li>
-              <li>Proceed 1.5 miles. U-turn at traffic light to enter plaza on Black Horse Pike West.</li>
-            </ol>
+          <div className="grid grid-2" style={{ marginTop: '28px' }}>
+            <Reveal>
+              <div className="card">
+                <h3>From Atlantic City</h3>
+                <p style={{ marginBottom: 0 }}>
+                  Head inland on the Black Horse Pike (US-40 / US-322) toward Egg
+                  Harbor Township. The club is in the plaza at 6701, suite A8.
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={110}>
+              <div className="card">
+                <h3>From the Garden State Parkway</h3>
+                <p style={{ marginBottom: 0 }}>
+                  Exit toward US-40 / US-322 and follow the Black Horse Pike east.
+                  Use the map above for turn-by-turn directions from where you are.
+                </p>
+              </div>
+            </Reveal>
           </div>
-        </div>
-      </section>
-
-      {/* SECTION 3: MAP CONTAINER */}
-      <section id="map-section">
-        <h2>Interactive Google Map</h2>
-        <div className="card" style={{ textAlign: 'center', padding: '40px' }}>
-          <div className="photo-placeholder" style={{ aspectRatio: '21 / 9' }}>
-            <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-            </svg>
-            <span>[ Google Maps Interactive Map Embed Placeholder ]</span>
-            <small>6701 Black Horse Pike # A8, Egg Harbor Township, NJ 08234</small>
-          </div>
-          <a href="https://maps.google.com/?q=6701+Black+Horse+Pike+Egg+Harbor+Township+NJ" target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ marginTop: '16px' }}>
-            Open Map in Google Maps App &rarr;
-          </a>
         </div>
       </section>
     </main>

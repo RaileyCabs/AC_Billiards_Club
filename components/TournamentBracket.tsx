@@ -1,377 +1,146 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useAppState } from '@/context/AppStateContext';
+import type { PlayerRecord, Tournament } from '@/context/AppStateContext';
+
+interface Seat {
+  name: string | null;
+  bye: boolean;
+}
+
+interface Match {
+  a: Seat;
+  b: Seat;
+}
+
+/**
+ * Builds a single-elimination draw from the entered roster.
+ *
+ * Round one is padded with byes up to the next power of two; later rounds are
+ * rendered as empty slots, because who advances is decided at the table and
+ * entered by the club, not guessed here.
+ */
+function buildRounds(names: string[]): Match[][] {
+  if (names.length < 2) return [];
+
+  let size = 1;
+  while (size < names.length) size *= 2;
+
+  const seats: Seat[] = Array.from({ length: size }, (_, i) =>
+    i < names.length ? { name: names[i], bye: false } : { name: null, bye: true }
+  );
+
+  const rounds: Match[][] = [];
+  let count = size;
+  let first = true;
+
+  while (count >= 2) {
+    const round: Match[] = [];
+    for (let i = 0; i < count; i += 2) {
+      round.push(
+        first
+          ? { a: seats[i], b: seats[i + 1] }
+          : { a: { name: null, bye: false }, b: { name: null, bye: false } }
+      );
+    }
+    rounds.push(round);
+    count /= 2;
+    first = false;
+  }
+
+  return rounds;
+}
+
+function roundLabel(index: number, total: number): string {
+  const fromEnd = total - index;
+  if (fromEnd === 1) return 'Final';
+  if (fromEnd === 2) return 'Semi-finals';
+  if (fromEnd === 3) return 'Quarter-finals';
+  return `Round ${index + 1}`;
+}
 
 export default function TournamentBracket() {
-  const [activeTab, setActiveTab] = useState<'winners' | 'losers'>('winners');
-  const [highlightedPlayer, setHighlightedPlayer] = useState<string | null>(null);
+  const { tournaments, players, ready } = useAppState();
+  const [selected, setSelected] = useState<string>('');
+
+  const active: Tournament | undefined =
+    tournaments.find((t) => t.id === selected) ?? tournaments[0];
+
+  const roster: PlayerRecord[] = useMemo(
+    () =>
+      active
+        ? players.filter((p) => p.tournamentId === active.id && p.status !== 'forfeited')
+        : [],
+    [active, players]
+  );
+
+  const rounds = useMemo(() => buildRounds(roster.map((p) => p.name)), [roster]);
+
+  if (!ready) return null;
+
+  if (!active || rounds.length === 0) {
+    return (
+      <div className="card" style={{ textAlign: 'center', padding: '52px 26px' }}>
+        <h3>No bracket running</h3>
+        <p style={{ maxWidth: '44ch', margin: '0 auto 0' }}>
+          A draw appears here once the club posts an event and enters the players
+          at the counter.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="card" style={{ padding: '24px', overflow: 'hidden' }}>
-      {/* Header & Tabs */}
-      <div className="card-header" style={{ marginBottom: '20px' }}>
+      <div className="bracket-head">
         <div>
-          <h3 style={{ fontSize: '1.25rem', marginBottom: '4px' }}>
-            Official Live Tournament Bracket &amp; Progression Engine
-          </h3>
-          <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-            $500 Added 9-Ball Open &bull; Race to 7 (Winner&apos;s) / Race to 5 (Loser&apos;s) &bull; Double Elimination
+          <h3 style={{ marginBottom: '2px' }}>{active.title}</h3>
+          <p style={{ margin: 0, fontSize: '0.86rem' }}>
+            {roster.length} {roster.length === 1 ? 'player' : 'players'} · single elimination
           </p>
         </div>
-        
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <button 
-            className={`btn ${activeTab === 'winners' ? 'btn-primary' : 'btn-outline'}`}
-            onClick={() => setActiveTab('winners')}
-            style={{ fontSize: '0.8rem', padding: '6px 14px' }}
+
+        {tournaments.length > 1 && (
+          <select
+            aria-label="Choose tournament"
+            value={active.id}
+            onChange={(e) => setSelected(e.target.value)}
+            style={{ maxWidth: '260px' }}
           >
-            Winner&apos;s Bracket
-          </button>
-          <button 
-            className={`btn ${activeTab === 'losers' ? 'btn-primary' : 'btn-outline'}`}
-            onClick={() => setActiveTab('losers')}
-            style={{ fontSize: '0.8rem', padding: '6px 14px' }}
-          >
-            Loser&apos;s Bracket
-          </button>
-        </div>
+            {tournaments.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.title}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
 
-      {activeTab === 'winners' ? (
-        /* WINNER'S BRACKET LAYOUT WITH CONNECTING LINES */
-        <div className="bracket-wrapper" style={{ padding: '10px 0', width: '100%' }}>
-          <div style={{ display: 'flex', alignItems: 'stretch', width: '100%', gap: '4px', position: 'relative' }}>
-            
-            {/* ROUND 1: QUARTER FINALS */}
-            <div style={{ flex: '1 1 0%', minWidth: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div className="bracket-column-header">Quarter-Finals</div>
+      <div className="bracket-scroll">
+        <div className="bracket">
+          {rounds.map((round, r) => (
+            <div className="bracket-round" key={r}>
+              <div className="bracket-round-head">{roundLabel(r, rounds.length)}</div>
 
-              {/* Match 1 */}
-              <div 
-                className="match-box" 
-                style={{ margin: 0, border: '1px solid var(--border-card)' }}
-                onMouseEnter={() => setHighlightedPlayer('Ray Martin')}
-                onMouseLeave={() => setHighlightedPlayer(null)}
-              >
-                <div className="match-box-header">
-                  <span>Match 1 &bull; T1</span>
-                  <span className="badge badge-paid" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>FINAL</span>
-                </div>
-                <div className="match-player winner">
-                  <span style={{ fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>1. Ray Martin (680)</span>
-                  <span className="score">7</span>
-                </div>
-                <div className="match-player" style={{ opacity: 0.7 }}>
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>8. K. O&apos;Connor (510)</span>
-                  <span className="score">3</span>
-                </div>
-              </div>
-
-              {/* Match 2 */}
-              <div 
-                className="match-box" 
-                style={{ margin: 0, border: '1px solid var(--border-card)' }}
-                onMouseEnter={() => setHighlightedPlayer('Dave Ramirez')}
-                onMouseLeave={() => setHighlightedPlayer(null)}
-              >
-                <div className="match-box-header">
-                  <span>Match 2 &bull; T2</span>
-                  <span className="badge badge-paid" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>FINAL</span>
-                </div>
-                <div className="match-player winner">
-                  <span style={{ fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>4. D. Ramirez (610)</span>
-                  <span className="score">7</span>
-                </div>
-                <div className="match-player" style={{ opacity: 0.7 }}>
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>5. M. Vance (580)</span>
-                  <span className="score">5</span>
-                </div>
-              </div>
-
-              {/* Match 3 */}
-              <div 
-                className="match-box" 
-                style={{ margin: 0, border: '1px solid var(--border-card)' }}
-                onMouseEnter={() => setHighlightedPlayer('Mike Sullivan')}
-                onMouseLeave={() => setHighlightedPlayer(null)}
-              >
-                <div className="match-box-header">
-                  <span>Match 3 &bull; T3</span>
-                  <span className="badge badge-paid" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>FINAL</span>
-                </div>
-                <div className="match-player winner">
-                  <span style={{ fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>2. M. Sullivan (650)</span>
-                  <span className="score">7</span>
-                </div>
-                <div className="match-player" style={{ opacity: 0.7 }}>
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>7. C. Pastore (520)</span>
-                  <span className="score">2</span>
-                </div>
-              </div>
-
-              {/* Match 4 */}
-              <div 
-                className="match-box" 
-                style={{ margin: 0, border: '1px solid var(--border-card)' }}
-                onMouseEnter={() => setHighlightedPlayer('Jason Chen')}
-                onMouseLeave={() => setHighlightedPlayer(null)}
-              >
-                <div className="match-box-header">
-                  <span>Match 4 &bull; T4</span>
-                  <span className="badge badge-paid" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>FINAL</span>
-                </div>
-                <div className="match-player winner">
-                  <span style={{ fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>3. Jason Chen (630)</span>
-                  <span className="score">7</span>
-                </div>
-                <div className="match-player" style={{ opacity: 0.7 }}>
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>6. T. Vance (540)</span>
-                  <span className="score">4</span>
-                </div>
+              <div className="bracket-matches">
+                {round.map((m, i) => (
+                  <div className="match" key={i}>
+                    {[m.a, m.b].map((seat, k) => (
+                      <div
+                        key={k}
+                        className={`match-seat${seat.bye ? ' is-bye' : ''}${
+                          seat.name ? '' : ' is-empty'
+                        }`}
+                      >
+                        <span>{seat.name ?? (seat.bye ? 'Bye' : '—')}</span>
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
-
-            {/* SVG CONNECTOR COLUMN 1 */}
-            <div style={{ flex: '0 0 24px', height: '440px', marginTop: '32px' }}>
-              <svg width="100%" height="100%" viewBox="0 0 24 440" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                    <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-primary)" />
-                  </marker>
-                  <marker id="arrow-muted" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
-                  </marker>
-                </defs>
-
-                {/* Match 1 -> Semi 5 */}
-                <path d="M 0 40 H 12 V 100 H 22" stroke="var(--text-primary)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
-                {/* Match 2 -> Semi 5 */}
-                <path d="M 0 160 H 12 V 100 H 22" stroke="#94a3b8" strokeWidth="2" strokeDasharray="3 2" fill="none" markerEnd="url(#arrow-muted)" />
-                {/* Match 3 -> Semi 6 */}
-                <path d="M 0 280 H 12 V 340 H 22" stroke="#94a3b8" strokeWidth="2" strokeDasharray="3 2" fill="none" markerEnd="url(#arrow-muted)" />
-                {/* Match 4 -> Semi 6 */}
-                <path d="M 0 400 H 12 V 340 H 22" stroke="var(--text-primary)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
-              </svg>
-            </div>
-
-            {/* ROUND 2: SEMI-FINALS */}
-            <div style={{ flex: '1 1 0%', minWidth: 0, display: 'flex', flexDirection: 'column', height: '440px', marginTop: '32px' }}>
-              <div className="bracket-column-header" style={{ marginBottom: '40px' }}>Semi-Finals</div>
-
-              {/* Match 5 */}
-              <div 
-                className="match-box" 
-                style={{ margin: 0, border: '2px solid var(--text-primary)' }}
-                onMouseEnter={() => setHighlightedPlayer('Ray Martin')}
-                onMouseLeave={() => setHighlightedPlayer(null)}
-              >
-                <div className="match-box-header">
-                  <span>Match 5 &bull; T1</span>
-                  <span className="badge badge-pending" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>LIVE</span>
-                </div>
-                <div className="match-player winner">
-                  <span style={{ fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Ray Martin</span>
-                  <span className="score">5</span>
-                </div>
-                <div className="match-player">
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Dave Ramirez</span>
-                  <span className="score">4</span>
-                </div>
-              </div>
-
-              {/* Match 6 */}
-              <div 
-                className="match-box" 
-                style={{ marginTop: '120px', border: '2px solid var(--text-primary)' }}
-                onMouseEnter={() => setHighlightedPlayer('Jason Chen')}
-                onMouseLeave={() => setHighlightedPlayer(null)}
-              >
-                <div className="match-box-header">
-                  <span>Match 6 &bull; T2</span>
-                  <span className="badge badge-pending" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>LIVE</span>
-                </div>
-                <div className="match-player">
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Mike Sullivan</span>
-                  <span className="score">3</span>
-                </div>
-                <div className="match-player winner">
-                  <span style={{ fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Jason Chen</span>
-                  <span className="score">6</span>
-                </div>
-              </div>
-            </div>
-
-            {/* SVG CONNECTOR COLUMN 2 */}
-            <div style={{ flex: '0 0 24px', height: '440px', marginTop: '32px' }}>
-              <svg width="100%" height="100%" viewBox="0 0 24 440" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                {/* Match 5 -> Winner Finals Match 7 */}
-                <path d="M 0 100 H 12 V 220 H 22" stroke="var(--text-primary)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
-                {/* Match 6 -> Winner Finals Match 7 */}
-                <path d="M 0 340 H 12 V 220 H 22" stroke="var(--text-primary)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
-              </svg>
-            </div>
-
-            {/* ROUND 3: WINNER'S FINALS */}
-            <div style={{ flex: '1 1 0%', minWidth: 0, display: 'flex', flexDirection: 'column', height: '440px', marginTop: '32px' }}>
-              <div className="bracket-column-header" style={{ marginBottom: '160px' }}>Winner&apos;s Finals</div>
-
-              {/* Match 7 */}
-              <div className="match-box" style={{ margin: 0, border: '2px dashed var(--text-primary)' }}>
-                <div className="match-box-header">
-                  <span>Match 7 &bull; T1</span>
-                  <span className="badge badge-open" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>ON DECK</span>
-                </div>
-                <div className="match-player" style={{ color: 'var(--text-primary)', fontWeight: 600 }}>
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>R. Martin (M5)</span>
-                  <span className="score">0</span>
-                </div>
-                <div className="match-player" style={{ color: 'var(--text-primary)', fontWeight: 600 }}>
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>J. Chen (M6)</span>
-                  <span className="score">0</span>
-                </div>
-              </div>
-            </div>
-
-            {/* SVG CONNECTOR COLUMN 3 */}
-            <div style={{ flex: '0 0 24px', height: '440px', marginTop: '32px' }}>
-              <svg width="100%" height="100%" viewBox="0 0 24 440" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                {/* Match 7 -> Grand Finals Match 8 */}
-                <path d="M 0 220 H 22" stroke="#94a3b8" strokeWidth="2" strokeDasharray="3 2" fill="none" markerEnd="url(#arrow-muted)" />
-              </svg>
-            </div>
-
-            {/* ROUND 4: GRAND FINALS */}
-            <div style={{ flex: '1.1 1 0%', minWidth: 0, display: 'flex', flexDirection: 'column', height: '440px', marginTop: '32px' }}>
-              <div className="bracket-column-header" style={{ marginBottom: '160px', background: '#0f172a', color: '#ffffff', border: 'none' }}>
-                Championship Final
-              </div>
-
-              {/* Match 8 */}
-              <div className="match-box" style={{ margin: 0, border: '2px solid #0f172a', boxShadow: '0 6px 20px rgba(15,23,42,0.15)' }}>
-                <div className="match-box-header" style={{ background: '#0f172a', color: '#ffffff' }}>
-                  <span>GRAND FINALS</span>
-                  <span style={{ fontWeight: 800 }}>$500 ADDED</span>
-                </div>
-                <div className="match-player">
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Winner Bracket Champ</span>
-                  <span className="score">0</span>
-                </div>
-                <div className="match-player">
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Loser Bracket Champ</span>
-                  <span className="score">0</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      ) : (
-        /* LOSER'S BRACKET LAYOUT WITH CONNECTING LINES */
-        <div className="bracket-wrapper" style={{ padding: '10px 0', width: '100%' }}>
-          <div style={{ display: 'flex', alignItems: 'stretch', width: '100%', gap: '4px' }}>
-            
-            {/* LOSER ROUND 1 */}
-            <div style={{ flex: '1 1 0%', minWidth: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div className="bracket-column-header">Elimination R1</div>
-
-              <div className="match-box" style={{ margin: 0 }}>
-                <div className="match-box-header">
-                  <span>Match L1 &bull; T5</span>
-                  <span className="badge badge-paid" style={{ fontSize: '0.6rem' }}>FINAL</span>
-                </div>
-                <div className="match-player winner">
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Kevin O&apos;Connor</span>
-                  <span className="score">5</span>
-                </div>
-                <div className="match-player" style={{ opacity: 0.6 }}>
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Marcus Vance</span>
-                  <span className="score">2</span>
-                </div>
-              </div>
-
-              <div className="match-box" style={{ margin: 0 }}>
-                <div className="match-box-header">
-                  <span>Match L2 &bull; T6</span>
-                  <span className="badge badge-paid" style={{ fontSize: '0.6rem' }}>FINAL</span>
-                </div>
-                <div className="match-player winner">
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Tommy Vance</span>
-                  <span className="score">5</span>
-                </div>
-                <div className="match-player" style={{ opacity: 0.6 }}>
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Chris Pastore</span>
-                  <span className="score">3</span>
-                </div>
-              </div>
-            </div>
-
-            {/* SVG CONNECTOR LOSERS 1 */}
-            <div style={{ flex: '0 0 24px', height: '240px', marginTop: '32px' }}>
-              <svg width="100%" height="100%" viewBox="0 0 24 240" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 0 45 H 12 V 120 H 22" stroke="var(--text-primary)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow)" />
-                <path d="M 0 195 H 12 V 120 H 22" stroke="#94a3b8" strokeWidth="2" strokeDasharray="3 2" fill="none" markerEnd="url(#arrow-muted)" />
-              </svg>
-            </div>
-
-            {/* LOSER SEMI FINALS */}
-            <div style={{ flex: '1 1 0%', minWidth: 0, display: 'flex', flexDirection: 'column', height: '240px', marginTop: '32px' }}>
-              <div className="bracket-column-header" style={{ marginBottom: '55px' }}>Loser Semi-Final</div>
-
-              <div className="match-box" style={{ margin: 0, border: '2px solid #f59e0b' }}>
-                <div className="match-box-header">
-                  <span>Match L3 &bull; T3</span>
-                  <span className="badge badge-pending" style={{ fontSize: '0.6rem' }}>ON DECK</span>
-                </div>
-                <div className="match-player">
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Kevin O&apos;Connor</span>
-                  <span className="score">0</span>
-                </div>
-                <div className="match-player">
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Tommy Vance</span>
-                  <span className="score">0</span>
-                </div>
-              </div>
-            </div>
-
-            {/* SVG CONNECTOR LOSERS 2 */}
-            <div style={{ flex: '0 0 24px', height: '240px', marginTop: '32px' }}>
-              <svg width="100%" height="100%" viewBox="0 0 24 240" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 0 120 H 22" stroke="#94a3b8" strokeWidth="2" strokeDasharray="3 2" fill="none" markerEnd="url(#arrow-muted)" />
-              </svg>
-            </div>
-
-            {/* LOSER FINALS */}
-            <div style={{ flex: '1 1 0%', minWidth: 0, display: 'flex', flexDirection: 'column', height: '240px', marginTop: '32px' }}>
-              <div className="bracket-column-header" style={{ marginBottom: '55px' }}>Loser Finals</div>
-
-              <div className="match-box" style={{ margin: 0, border: '2px dashed #f59e0b' }}>
-                <div className="match-box-header">
-                  <span>Match L4 &bull; T1</span>
-                  <span className="badge badge-open" style={{ fontSize: '0.6rem' }}>UPCOMING</span>
-                </div>
-                <div className="match-player">
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Winner Match L3</span>
-                  <span className="score">0</span>
-                </div>
-                <div className="match-player">
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Loser Match 7</span>
-                  <span className="score">0</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      )}
-
-      {/* Bracket Legend & Notes */}
-      <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid var(--border-card)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-          <span><strong style={{ color: 'var(--text-primary)' }}>Solid Line:</strong> Winner Path Progression</span>
-          <span><strong style={{ color: '#94a3b8' }}>Dashed Line:</strong> Upcoming Match Path</span>
-        </div>
-        <div>
-          <span>Tables 1 &ndash; 4: 9ft Diamond Pro Tables</span>
+          ))}
         </div>
       </div>
     </div>

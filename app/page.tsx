@@ -1,153 +1,151 @@
 import Link from 'next/link';
+import Hero3D from '@/components/Hero3D';
+import Reveal from '@/components/Reveal';
+import TiltCard from '@/components/TiltCard';
+import HoursList from '@/components/HoursList';
+import { CLUB } from '@/lib/club';
 
 export default function HomePage() {
   return (
     <main>
-      {/* Hero Section */}
-      <section id="hero">
-        <h2>South Jersey&apos;s Premier Billiards Lounge &amp; Tournament Venue</h2>
-        <p>
-          Located in Egg Harbor Township, NJ &mdash; just 10 minutes from the Atlantic City Boardwalk and Casinos. 
-          Featuring pro-grade 9ft Diamond and Brunswick Gold Crown tables, 12ft Regulation Snooker, 
-          3-Cushion Heated Carom, weekly open cash tournaments, full kitchen, craft beers, and APA leagues.
-        </p>
-        
-        <div className="photo-placeholder">
-          <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-          </svg>
-          <span>[ Photo Placeholder: Billiards Lounge &amp; 9ft Pro Tables Hero Image ]</span>
-          <small>Recommended aspect ratio: 16:9 widescreen photo of pool hall under canopy lights</small>
-        </div>
+      <section className="hero">
+        <Hero3D />
 
-        <div className="button-group">
-          <Link href="/tournaments" className="btn btn-primary">
-            View Tournament Schedule &amp; Register
-          </Link>
-          <Link href="/tables-and-rates" className="btn btn-outline">
-            Explore Tables &amp; Rates
-          </Link>
-          <Link href="/contact" className="btn btn-outline">
-            Get Directions &amp; Hours
-          </Link>
-        </div>
-      </section>
+        <div className="container">
+          <p className="eyebrow">{CLUB.locality}</p>
+          <h1>Rack them up</h1>
+          <p className="lede">{CLUB.intro}</p>
 
-      {/* Quick Info Grid */}
-      <section id="quick-info">
-        <h2>Quick Info &amp; Hours</h2>
-        <div className="grid-3">
-          <div className="card">
-            <h3>Operating Hours</h3>
-            <p><strong>Mon &ndash; Thu:</strong> 12:00 PM &ndash; 12:00 AM</p>
-            <p><strong>Fri &ndash; Sat:</strong> 12:00 PM &ndash; 2:00 AM</p>
-            <p><strong>Sunday:</strong> 12:00 PM &ndash; 11:00 PM</p>
-          </div>
-
-          <div className="card">
-            <h3>Address &amp; Contact</h3>
-            <p>6701 Black Horse Pike # A8</p>
-            <p>Egg Harbor Township, NJ 08234</p>
-            <p><strong>Phone:</strong> (609) 555-0199</p>
-          </div>
-
-          <div className="card">
-            <h3>Environment</h3>
-            <p><span className="badge badge-open">All Ages Welcome</span></p>
-            <p>Family-friendly environment until 9:00 PM daily. Full bar and hot kitchen available.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Tournament Spotlight */}
-      <section id="featured-tournament">
-        <h2>Featured Event Spotlight</h2>
-        
-        <div className="card">
-          <div className="card-header">
-            <div>
-              <h3>$500 Added 9-Ball Open Championship</h3>
-              <p><strong>Saturday, September 26, 2026</strong> | Doors: 11:00 AM | Play Begins: 1:00 PM</p>
-            </div>
-            <span className="badge badge-open">Registration Open</span>
-          </div>
-
-          <div className="grid-2">
-            <div className="photo-placeholder">
-              <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-              </svg>
-              <span>[ Photo Placeholder: $500 Added Tournament Flyer Poster ]</span>
-              <small>Official Flyer Photo</small>
-            </div>
-
-            <div>
-              <p><strong>Entry Fee:</strong> $25 ($20 Entry + $5 Green Fee)</p>
-              <p><strong>Format:</strong> Double Elimination. Race to 7 Winner&apos;s / Race to 5 Loser&apos;s.</p>
-              <p><strong>Spot Tracker:</strong> <span className="badge badge-info">18 Confirmed</span> <span className="badge badge-pending">4 Pending</span> <span className="badge badge-open">10 Open Spots</span></p>
-              <p style={{ marginTop: '12px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                <em>Cutoff Policy: Reserved spots must be paid 30 mins prior to tournament start (12:00 PM), after which unpaid spots forfeit to waitlist.</em>
-              </p>
-              <div style={{ marginTop: '16px' }}>
-                <Link href="/tournaments#signup-modal" className="btn btn-primary">
-                  Register For This Event &rarr;
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Specialty Equipment Grid */}
-      <section id="specialty-tables-spotlight">
-        <h2>Unmatched Specialty Equipment</h2>
-        
-        <div className="grid-2">
-          <div className="card">
-            <div className="photo-placeholder">
-              <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-              </svg>
-              <span>[ Photo Placeholder: 9ft Diamond &amp; Gold Crown Tables ]</span>
-            </div>
-            <h3>9ft Diamond &amp; Brunswick Gold Crown Tables</h3>
-            <p>Simonis 860 cloth, Super Aramith Pro ball sets, illuminated by flicker-free LED canopy lamps.</p>
-          </div>
-
-          <div className="card">
-            <div className="photo-placeholder">
-              <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-              </svg>
-              <span>[ Photo Placeholder: 12ft Regulation Snooker Table ]</span>
-            </div>
-            <h3>12ft Regulation Snooker &amp; Heated Carom</h3>
-            <p>Full-size English Snooker table with Strachan 6811 cloth alongside a thermostatically heated 3-Cushion Carom table.</p>
-          </div>
-        </div>
-        <Link href="/tables-and-rates" className="btn btn-outline">
-          View All Rates &amp; Specials &rarr;
-        </Link>
-      </section>
-
-      {/* Food & Bar Section */}
-      <section id="kitchen-bar-summary">
-        <h2>Hot Kitchen, Cold Drinks &amp; Amenities</h2>
-        <div className="card grid-2">
-          <div className="photo-placeholder">
-            <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-            </svg>
-            <span>[ Photo Placeholder: Kitchen Food &amp; Draft Beer Bar ]</span>
-          </div>
-          <div>
-            <p>
-              Fuel your game with freshly made burgers, hot wings, philly cheesesteaks, and stone-baked pizzas. 
-              We feature cold draft beers, local craft brews, TouchTunes digital jukebox, wall-to-wall HD sports TVs, and an on-site pro shop.
-            </p>
-            <Link href="/food-and-amenities" className="btn btn-outline" style={{ marginTop: '16px' }}>
-              View Full Kitchen &amp; Drink Menu &rarr;
+          <div className="button-group">
+            <a href={CLUB.phone.href} className="btn btn-primary">
+              Call {CLUB.phone.display}
+            </a>
+            <Link href="/tables-and-rates" className="btn btn-outline">
+              Tables &amp; rates
             </Link>
+          </div>
+
+          <div className="hero-meta">
+            <span>
+              <strong>{CLUB.rate.display}</strong> {CLUB.rate.unit}
+            </span>
+            <span>
+              <strong>Snooker</strong> · Three-Cushion · Tight-Pocket
+            </span>
+            <span>{CLUB.address.street}</span>
+          </div>
+        </div>
+
+        <span className="scroll-cue">Scroll</span>
+      </section>
+
+      <section id="about">
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">The room</p>
+              <h2>A pool hall, not a nightclub</h2>
+              <p className="lede">
+                No cover, no dress code, no bottle service. Just well-kept cloth,
+                honest hourly rates, and the kind of specialty equipment most rooms
+                in South Jersey simply do not have.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-3">
+            {[
+              ['Rate', CLUB.rate.display, CLUB.rate.unit],
+              ['Specialty tables', '3', 'Snooker, carom, tight-pocket'],
+              ['Price range', CLUB.priceRange, 'As listed by the club'],
+            ].map(([label, value, sub], i) => (
+              <Reveal key={label} delay={i * 90}>
+                <div className="stat">
+                  <span className="stat-label">{label}</span>
+                  <span className="stat-value">{value}</span>
+                  <span style={{ color: 'var(--text-dim)', fontSize: '0.88rem' }}>{sub}</span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="tables">
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Specialty equipment</p>
+              <h2>Three tables worth the drive</h2>
+              <p className="lede">
+                Alongside the regular pool tables, the club keeps three pieces of
+                equipment you will struggle to find anywhere else nearby.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-3">
+            {CLUB.tables.map((t, i) => (
+              <Reveal key={t.id} delay={i * 110}>
+                <TiltCard>
+                  <p className="eyebrow" style={{ marginBottom: '0.6rem' }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </p>
+                  <h3>{t.name}</h3>
+                  <p style={{ marginBottom: 0 }}>{t.blurb}</p>
+                </TiltCard>
+              </Reveal>
+            ))}
+          </div>
+
+          <div className="button-group">
+            <Link href="/tables-and-rates" className="btn btn-outline">
+              See rates
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section id="visit">
+        <div className="container">
+          <div className="grid grid-2">
+            <Reveal>
+              <div>
+                <p className="eyebrow">Before you drive out</p>
+                <h2>Hours</h2>
+                <HoursList />
+                <p style={{ fontSize: '0.86rem', marginTop: '18px' }}>{CLUB.hoursNote}</p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={120}>
+              <div className="card">
+                <h3>Find the room</h3>
+                <p>
+                  {CLUB.address.street}
+                  <br />
+                  {CLUB.address.city}, {CLUB.address.state} {CLUB.address.zip}
+                </p>
+                <p>
+                  <a href={CLUB.phone.href}>{CLUB.phone.display}</a>
+                  <br />
+                  <a href={`mailto:${CLUB.email}`}>{CLUB.email}</a>
+                </p>
+                <div className="button-group" style={{ marginTop: '20px' }}>
+                  <Link href="/contact" className="btn btn-outline">
+                    Directions
+                  </Link>
+                  <a
+                    href={CLUB.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-outline"
+                  >
+                    Facebook
+                  </a>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>

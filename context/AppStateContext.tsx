@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 export interface Tournament {
   id: string;
@@ -36,112 +36,134 @@ interface AppStateContextType {
   banner: BannerState;
   tournaments: Tournament[];
   players: PlayerRecord[];
+  ready: boolean;
   updateBanner: (active: boolean, text: string) => void;
   markPlayerPaid: (id: number, method: string) => void;
   forfeitPlayerSpot: (id: number) => void;
-  addTournament: (tournament: Omit<Tournament, 'id' | 'confirmedCount' | 'pendingCount' | 'status'>) => void;
-  registerPlayer: (player: { name: string; phone: string; email: string; rating: string; paymentPreference: string }) => void;
+  addTournament: (t: Omit<Tournament, 'id' | 'confirmedCount' | 'pendingCount' | 'status'>) => void;
+  removeTournament: (id: string) => void;
+  addPlayer: (p: { name: string; phone: string; rating: string; method: string; tournamentId: string }) => void;
 }
 
-const INITIAL_TOURNAMENTS: Tournament[] = [
-  {
-    id: 't-1',
-    title: '$500 Added 9-Ball Open Championship',
-    dateTime: 'Saturday, September 26, 2026 | Doors: 11:00 AM | Play: 1:00 PM',
-    gameType: '9-ball',
-    entryFee: 20,
-    greenFee: 5,
-    houseAdded: 500,
-    confirmedCount: 18,
-    pendingCount: 2,
-    maxSpots: 32,
-    status: 'Registration Open',
-  },
-  {
-    id: 't-2',
-    title: 'Friday Night 8-Ball Handicap Chip Tournament',
-    dateTime: 'Every Friday Night | Check-in: 6:30 PM | Play: 7:00 PM',
-    gameType: '8-ball',
-    entryFee: 12,
-    greenFee: 3,
-    houseAdded: 0,
-    confirmedCount: 12,
-    pendingCount: 2,
-    maxSpots: 24,
-    status: 'Weekly Event',
-  }
-];
+/**
+ * The club starts with an empty board. Everything the public sees is entered by
+ * the owner through /admin — no placeholder events and no sample players,
+ * because a real venue must never advertise a tournament that is not happening.
+ */
+const INITIAL_TOURNAMENTS: Tournament[] = [];
+const INITIAL_PLAYERS: PlayerRecord[] = [];
 
-const INITIAL_PLAYERS: PlayerRecord[] = [
-  { id: 1, name: 'Ray "The Razor" Martin', phone: '(609) 555-0111', rating: 'Fargo 680', status: 'paid', method: 'Cash ($25.00)', registeredAt: 'Sept 14, 10:15 AM', tournamentId: 't-1' },
-  { id: 2, name: 'Mike Sullivan', phone: '(609) 555-0122', rating: 'Fargo 650', status: 'paid', method: 'Venmo (@MikeS-Pool)', registeredAt: 'Sept 14, 11:30 AM', tournamentId: 't-1' },
-  { id: 3, name: 'Johnny McDermott', phone: '(609) 555-0123', rating: 'Fargo 520', status: 'pending', method: 'Unpaid (At Counter)', registeredAt: 'Sept 14, 01:05 PM', tournamentId: 't-1' },
-  { id: 4, name: 'Chris Pastore', phone: '(609) 555-0144', rating: 'Fargo 520', status: 'pending', method: 'Unpaid (Zelle)', registeredAt: 'Sept 14, 01:20 PM', tournamentId: 't-1' },
-  { id: 5, name: 'Dave Ramirez', phone: '(609) 555-0155', rating: 'Fargo 610', status: 'paid', method: 'Cash ($15.00)', registeredAt: 'Sept 14, 02:00 PM', tournamentId: 't-2' },
-  { id: 6, name: 'Jason Chen', phone: '(609) 555-0166', rating: 'Fargo 630', status: 'pending', method: 'Unpaid (Venmo)', registeredAt: 'Sept 14, 02:15 PM', tournamentId: 't-2' },
-];
+const STORAGE_KEY = 'ac_billiards_state_v1';
+
+interface Persisted {
+  banner: BannerState;
+  tournaments: Tournament[];
+  players: PlayerRecord[];
+}
 
 const AppStateContext = createContext<AppStateContextType | undefined>(undefined);
 
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
-  const [banner, setBanner] = useState<BannerState>({
-    active: false,
-    text: '',
-  });
-
+  const [banner, setBanner] = useState<BannerState>({ active: false, text: '' });
   const [tournaments, setTournaments] = useState<Tournament[]>(INITIAL_TOURNAMENTS);
   const [players, setPlayers] = useState<PlayerRecord[]>(INITIAL_PLAYERS);
 
-  const updateBanner = (active: boolean, text: string) => {
-    setBanner({ active, text });
-  };
+  // `ready` gates the first write so hydration never clobbers saved state, and
+  // lets the UI avoid a server/client markup mismatch on first paint.
+  const [ready, setReady] = useState(false);
 
-  const markPlayerPaid = (id: number, method: string) => {
-    setPlayers(prev => prev.map(p => p.id === id ? { ...p, status: 'paid', method } : p));
-  };
-
-  const forfeitPlayerSpot = (id: number) => {
-    setPlayers(prev => prev.map(p => p.id === id ? { ...p, status: 'forfeited' } : p));
-  };
-
-  const addTournament = (newT: Omit<Tournament, 'id' | 'confirmedCount' | 'pendingCount' | 'status'>) => {
-    const created: Tournament = {
-      ...newT,
-      id: `t-${Date.now()}`,
-      confirmedCount: 0,
-      pendingCount: 0,
-      status: 'Registration Open',
-    };
-    setTournaments(prev => [created, ...prev]);
-  };
-
-  const registerPlayer = (data: { name: string; phone: string; email: string; rating: string; paymentPreference: string }) => {
-    const newPlayer: PlayerRecord = {
-      id: Date.now(),
-      name: data.name,
-      phone: data.phone,
-      rating: data.rating || 'Unrated',
-      status: 'pending',
-      method: `Unpaid (${data.paymentPreference})`,
-      registeredAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      tournamentId: 't-1',
-    };
-    setPlayers(prev => [...prev, newPlayer]);
-  };
-
-  // Sync tournament counts dynamically based on players
-  const t1PaidCount = 16 + players.filter(p => p.tournamentId === 't-1' && p.status === 'paid').length;
-  const t1PendingCount = players.filter(p => p.tournamentId === 't-1' && p.status === 'pending').length;
-
-  const syncedTournaments = tournaments.map(t => {
-    if (t.id === 't-1') {
-      return {
-        ...t,
-        confirmedCount: t1PaidCount,
-        pendingCount: t1PendingCount,
-      };
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as Partial<Persisted>;
+        if (saved.banner) setBanner(saved.banner);
+        if (Array.isArray(saved.tournaments)) setTournaments(saved.tournaments);
+        if (Array.isArray(saved.players)) setPlayers(saved.players);
+      }
+    } catch {
+      // Corrupt or blocked storage: fall back to an empty board.
     }
-    return t;
+    setReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ banner, tournaments, players } satisfies Persisted)
+      );
+    } catch {
+      // Private browsing or a full quota: the session still works in memory.
+    }
+  }, [ready, banner, tournaments, players]);
+
+  const updateBanner = useCallback((active: boolean, text: string) => {
+    setBanner({ active, text });
+  }, []);
+
+  const markPlayerPaid = useCallback((id: number, method: string) => {
+    setPlayers((prev) => prev.map((p) => (p.id === id ? { ...p, status: 'paid', method } : p)));
+  }, []);
+
+  const forfeitPlayerSpot = useCallback((id: number) => {
+    setPlayers((prev) => prev.map((p) => (p.id === id ? { ...p, status: 'forfeited' } : p)));
+  }, []);
+
+  const addTournament = useCallback(
+    (newT: Omit<Tournament, 'id' | 'confirmedCount' | 'pendingCount' | 'status'>) => {
+      setTournaments((prev) => [
+        {
+          ...newT,
+          id: `t-${Date.now()}`,
+          confirmedCount: 0,
+          pendingCount: 0,
+          status: 'Registration Open' as const,
+        },
+        ...prev,
+      ]);
+    },
+    []
+  );
+
+  const removeTournament = useCallback((id: string) => {
+    setTournaments((prev) => prev.filter((t) => t.id !== id));
+    setPlayers((prev) => prev.filter((p) => p.tournamentId !== id));
+  }, []);
+
+  const addPlayer = useCallback(
+    (p: { name: string; phone: string; rating: string; method: string; tournamentId: string }) => {
+      setPlayers((prev) => [
+        ...prev,
+        {
+          id: Date.now(),
+          name: p.name,
+          phone: p.phone,
+          rating: p.rating || 'Unrated',
+          status: 'pending',
+          method: p.method,
+          registeredAt: new Date().toLocaleString([], {
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          }),
+          tournamentId: p.tournamentId,
+        },
+      ]);
+    },
+    []
+  );
+
+  // Counts are derived from the roster the owner actually entered.
+  const syncedTournaments = tournaments.map((t) => {
+    const roster = players.filter((p) => p.tournamentId === t.id);
+    return {
+      ...t,
+      confirmedCount: roster.filter((p) => p.status === 'paid').length,
+      pendingCount: roster.filter((p) => p.status === 'pending').length,
+    };
   });
 
   return (
@@ -150,11 +172,13 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         banner,
         tournaments: syncedTournaments,
         players,
+        ready,
         updateBanner,
         markPlayerPaid,
         forfeitPlayerSpot,
         addTournament,
-        registerPlayer,
+        removeTournament,
+        addPlayer,
       }}
     >
       {children}
@@ -163,9 +187,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useAppState() {
-  const context = useContext(AppStateContext);
-  if (!context) {
-    throw new Error('useAppState must be used within an AppStateProvider');
-  }
-  return context;
+  const ctx = useContext(AppStateContext);
+  if (!ctx) throw new Error('useAppState must be used within an AppStateProvider');
+  return ctx;
 }

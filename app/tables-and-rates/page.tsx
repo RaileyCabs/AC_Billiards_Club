@@ -1,133 +1,108 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import Reveal from '@/components/Reveal';
+import TiltCard from '@/components/TiltCard';
+import { CLUB } from '@/lib/club';
+
+export const metadata: Metadata = {
+  title: 'Tables & Rates',
+  description: `${CLUB.rate.display} ${CLUB.rate.unit}. Snooker, three-cushion carom, and tight-pocket tables in ${CLUB.address.city}, ${CLUB.address.state}.`,
+};
+
 export default function TablesAndRatesPage() {
   return (
     <main>
-      <section id="rates-header">
-        <h2>Tables, Equipment &amp; Transparent Rates</h2>
-        <p>
-          Whether you&apos;re practicing solo, bringing a date, hosting a friendly game with friends, or training on regulation specialty equipment, 
-          Atlantic City Billiard Club offers the cleanest felt and best maintained tables in South Jersey.
-        </p>
-      </section>
-
-      {/* SECTION 1: SPECIALTY EQUIPMENT SHOWCASE */}
-      <section id="equipment-showcase">
-        <h2>Our Premium Equipment Selection</h2>
-        
-        <div className="grid-2">
-          <div className="card">
-            <div className="photo-placeholder">
-              <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-              </svg>
-              <span>[ Photo Placeholder: 9ft Diamond Pro Am &amp; Brunswick Gold Crown IV ]</span>
+      <section>
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Tables &amp; rates</p>
+              <h2>What it costs to play</h2>
+              <p className="lede">
+                One hourly rate, per person, on the clock. The club lists itself at
+                a {CLUB.priceRange} price range, and the rate below is the one it
+                publishes.
+              </p>
             </div>
-            <h3>9ft Diamond &amp; Brunswick Gold Crown IV Pro Tables</h3>
-            <p><strong>Quantity:</strong> 10 Tables | <strong>Cloth:</strong> Simonis 860 Blue | <strong>Balls:</strong> Super Aramith Pro</p>
-            <p>Tournament-grade cloth cleaned daily, illuminated by shadowless high-output LED canopy lamps.</p>
-          </div>
+          </Reveal>
 
-          <div className="card">
-            <div className="photo-placeholder">
-              <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-              </svg>
-              <span>[ Photo Placeholder: 12ft Regulation Tournament Snooker Table ]</span>
+          <Reveal delay={90}>
+            <div className="card" style={{ padding: '38px 28px' }}>
+              <span className="stat-label">Hourly rate</span>
+              <div
+                className="stat-value"
+                style={{ fontSize: 'clamp(2.8rem, 9vw, 5rem)', margin: '6px 0 10px' }}
+              >
+                {CLUB.rate.display}
+              </div>
+              <p style={{ marginBottom: '6px' }}>{CLUB.rate.unit}</p>
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-faint)', marginBottom: 0 }}>
+                {CLUB.rate.note}
+              </p>
             </div>
-            <h3>12ft Regulation Tournament Snooker Table</h3>
-            <p><strong>Quantity:</strong> 1 Table (Dedicated Snooker Room) | <strong>Cloth:</strong> Strachan 6811 Wool</p>
-            <p>Full-size English Snooker table with Northern Rubber cushions, extension cues, spider rests, and Aramith 2-1/16&quot; balls.</p>
-          </div>
-
-          <div className="card">
-            <div className="photo-placeholder">
-              <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-              </svg>
-              <span>[ Photo Placeholder: Heated 3-Cushion Carom Table ]</span>
-            </div>
-            <h3>Heated 3-Cushion Carom Billiard Table</h3>
-            <p><strong>Quantity:</strong> 1 Table | <strong>Features:</strong> Thermostatically heated 60mm slate bed</p>
-            <p>Simonis 300 Carom Cloth and Aramith Super 61.5mm 3-Cushion Carom balls for true billiard physics.</p>
-          </div>
-
-          <div className="card">
-            <div className="photo-placeholder">
-              <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-              </svg>
-              <span>[ Photo Placeholder: 7ft Valley Bar Boxes ]</span>
-            </div>
-            <h3>7ft Valley Bar Boxes</h3>
-            <p><strong>Quantity:</strong> 8 Tables | <strong>Cloth:</strong> Championship Teflon Green Cloth</p>
-            <p>Maintained for APA league play and fast-paced casual games.</p>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* SECTION 2: TRANSPARENT RATES TABLE */}
-      <section id="table-rates">
-        <h2>Transparent Hourly Rates &amp; Specials</h2>
-        <p>No hidden green fees. Rates are per person per hour or flat hourly table rate.</p>
+      <section>
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Specialty equipment</p>
+              <h2>The tables</h2>
+            </div>
+          </Reveal>
 
-        <div className="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>Table Type</th>
-                <th>Standard Rate (Per Person)</th>
-                <th>2-Player Table Max Rate</th>
-                <th>3+ Player Group Rate</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>7ft Valley Bar Boxes</strong></td>
-                <td>$7.00 / hr per person</td>
-                <td>$12.00 / hr per table</td>
-                <td>$15.00 / hr per table</td>
-              </tr>
-              <tr>
-                <td><strong>9ft Pro Tables (Diamond / Gold Crown)</strong></td>
-                <td>$9.00 / hr per person</td>
-                <td>$16.00 / hr per table</td>
-                <td>$20.00 / hr per table</td>
-              </tr>
-              <tr>
-                <td><strong>12ft Snooker Table</strong></td>
-                <td>$12.00 / hr per person</td>
-                <td>$20.00 / hr per table</td>
-                <td>$24.00 / hr per table</td>
-              </tr>
-              <tr>
-                <td><strong>Heated 3-Cushion Carom Table</strong></td>
-                <td>$12.00 / hr per person</td>
-                <td>$20.00 / hr per table</td>
-                <td>$24.00 / hr per table</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          <div className="grid grid-3">
+            {CLUB.tables.map((t, i) => (
+              <Reveal key={t.id} delay={i * 110}>
+                <TiltCard>
+                  <h3>{t.name}</h3>
+                  <p style={{ marginBottom: 0 }}>{t.blurb}</p>
+                </TiltCard>
+              </Reveal>
+            ))}
+          </div>
 
-        <div className="card" style={{ marginTop: '24px' }}>
-          <h3>Daily Practice Specials</h3>
-          <ul>
-            <li><strong>Afternoon Solo Practice Special:</strong> Mon &ndash; Fri (12:00 PM &ndash; 4:00 PM) &mdash; <strong>$15 Unlimited Solo Pass</strong>.</li>
-            <li><strong>Senior (60+) &amp; Veteran Discount:</strong> 15% off all table rates.</li>
-            <li><strong>College Student Night:</strong> Wednesdays 7:00 PM &ndash; Close &mdash; $6/hr per person with student ID.</li>
-          </ul>
+          <Reveal delay={200}>
+            <p style={{ marginTop: '32px', fontSize: '0.9rem' }}>
+              Standard pool tables are available alongside the specialty equipment.
+              For table availability, group play, or to hold a table for a specific
+              night, call the room directly at{' '}
+              <a href={CLUB.phone.href} style={{ borderBottom: '1px solid var(--line-strong)' }}>
+                {CLUB.phone.display}
+              </a>
+              .
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* SECTION 3: HOUSE RULES */}
-      <section id="house-rules">
-        <h2>House Rules &amp; Equipment Etiquette</h2>
-        <div className="card">
-          <ul>
-            <li><strong>No Food or Drinks on Table Rails:</strong> Drinks must remain on pub tables and cue racks.</li>
-            <li><strong>No Mass&eacute; or Unapproved Jump Shots:</strong> Prohibited on Snooker/Carom tables. On 9ft tables, jump shots require proper phenolic jump cues and slate protection.</li>
-            <li><strong>Rack &amp; Cue Care:</strong> Set racks down gently. Chalk cues away from the table bed.</li>
-            <li><strong>Player Respect:</strong> Avoid standing in a player&apos;s shot line on adjacent tables during tournament play.</li>
-          </ul>
+      <section>
+        <div className="container">
+          <Reveal>
+            <div className="card">
+              <h3>House etiquette</h3>
+              <ul>
+                <li>Keep drinks off the rails and the table bed.</li>
+                <li>Chalk away from the cloth.</li>
+                <li>Set the rack down — do not drop it.</li>
+                <li>Stay out of a neighbouring player&apos;s shot line.</li>
+              </ul>
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-faint)', marginTop: '16px', marginBottom: 0 }}>
+                Standard room courtesy. The club has final say on house rules.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="button-group">
+            <a href={CLUB.phone.href} className="btn btn-primary">
+              Call the room
+            </a>
+            <Link href="/contact" className="btn btn-outline">
+              Hours &amp; directions
+            </Link>
+          </div>
         </div>
       </section>
     </main>
