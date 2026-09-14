@@ -9,14 +9,13 @@ export default function TournamentsPage() {
   const { tournaments, registerPlayer } = useAppState();
   const [filterGame, setFilterGame] = useState('all');
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [selectedArchiveBracket, setSelectedArchiveBracket] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
     rating: '',
-    paymentPreference: 'Cash at Counter'
+    paymentPreference: 'cash_at_door'
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -33,7 +32,7 @@ export default function TournamentsPage() {
 
     setFormSubmitted(true);
     alert(`Registration reserved for ${formData.name}! You are added to the roster in PENDING PAYMENT status.`);
-    setFormData({ name: '', phone: '', email: '', rating: '', paymentPreference: 'Cash at Counter' });
+    setFormData({ name: '', phone: '', email: '', rating: '', paymentPreference: 'cash_at_door' });
   };
 
   const filteredTournaments = tournaments.filter(t => {
@@ -55,23 +54,11 @@ export default function TournamentsPage() {
       <section id="upcoming-tournaments">
         <h2>Upcoming Tournaments</h2>
 
-        <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-          <label htmlFor="game-type-filter" style={{ fontWeight: 700, fontSize: '0.95rem' }}>
-            Filter Game Type:
-          </label>
+        <div style={{ marginBottom: '20px' }}>
+          <label htmlFor="game-type-filter">Filter Game Type: </label>
           <select 
             id="game-type-filter" 
-            style={{ 
-              width: 'auto', 
-              minWidth: '320px', 
-              padding: '10px 40px 10px 14px', 
-              fontSize: '0.9rem',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--border-card)',
-              backgroundColor: 'var(--bg-card)',
-              color: 'var(--text-primary)',
-              cursor: 'pointer'
-            }}
+            style={{ maxWidth: '300px' }}
             value={filterGame}
             onChange={(e) => setFilterGame(e.target.value)}
           >
@@ -90,9 +77,7 @@ export default function TournamentsPage() {
                 <h3>{t.title}</h3>
                 <p><strong>{t.dateTime}</strong></p>
               </div>
-              <span className="badge badge-open" style={{ background: 'rgba(0, 240, 255, 0.15)', color: '#00f0ff', border: '1px solid rgba(0, 240, 255, 0.4)' }}>
-                {t.status}
-              </span>
+              <span className="badge badge-open">{t.status}</span>
             </div>
 
             <div className="grid-2">
@@ -106,12 +91,11 @@ export default function TournamentsPage() {
 
               <div>
                 <p><strong>Entry Fee:</strong> ${t.entryFee + t.greenFee} (${t.entryFee} Entry + ${t.greenFee} Green Fee)</p>
-                {t.houseAdded > 0 && <p><strong>House Added:</strong> <span style={{ color: '#ffaa00', fontWeight: 800 }}>${t.houseAdded} Guaranteed</span></p>}
+                {t.houseAdded > 0 && <p><strong>House Added:</strong> ${t.houseAdded} Guaranteed</p>}
                 <p><strong>Format:</strong> Double Elimination. Race length based on Fargo rating.</p>
-                <p style={{ display: 'flex', gap: '6px', alignItems: 'center', flexWrap: 'wrap', marginTop: '8px' }}>
-                  <strong>Spot Tracker:</strong> 
-                  <span className="badge badge-info">{t.confirmedCount} Confirmed</span>
-                  <span className="badge badge-pending">{t.pendingCount} Pending</span>
+                <p><strong>Real-Time Spot Tracker:</strong> 
+                  {' '}<span className="badge badge-info">{t.confirmedCount} Confirmed</span>{' '}
+                  <span className="badge badge-pending">{t.pendingCount} Pending</span>{' '}
                   <span className="badge badge-open">{Math.max(0, t.maxSpots - t.confirmedCount - t.pendingCount)} Open Spots</span>
                 </p>
 
@@ -121,7 +105,7 @@ export default function TournamentsPage() {
                   </p>
                 </div>
 
-                <a href="#signup-modal" className="btn btn-primary" style={{ background: 'linear-gradient(135deg, #ff1744 0%, #d50000 100%)', boxShadow: '0 0 15px rgba(255, 23, 68, 0.4)' }}>
+                <a href="#signup-modal" className="btn btn-primary">
                   Reserve Your Spot Now &rarr;
                 </a>
               </div>
@@ -131,14 +115,14 @@ export default function TournamentsPage() {
       </section>
 
       {/* PLAYER REGISTRATION FORM CARD */}
-      <section id="signup-modal" className="card" style={{ border: '1px solid var(--border-card)' }}>
+      <section id="signup-modal" className="card" style={{ border: '2px solid var(--border-card)' }}>
         <div className="card-header">
           <h3>Player Tournament Registration Form</h3>
           <span className="badge badge-pending">Pending Payment Spot</span>
         </div>
 
         {formSubmitted && (
-          <div style={{ backgroundColor: 'rgba(0, 240, 255, 0.15)', color: '#00f0ff', border: '1px solid rgba(0, 240, 255, 0.4)', padding: '12px', borderRadius: 'var(--radius-md)', marginBottom: '16px' }}>
+          <div style={{ backgroundColor: '#dcfce7', color: '#15803d', padding: '12px', borderRadius: 'var(--radius-md)', marginBottom: '16px' }}>
             🎉 <strong>Registration Successful!</strong> Your spot is reserved on the live roster as Pending Payment.
           </div>
         )}
@@ -202,7 +186,6 @@ export default function TournamentsPage() {
             <select 
               id="payment_preference" 
               name="payment_preference"
-              style={{ width: '100%', minWidth: '100%' }}
               value={formData.paymentPreference}
               onChange={(e) => setFormData({ ...formData, paymentPreference: e.target.value })}
             >
@@ -219,7 +202,7 @@ export default function TournamentsPage() {
             </p>
           </div>
 
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', background: 'linear-gradient(135deg, #ff1744 0%, #d50000 100%)', boxShadow: '0 0 15px rgba(255, 23, 68, 0.4)' }}>
+          <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
             Complete Registration &amp; Get Digital Receipt
           </button>
         </form>
@@ -233,36 +216,7 @@ export default function TournamentsPage() {
         <TournamentBracket />
       </section>
 
-      {/* SECTION 3: APA LEAGUES & IN-HOUSE DIVISIONS (MOVED BEFORE PAST RESULTS) */}
-      <section id="league-nights">
-        <h2>APA Leagues &amp; In-House Divisions</h2>
-        <p>Join South Jersey sanctioned league divisions competing weekly on Diamond and Valley tables.</p>
-        
-        <div className="grid-3">
-          <div className="card">
-            <h3>Monday Night APA 8-Ball</h3>
-            <p><strong>Time:</strong> 7:00 PM Start</p>
-            <p><strong>Equipment:</strong> 7ft Valley Bar Boxes</p>
-            <p><strong>Contact:</strong> Dan M. - (609) 555-0144</p>
-          </div>
-
-          <div className="card">
-            <h3>Wednesday Night APA 9-Ball</h3>
-            <p><strong>Time:</strong> 7:00 PM Start</p>
-            <p><strong>Equipment:</strong> 7ft Valley Bar Boxes</p>
-            <p><strong>Contact:</strong> Sarah T. - (609) 555-0188</p>
-          </div>
-
-          <div className="card">
-            <h3>Thursday Pro 9-Ball League</h3>
-            <p><strong>Time:</strong> 7:30 PM Start</p>
-            <p><strong>Equipment:</strong> 9ft Diamond Pro Tables</p>
-            <p><strong>Contact:</strong> Front Desk - (609) 555-0199</p>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 4: TOURNAMENT ARCHIVE & PAST RESULTS */}
+      {/* SECTION 3: TOURNAMENT ARCHIVE */}
       <section id="tournament-archive">
         <h2>Tournament Archive &amp; Past Results</h2>
         <p>Historical tournament records and official prize money payouts from recent events.</p>
@@ -290,15 +244,7 @@ export default function TournamentsPage() {
                 <td><strong>Mike Sullivan</strong> ($360)</td>
                 <td>Dave Ramirez ($210)</td>
                 <td>Chris Pastore ($150)</td>
-                <td>
-                  <button 
-                    onClick={() => setSelectedArchiveBracket('Saturday 8-Ball Handicap Open (Sept 12, 2026) - Winner: Mike Sullivan ($360)')} 
-                    className="btn btn-outline" 
-                    style={{ padding: '3px 8px', fontSize: '0.75rem' }}
-                  >
-                    View Bracket
-                  </button>
-                </td>
+                <td><a href="#" className="btn btn-outline" style={{ padding: '3px 8px', fontSize: '0.75rem' }}>View Bracket</a></td>
               </tr>
               <tr>
                 <td>Aug 29, 2026</td>
@@ -308,15 +254,7 @@ export default function TournamentsPage() {
                 <td><strong>Ray &quot;The Razor&quot; Martin</strong> ($900)</td>
                 <td>Jason Chen ($500)</td>
                 <td>Tommy Vance ($400)</td>
-                <td>
-                  <button 
-                    onClick={() => setSelectedArchiveBracket('$1,000 Added Summer 9-Ball Classic (Aug 29, 2026) - Winner: Ray "The Razor" Martin ($900)')} 
-                    className="btn btn-outline" 
-                    style={{ padding: '3px 8px', fontSize: '0.75rem' }}
-                  >
-                    View Bracket
-                  </button>
-                </td>
+                <td><a href="#" className="btn btn-outline" style={{ padding: '3px 8px', fontSize: '0.75rem' }}>View Bracket</a></td>
               </tr>
               <tr>
                 <td>Aug 15, 2026</td>
@@ -326,49 +264,39 @@ export default function TournamentsPage() {
                 <td><strong>Dave Ramirez</strong> ($280)</td>
                 <td>Marcus Vance ($140)</td>
                 <td>Kevin O&apos;Connor ($60)</td>
-                <td>
-                  <button 
-                    onClick={() => setSelectedArchiveBracket('10-Ball Open Shootout (Aug 15, 2026) - Winner: Dave Ramirez ($280)')} 
-                    className="btn btn-outline" 
-                    style={{ padding: '3px 8px', fontSize: '0.75rem' }}
-                  >
-                    View Bracket
-                  </button>
-                </td>
+                <td><a href="#" className="btn btn-outline" style={{ padding: '3px 8px', fontSize: '0.75rem' }}>View Bracket</a></td>
               </tr>
             </tbody>
           </table>
         </div>
-
-        {/* ARCHIVE BRACKET MODAL / POPUP */}
-        {selectedArchiveBracket && (
-          <div style={{ marginTop: '20px' }} className="card">
-            <div className="card-header">
-              <div>
-                <h3 style={{ color: '#00f0ff', fontSize: '1.1rem' }}>Historical Bracket Breakdown</h3>
-                <p style={{ margin: 0, fontSize: '0.85rem' }}>{selectedArchiveBracket}</p>
-              </div>
-              <button 
-                onClick={() => setSelectedArchiveBracket(null)} 
-                className="btn btn-outline" 
-                style={{ padding: '4px 10px', fontSize: '0.75rem' }}
-              >
-                Close Archive Bracket ✕
-              </button>
-            </div>
-            
-            <div style={{ backgroundColor: 'var(--bg-card-hover)', padding: '16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-card)' }}>
-              <p style={{ fontSize: '0.875rem', margin: '0 0 10px 0' }}><strong>Final Payout Summary:</strong></p>
-              <ul style={{ paddingLeft: '20px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                <li>1st Place Champion: <strong>Ray "The Razor" Martin</strong> &mdash; 7-4 Final Win</li>
-                <li>2nd Place Runner Up: <strong>Jason Chen</strong> &mdash; Winner Bracket Finalist</li>
-                <li>3rd Place: <strong>Mike Sullivan</strong> &mdash; Loser Bracket Finalist</li>
-              </ul>
-            </div>
-          </div>
-        )}
       </section>
 
+      {/* SECTION 4: LEAGUE NIGHTS */}
+      <section id="league-nights">
+        <h2>APA Leagues &amp; In-House Divisions</h2>
+        <div className="grid-3">
+          <div className="card">
+            <h3>Monday Night APA 8-Ball</h3>
+            <p><strong>Time:</strong> 7:00 PM Start</p>
+            <p><strong>Equipment:</strong> 7ft Valley Bar Boxes</p>
+            <p><strong>Contact:</strong> Dan M. - (609) 555-0144</p>
+          </div>
+
+          <div className="card">
+            <h3>Wednesday Night APA 9-Ball</h3>
+            <p><strong>Time:</strong> 7:00 PM Start</p>
+            <p><strong>Equipment:</strong> 7ft Valley Bar Boxes</p>
+            <p><strong>Contact:</strong> Sarah T. - (609) 555-0188</p>
+          </div>
+
+          <div className="card">
+            <h3>Thursday Pro 9-Ball League</h3>
+            <p><strong>Time:</strong> 7:30 PM Start</p>
+            <p><strong>Equipment:</strong> 9ft Diamond Pro Tables</p>
+            <p><strong>Contact:</strong> Front Desk - (609) 555-0199</p>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

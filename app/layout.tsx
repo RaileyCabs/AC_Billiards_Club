@@ -15,14 +15,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="dark">
+    <html lang="en" data-theme="light">
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('ac_billiards_theme') || 'dark';
+                  var theme = localStorage.getItem('ac_billiards_theme') || 'light';
                   document.documentElement.setAttribute('data-theme', theme);
                 } catch (e) {}
               })();
