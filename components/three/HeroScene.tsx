@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { PerformanceMonitor } from '@react-three/drei';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import PoolTable from './PoolTable';
@@ -55,12 +56,12 @@ function Lamp({ x, castShadow }: { x: number; castShadow: boolean }) {
   return (
     <group position={[x, 0.78, 0]}>
       <mesh position={[0, 0.34, 0]}>
-        <cylinderGeometry args={[0.004, 0.004, 0.68, 8]} />
+        <cylinderGeometry args={[0.004, 0.004, 0.68, 6]} />
         <meshStandardMaterial color="#1a1a1a" roughness={0.6} />
       </mesh>
 
-      <mesh castShadow>
-        <coneGeometry args={[0.17, 0.17, 28, 1, true]} />
+      <mesh>
+        <coneGeometry args={[0.17, 0.17, 24, 1, true]} />
         <meshStandardMaterial
           color="#23272e"
           roughness={0.34}
@@ -73,11 +74,11 @@ function Lamp({ x, castShadow }: { x: number; castShadow: boolean }) {
 
       {/* Visible filament, and a soft disc so the shade reads as lit. */}
       <mesh position={[0, -0.066, 0]}>
-        <sphereGeometry args={[0.032, 16, 12]} />
+        <sphereGeometry args={[0.032, 12, 8]} />
         <meshBasicMaterial color="#fff6e2" toneMapped={false} />
       </mesh>
       <mesh position={[0, -0.084, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[0.155, 28]} />
+        <circleGeometry args={[0.155, 20]} />
         <meshBasicMaterial color="#ffdfae" transparent opacity={0.22} toneMapped={false} />
       </mesh>
 
@@ -91,22 +92,22 @@ function Lamp({ x, castShadow }: { x: number; castShadow: boolean }) {
         intensity={7.5}
         color="#fff1d0"
         castShadow={castShadow}
-        shadow-mapSize={[1024, 1024]}
-        shadow-bias={-0.0008}
+        shadow-mapSize={[512, 512]}
+        shadow-bias={-0.0012}
       />
     </group>
   );
 }
 
 /** Three canopy lamps, each throwing its own pool of light onto the cloth. */
-function Lamps() {
+function Lamps({ shadows }: { shadows: boolean }) {
   return (
     <group>
       <ambientLight intensity={0.17} />
       <hemisphereLight args={['#cfd8e3', '#0a0a0a', 0.24]} />
 
       {[-0.78, 0, 0.78].map((x, i) => (
-        <Lamp key={x} x={x} castShadow={i === 1} />
+        <Lamp key={x} x={x} castShadow={shadows && i === 1} />
       ))}
 
       {/* Cool rim light so the rails separate from the background. */}
@@ -114,6 +115,8 @@ function Lamps() {
     </group>
   );
 }
+
+const tmp = new THREE.Vector3();
 
 /**
  * Eases the camera toward a target derived from pointer position and scroll,
@@ -128,6 +131,8 @@ function CameraRig({ interactive }: { interactive: boolean }) {
   useEffect(() => {
     if (!interactive) return;
 
+    // Both handlers only stash a number; the work happens in the frame loop,
+    // so a fast scroll can never queue up more work than it can render.
     const onMove = (e: PointerEvent) => {
       pointer.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       pointer.current.y = (e.clientY / window.innerHeight) * 2 - 1;
@@ -149,7 +154,7 @@ function CameraRig({ interactive }: { interactive: boolean }) {
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
     const s = scroll.current;
-    const k = 1 - Math.pow(0.001, delta);
+    const k = 1 - Math.pow(0.001, Math.min(delta, 0.05));
 
     // `fov` is vertical, so a tall phone viewport sees a very narrow slice of
     // the table. Back the camera off as the frame narrows, or the hero turns
@@ -168,8 +173,6 @@ function CameraRig({ interactive }: { interactive: boolean }) {
   return null;
 }
 
-const tmp = new THREE.Vector3();
-
 function Floor() {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.82, 0]} receiveShadow>
@@ -183,6 +186,11 @@ export default function HeroScene() {
   const wrap = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(true);
   const [reduced, setReduced] = useState(false);
+
+  // Quality is measured, not assumed. A weak GPU or a 4K display gets fewer
+  // pixels and loses shadows rather than dropping frames.
+  const [dpr, setDpr] = useState(1.25);
+  const [shadows, setShadows] = useState(true);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -206,14 +214,21 @@ export default function HeroScene() {
     return () => io.disconnect();
   }, []);
 
+  // Multisampling costs real bandwidth and buys little once we are already
+  // rendering above 1x, so spend the budget on resolution instead.
+  const antialias = useMemo(
+    () => typeof window === 'undefined' || window.devicePixelRatio < 1.5,
+    []
+  );
+
   return (
     <div ref={wrap} className="hero-canvas" aria-hidden="true">
       <Canvas
-        shadows
-        dpr={[1, 1.75]}
+        shadows={shadows}
+        dpr={dpr}
         frameloop={visible ? 'always' : 'demand'}
         camera={{ position: [0, 0.99, 2.02], fov: 42, near: 0.1, far: 60 }}
-        gl={{ antialias: true, powerPreference: 'high-performance' }}
+        gl={{ antialias, powerPreference: 'high-performance' }}
         onCreated={({ gl }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.06;
@@ -222,11 +237,21 @@ export default function HeroScene() {
         <color attach="background" args={['#08080a']} />
         <fog attach="fog" args={['#08080a', 4.2, 11]} />
 
+        <PerformanceMonitor
+          bounds={() => [50, 60]}
+          onDecline={() => setDpr((d) => Math.max(0.7, +(d - 0.25).toFixed(2)))}
+          onIncline={() => setDpr((d) => Math.min(1.5, +(d + 0.25).toFixed(2)))}
+          onFallback={() => {
+            setDpr(0.7);
+            setShadows(false);
+          }}
+        />
+
         <Suspense fallback={null}>
           <Reflections />
-          <Lamps />
+          <Lamps shadows={shadows} />
           <Floor />
-          <PoolTable animate={!reduced} />
+          <PoolTable animate={!reduced} shadows={shadows} />
           <CameraRig interactive={!reduced} />
         </Suspense>
       </Canvas>

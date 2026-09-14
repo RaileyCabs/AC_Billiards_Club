@@ -10,6 +10,7 @@ import { CLUB } from '@/lib/club';
 const LINKS = [
   { href: '/', label: 'Home' },
   { href: '/tables-and-rates', label: 'Tables & Rates' },
+  { href: '/gallery', label: 'Gallery' },
   { href: '/contact', label: 'Location & Hours' },
   { href: '/tournaments', label: 'Tournaments' },
 ];

@@ -52,6 +52,9 @@ export default function Footer() {
               <Link href="/tables-and-rates">Tables &amp; Rates</Link>
             </li>
             <li>
+              <Link href="/gallery">Gallery</Link>
+            </li>
+            <li>
               <Link href="/contact">Location &amp; Hours</Link>
             </li>
             <li>

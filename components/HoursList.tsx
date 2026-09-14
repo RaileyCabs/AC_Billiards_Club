@@ -20,7 +20,7 @@ export default function HoursList() {
         <li key={h.day} className={h.day === today ? 'today' : undefined}>
           <span className="day">{h.day}</span>
           <span className="time">
-            {h.open ? `${h.open} — ${h.close}` : 'Closed'}
+            {h.open ? `${h.open} — ${h.close}` : ('label' in h && h.label) || 'Closed'}
           </span>
         </li>
       ))}

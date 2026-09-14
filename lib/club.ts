@@ -17,6 +17,8 @@ export const CLUB = {
     'A local Pool & Billiards Club with reasonable rates and a friendly environment.',
 
   address: {
+    /** The club's own flyers name the plaza. */
+    plaza: 'Cardiff Plaza',
     street: '6701 Black Horse Pike, Ste A8',
     city: 'Egg Harbor Township',
     state: 'NJ',
@@ -57,11 +59,11 @@ export const CLUB = {
     { day: 'Thursday', open: '6:00 PM', close: '12:00 AM' },
     { day: 'Friday', open: '6:00 PM', close: '12:00 AM' },
     { day: 'Saturday', open: '12:00 PM', close: '12:00 AM' },
-    { day: 'Sunday', open: null, close: null, note: 'See Facebook for Sunday events' },
+    { day: 'Sunday', open: null, close: null, label: 'Varies — see Facebook' },
   ] as const,
 
   hoursNote:
-    'Hours can change for tournaments and holidays. Call ahead or check Facebook before you drive out.',
+    'Hours can change for tournaments, holidays, and game days. The club posts changes to Facebook first, so call ahead or check there before you drive out.',
 
   /** Specialty tables named on the Facebook page. */
   tables: [
@@ -82,6 +84,26 @@ export const CLUB = {
       name: 'Tight-Pocket',
       blurb:
         'Pro-cut pockets for players who want their practice to punish them. Shots that drop elsewhere rattle here.',
+    },
+  ],
+
+  /**
+   * Things the club advertises about itself on its own flyers. Kept general on
+   * purpose — the club promotes "great food" and "ice cold drinks" but has
+   * never published a menu or a price list, so neither appears here.
+   */
+  amenities: [
+    {
+      title: 'Food and drinks',
+      body: 'The club\u2019s flyers promise good food, ice cold drinks, and music. Call for what the kitchen is serving.',
+    },
+    {
+      title: 'The games on the screens',
+      body: 'Eagles and Phillies games go up on the screens, and the club opens some Sundays specifically for football and baseball.',
+    },
+    {
+      title: 'APA 9-ball league',
+      body: 'League night runs alongside open table time, with specialty tables and, as the club puts it, plenty of tables for all.',
     },
   ],
 

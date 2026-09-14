@@ -26,11 +26,11 @@ const BODY_H = 0.30;
 type Phase = 'settle' | 'draw' | 'strike' | 'roll' | 'rerack';
 
 const PHASE_MS: Record<Phase, number> = {
-  settle: 2200,
-  draw: 750,
+  settle: 1700,
+  draw: 700,
   strike: 110,
-  roll: 9000,
-  rerack: 1100,
+  roll: 8000,
+  rerack: 1000,
 };
 
 /** Deterministic-ish variation so every break differs without a dependency. */
@@ -42,7 +42,13 @@ function makeRng(seed: number) {
   };
 }
 
-export default function PoolTable({ animate }: { animate: boolean }) {
+export default function PoolTable({
+  animate,
+  shadows = true,
+}: {
+  animate: boolean;
+  shadows?: boolean;
+}) {
   const balls = useRef<Ball[]>(rackedBalls());
   const meshes = useRef<(THREE.Mesh | null)[]>([]);
   const quats = useRef<THREE.Quaternion[]>(
@@ -52,6 +58,10 @@ export default function PoolTable({ animate }: { animate: boolean }) {
   const phase = useRef<Phase>('settle');
   const elapsed = useRef(0);
   const rng = useRef(makeRng(20260914));
+  // Re-rack happens at the midpoint of the phase, behind a shrink/grow, so the
+  // balls never pop from a finished table straight back into a full rack.
+  const reracked = useRef(false);
+  const fade = useRef(1);
 
   const textures = useMemo(
     () => Array.from({ length: 16 }, (_, i) => makeBallTexture(i)),
@@ -71,6 +81,20 @@ export default function PoolTable({ animate }: { animate: boolean }) {
       elapsed.current += dt * 1000;
       advance();
       if (phase.current === 'roll') step(balls.current, dt);
+
+      if (phase.current === 'rerack') {
+        const t = Math.min(elapsed.current / PHASE_MS.rerack, 1);
+        if (t >= 0.5 && !reracked.current) {
+          balls.current = rackedBalls();
+          quats.current.forEach((q) => q.identity());
+          reracked.current = true;
+        }
+        const half = t < 0.5 ? 1 - t * 2 : (t - 0.5) * 2;
+        fade.current = half * half * (3 - 2 * half);
+      } else {
+        fade.current = 1;
+        reracked.current = false;
+      }
     }
 
     // Push simulation state onto the meshes.
@@ -83,6 +107,7 @@ export default function PoolTable({ animate }: { animate: boolean }) {
       if (b.potted) continue;
 
       mesh.position.set(b.x, BALL_R, b.z);
+      mesh.scale.setScalar(fade.current);
 
       const speed = Math.hypot(b.vx, b.vz);
       if (speed > 0) {
@@ -121,8 +146,6 @@ export default function PoolTable({ animate }: { animate: boolean }) {
     } else if (p === 'roll') {
       phase.current = 'rerack';
     } else {
-      balls.current = rackedBalls();
-      quats.current.forEach((q) => q.identity());
       phase.current = 'settle';
     }
   }
@@ -164,27 +187,26 @@ export default function PoolTable({ animate }: { animate: boolean }) {
           ref={(m) => {
             meshes.current[i] = m;
           }}
-          castShadow
+          castShadow={shadows}
           position={[b.x, BALL_R, b.z]}
         >
-          <sphereGeometry args={[BALL_R, 40, 28]} />
-          <meshPhysicalMaterial
+          <sphereGeometry args={[BALL_R, 32, 20]} />
+          <meshStandardMaterial
             map={textures[b.num]}
-            roughness={0.07}
+            roughness={0.13}
             metalness={0}
-            clearcoat={1}
-            clearcoatRoughness={0.03}
+            envMapIntensity={1.4}
           />
         </mesh>
       ))}
 
       <group ref={cue}>
-        <mesh rotation={[0, 0, Math.PI / 2]} position={[-0.72, 0, 0]} castShadow>
-          <cylinderGeometry args={[0.0065, 0.0145, 1.44, 20]} />
+        <mesh rotation={[0, 0, Math.PI / 2]} position={[-0.72, 0, 0]}>
+          <cylinderGeometry args={[0.0065, 0.0145, 1.44, 12]} />
           <meshStandardMaterial color="#c8a678" roughness={0.35} metalness={0.05} />
         </mesh>
         <mesh rotation={[0, 0, Math.PI / 2]} position={[-1.19, 0, 0]}>
-          <cylinderGeometry args={[0.0132, 0.0148, 0.5, 20]} />
+          <cylinderGeometry args={[0.0132, 0.0148, 0.5, 12]} />
           <meshStandardMaterial color="#231610" roughness={0.3} />
         </mesh>
       </group>
@@ -202,7 +224,7 @@ function Frame() {
 
   return (
     <group>
-      <mesh position={[0, -BODY_H / 2, 0]} castShadow receiveShadow>
+      <mesh position={[0, -BODY_H / 2, 0]} receiveShadow>
         <boxGeometry args={[w, BODY_H, d]} />
         <meshStandardMaterial color="#2b1c12" roughness={0.55} metalness={0.05} />
       </mesh>
@@ -212,13 +234,13 @@ function Frame() {
         [0, HALF_H + RAIL_W / 2, w, RAIL_W],
         [0, -HALF_H - RAIL_W / 2, w, RAIL_W],
       ] as const).map(([x, z, sx, sz], i) => (
-        <mesh key={`lr${i}`} position={[x, RAIL_H / 2, z]} castShadow receiveShadow>
+        <mesh key={`lr${i}`} position={[x, RAIL_H / 2, z]} receiveShadow>
           <boxGeometry args={[sx, RAIL_H, sz]} />
           <meshStandardMaterial color="#352417" roughness={0.42} metalness={0.06} />
         </mesh>
       ))}
       {([HALF_W + RAIL_W / 2, -HALF_W - RAIL_W / 2] as const).map((x, i) => (
-        <mesh key={`sr${i}`} position={[x, RAIL_H / 2, 0]} castShadow receiveShadow>
+        <mesh key={`sr${i}`} position={[x, RAIL_H / 2, 0]} receiveShadow>
           <boxGeometry args={[RAIL_W, RAIL_H, PLAY_H]} />
           <meshStandardMaterial color="#352417" roughness={0.42} metalness={0.06} />
         </mesh>
@@ -310,7 +332,7 @@ function Legs() {
         [-lx, lz],
         [-lx, -lz],
       ].map(([x, z], i) => (
-        <mesh key={i} position={[x, -BODY_H - 0.17, z]} castShadow>
+        <mesh key={i} position={[x, -BODY_H - 0.17, z]}>
           <boxGeometry args={[0.15, 0.34, 0.15]} />
           <meshStandardMaterial color="#241710" roughness={0.6} />
         </mesh>

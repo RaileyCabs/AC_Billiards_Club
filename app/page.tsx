@@ -1,9 +1,11 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import Hero3D from '@/components/Hero3D';
 import Reveal from '@/components/Reveal';
 import TiltCard from '@/components/TiltCard';
 import HoursList from '@/components/HoursList';
 import { CLUB } from '@/lib/club';
+import { GALLERY } from '@/lib/gallery';
 
 export default function HomePage() {
   return (
@@ -101,6 +103,68 @@ export default function HomePage() {
           <div className="button-group">
             <Link href="/tables-and-rates" className="btn btn-outline">
               See rates
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section id="more-than-pool">
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Beyond the table</p>
+              <h2>Food, drinks, and the game on</h2>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-3">
+            {CLUB.amenities.map((a, i) => (
+              <Reveal key={a.title} delay={i * 100}>
+                <TiltCard>
+                  <h3>{a.title}</h3>
+                  <p style={{ marginBottom: 0 }}>{a.body}</p>
+                </TiltCard>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="gallery-teaser">
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Gallery</p>
+              <h2>From the club&apos;s Facebook</h2>
+              <p className="lede">
+                Tournament nights, league nights, and the flyers the club puts out
+                each week.
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={90}>
+            <ul className="gallery-strip">
+              {GALLERY.slice(0, 5).map((g) => (
+                <li key={g.slug}>
+                  <Link href="/gallery" aria-label={g.caption}>
+                    <Image
+                      src={`/gallery/${g.slug}-thumb.jpg`}
+                      alt={g.alt}
+                      width={560}
+                      height={560}
+                      sizes="(max-width: 700px) 45vw, 220px"
+                      loading="lazy"
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <div className="button-group">
+            <Link href="/gallery" className="btn btn-outline">
+              See the gallery
             </Link>
           </div>
         </div>

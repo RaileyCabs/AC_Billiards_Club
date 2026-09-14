@@ -22,8 +22,12 @@ balls run out, and re-racks — on a loop. Nothing is pre-rendered video.
 
 It is built to stay out of the way on a phone:
 
-- three.js is **code-split** — the initial page load is ~109 kB JS and the scene
+- three.js is **code-split** — the initial page load is ~115 kB JS and the scene
   arrives after first paint.
+- **Quality is measured, not assumed.** A `PerformanceMonitor` watches the real
+  frame rate and scales resolution between 0.7x and 1.5x, dropping shadows
+  entirely if the GPU still cannot keep up. Weak hardware loses pixels rather
+  than frames.
 - Rendering **stops entirely** when the hero scrolls out of view.
 - `prefers-reduced-motion` freezes the break and the camera drift.
 - No WebGL, or a GPU that refuses the render target, falls back to a gradient.
@@ -43,7 +47,24 @@ people to a real address at a real time; invented menus, prices, or events are
 worse than a blank page. If something is unknown, the page says to call.
 
 Hours are shown alongside a call-to-confirm, because the club posts schedule
-changes to Facebook first.
+changes to Facebook first. Sunday reads "varies" rather than a time or a flat
+"closed": directory listings say closed, but the club's own flyers advertise
+Sunday openings for televised games.
+
+## Gallery images
+
+`public/gallery` holds images taken from the club's Facebook page. They are
+served from this site on purpose — Facebook's CDN URLs are signed and expire, so
+hotlinking them would leave broken tiles within days.
+
+Captions in [`lib/gallery.ts`](lib/gallery.ts) describe what each image shows,
+and dated promotions carry the date they were posted for, so nobody mistakes an
+old flyer for this week's schedule. Stale notices (a past holiday closure) are
+not published at all.
+
+Only images the club posted itself are included. The tournament photo shows
+identifiable people — it is the club's own public post of its own players, but
+if anyone pictured objects, delete the files and their entry in `lib/gallery.ts`.
 
 ---
 
@@ -51,6 +72,7 @@ changes to Facebook first.
 
 ```
 /                    Home — 3D hero, rate, specialty tables, hours
+/gallery             Photos and event flyers from the club's Facebook
 /tables-and-rates    Published hourly rate and the three specialty tables
 /contact             Address, hours, embedded map, directions
 /tournaments         Events posted by the club, plus the live bracket
