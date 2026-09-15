@@ -154,7 +154,7 @@ function CameraRig({ interactive }: { interactive: boolean }) {
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
     const s = scroll.current;
-    const k = 1 - Math.pow(0.001, Math.min(delta, 0.05));
+    const k = 1 - Math.pow(0.005, Math.min(delta, 0.05));
 
     // `fov` is vertical, so a tall phone viewport sees a very narrow slice of
     // the table. Back the camera off as the frame narrows, or the hero turns

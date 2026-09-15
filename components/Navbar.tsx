@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import ThemeToggle from './ThemeToggle';
 import { useAppState } from '@/context/AppStateContext';
 import { CLUB } from '@/lib/club';
+import { LogoMark } from './Logo';
 
 const LINKS = [
   { href: '/', label: 'Home' },
@@ -33,8 +34,11 @@ export default function Navbar() {
       <header>
         <div id="site-logo">
           <Link href="/">
-            <h1>{CLUB.name}</h1>
-            <p>{CLUB.locality}</p>
+            <LogoMark size={36} />
+            <span>
+              <h1>{CLUB.name}</h1>
+              <p>{CLUB.locality}</p>
+            </span>
           </Link>
         </div>
 

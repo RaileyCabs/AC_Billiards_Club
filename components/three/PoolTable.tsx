@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { makeBallTexture } from './ballTexture';
+import { makeFeltMaps } from './feltTexture';
 import {
   allStopped,
   BALL_R,
@@ -250,10 +251,20 @@ function Frame() {
 }
 
 function Bed() {
+  const felt = useMemo(() => makeFeltMaps(), []);
+  useEffect(() => () => felt.dispose(), [felt]);
+
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.0015, 0]} receiveShadow>
       <planeGeometry args={[PLAY_W, PLAY_H]} />
-      <meshStandardMaterial color="#146447" roughness={0.94} metalness={0} />
+      <meshStandardMaterial
+        color="#146447"
+        roughness={0.96}
+        metalness={0}
+        bumpMap={felt}
+        bumpScale={0.35}
+        roughnessMap={felt}
+      />
     </mesh>
   );
 }
@@ -284,10 +295,22 @@ function Pockets() {
   return (
     <group>
       {POCKETS.map(([x, z], i) => (
-        <mesh key={i} position={[x, 0.004, z]} rotation={[-Math.PI / 2, 0, 0]}>
-          <circleGeometry args={[POCKET_R, 24]} />
-          <meshStandardMaterial color="#080808" roughness={1} />
-        </mesh>
+        <group key={i} position={[x, 0, z]}>
+          {/* Open-ended cylinder for the throat, capped underneath. */}
+          <mesh position={[0, -0.045, 0]}>
+            <cylinderGeometry args={[POCKET_R, POCKET_R * 0.82, 0.09, 20, 1, true]} />
+            <meshStandardMaterial color="#0a0a0b" roughness={0.95} side={THREE.BackSide} />
+          </mesh>
+          <mesh position={[0, -0.09, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <circleGeometry args={[POCKET_R * 0.82, 18]} />
+            <meshStandardMaterial color="#050506" roughness={1} />
+          </mesh>
+          {/* A thin leather-dark collar where the cloth meets the drop. */}
+          <mesh position={[0, 0.005, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[POCKET_R * 0.92, POCKET_R * 1.12, 22]} />
+            <meshStandardMaterial color="#12110f" roughness={0.7} />
+          </mesh>
+        </group>
       ))}
     </group>
   );

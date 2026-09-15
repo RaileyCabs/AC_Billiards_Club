@@ -21,6 +21,12 @@ export interface Shot {
 
 export const GALLERY: Shot[] = [
   {
+    slug: 'neon-sign',
+    alt: 'The club\u2019s neon sign reading Billiards, Atlantic City, inside a neon rack triangle',
+    caption:
+      'The neon sign on the wall — the rack triangle, the gold bar, and the script the club\u2019s logo is drawn from.',
+  },
+  {
     slug: 'tournament-finishers',
     alt: 'Four players standing at a pool table holding the 1, 2 and 3 balls, with prize money laid out on the cloth',
     caption:

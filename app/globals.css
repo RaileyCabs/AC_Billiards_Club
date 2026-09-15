@@ -22,6 +22,13 @@
   --glass: rgba(10, 10, 12, 0.72);
   --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.85);
 
+  /* Pulled from the club's neon sign. Used sparingly — the gold does the
+     accent work, and it ties the interface to the brass lamps in the 3D hero. */
+  --brand-gold: #f0c43c;
+  --brand-red: #e03a2f;
+  --brand-tube: #7b7fd4;
+  --accent: var(--brand-gold);
+
   --radius: 4px;
   --radius-lg: 8px;
   --maxw: 1180px;
@@ -41,6 +48,7 @@
   --chalk: #2c3d54;
   --glass: rgba(244, 243, 240, 0.8);
   --shadow: 0 20px 50px -24px rgba(0, 0, 0, 0.3);
+  --accent: #b08707;
 }
 
 *,
@@ -81,7 +89,7 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid var(--chalk);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -142,8 +150,9 @@ strong {
 .eyebrow::before {
   content: '';
   width: 28px;
-  height: 1px;
-  background: var(--line-strong);
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
 }
 
 .lede {
@@ -322,6 +331,16 @@ header {
   border-bottom: 1px solid var(--line);
 }
 
+#site-logo a {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+#site-logo svg {
+  flex: none;
+}
+
 #site-logo h1 {
   font-size: 0.98rem;
   letter-spacing: 0.01em;
@@ -373,8 +392,9 @@ header nav a.active::after {
   left: 13px;
   right: 13px;
   bottom: 2px;
-  height: 1.5px;
-  background: var(--text);
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
   animation: slide-in 0.35s var(--ease);
 }
 
@@ -487,7 +507,7 @@ header nav a.active::after {
   flex-direction: column;
   gap: 2px;
   padding: 22px 0;
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--accent);
 }
 
 .stat-value {
@@ -578,8 +598,8 @@ header nav a.active::after {
 }
 
 .badge-open {
-  border-color: var(--text);
-  color: var(--text);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .badge-info,
@@ -772,6 +792,27 @@ footer a:hover {
 @media (max-width: 860px) {
   .nav-toggle {
     display: grid;
+  }
+
+  /* The mark widens the lockup, so let the wordmark shrink rather than push
+     the menu button onto a second row. */
+  #site-logo {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  #site-logo svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  #site-logo h1 {
+    font-size: 0.8rem;
+  }
+
+  #site-logo p {
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
   }
 
   header {
@@ -1159,4 +1200,86 @@ footer a:hover {
 .gallery-strip a:hover img {
   border-color: var(--line-strong);
   transform: translateY(-3px);
+}
+
+.footer-logo {
+  display: block;
+  height: auto;
+  max-width: 190px;
+}
+
+/* On light backgrounds the purple tube and gold bar still read, but the dark
+   fill of the 8-ball needs the surrounding contrast to hold up. */
+:root[data-theme='light'] .footer-logo {
+  filter: saturate(0.94);
+}
+
+/* --------------------------------------------------- page transitions --- */
+
+/* Each route fades its content up rather than snapping in. Cheap: one
+   compositor-friendly animation per navigation, and reduced-motion drops it. */
+main {
+  animation: page-in 0.5s var(--ease) both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The hero owns the viewport on load, so it should not slide with the rest. */
+main > .hero {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main {
+    animation: none;
+  }
+}
+
+/* ----------------------------------------------------------- polish --- */
+
+/* A hairline of the sign's gold appears along a card's top edge on hover —
+   the only place the brand colour touches the interface chrome. */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  pointer-events: none;
+}
+
+.card:hover::after {
+  opacity: 0.75;
+}
+
+/* Buttons pick up a soft lift instead of only moving. */
+.btn-primary {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset;
+}
+
+.btn:hover {
+  box-shadow: var(--shadow);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Section headings get a touch more air on wide screens. */
+@media (min-width: 1100px) {
+  .section-head {
+    margin-bottom: 64px;
+  }
 }

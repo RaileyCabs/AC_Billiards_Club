@@ -36,6 +36,26 @@ It is built to stay out of the way on a phone:
 
 ---
 
+## The logo
+
+[`components/Logo.tsx`](components/Logo.tsx) draws the club's mark as vector art
+rather than shipping a photo: crisp at every size, legible on both themes, and a
+few kB instead of a few hundred. `LogoMark` is the compact triangle-and-8-ball
+for the header and favicon; `Logo` is the full lockup used in the footer.
+
+The real thing is the neon sign on the club's wall — it leads the gallery.
+
+Two details worth knowing before editing it:
+
+- The wordmark uses `textLength` with `lengthAdjust="spacingAndGlyphs"`, so
+  "BILLIARDS" locks to the width of the gold bar no matter which font actually
+  loaded. Remove that and the text overflows the artboard before the webfont
+  arrives.
+- The script face is Lobster Two, loaded through `next/font` in one weight.
+
+**This is a faithful reproduction, not the club's original file.** If you have
+the original artwork, replacing this component with it is the better answer.
+
 ## Business facts
 
 Every address, phone number, hour, and rate on the site comes from
@@ -61,6 +81,8 @@ Captions in [`lib/gallery.ts`](lib/gallery.ts) describe what each image shows,
 and dated promotions carry the date they were posted for, so nobody mistakes an
 old flyer for this week's schedule. Stale notices (a past holiday closure) are
 not published at all.
+
+The club's neon sign photo comes from its Facebook profile picture.
 
 Only images the club posted itself are included. The tournament photo shows
 identifiable people — it is the club's own public post of its own players, but

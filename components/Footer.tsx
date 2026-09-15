@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import { CLUB } from '@/lib/club';
+import Logo from './Logo';
 
 export default function Footer() {
   return (
     <footer>
       <div className="footer-inner">
         <div>
-          <h4>{CLUB.shortName}</h4>
-          <p style={{ fontSize: '0.9rem' }}>{CLUB.intro}</p>
+          <Logo width={186} className="footer-logo" />
+          <p style={{ fontSize: '0.9rem', marginTop: '14px' }}>{CLUB.intro}</p>
         </div>
 
         <div>

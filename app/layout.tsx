@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Archivo } from 'next/font/google';
+import { Archivo, Lobster_Two } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -10,6 +10,15 @@ const archivo = Archivo({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-archivo',
+  display: 'swap',
+});
+
+/** Only the logo uses this, so it loads one weight and one style. */
+const script = Lobster_Two({
+  subsets: ['latin'],
+  weight: '700',
+  style: 'italic',
+  variable: '--font-script',
   display: 'swap',
 });
 
@@ -60,7 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     // The inline script below rewrites data-theme before React hydrates, which
     // is a deliberate mismatch: it is how the saved theme applies without a flash.
-    <html lang="en" data-theme="dark" className={archivo.variable} suppressHydrationWarning>
+    <html lang="en" data-theme="dark" className={`${archivo.variable} ${script.variable}`} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
